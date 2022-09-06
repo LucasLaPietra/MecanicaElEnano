@@ -10,3 +10,10 @@ export interface Vehiculo
     nroChasis: string,
     cuit: string
 }
+
+export enum state
+{
+    viewing,
+    creating,
+    updating,
+}
