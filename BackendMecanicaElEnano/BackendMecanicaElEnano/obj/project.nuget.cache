@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "qgJRrzYyyqhCkGGaBHEWTWeuUOgGTruoZaXAxn7xwv/4nW1SMM/sZ+72rTWbxBJKrKy4Exxg4i73kxLtQD7/OQ==",
+  "dgSpecHash": "lIhjqewDQYgVGgttjqPykI7oJf2N24LOz1Ryqnl3TX/AtVYj0JSMNmtavAnZR1sFjnMZcFGeoiyhNBQIoig+Wg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\lux_l\\source\\repos\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
+  "projectFilePath": "C:\\Users\\lux_l\\source\\repos\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\lux_l\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
+    "C:\\Users\\lux_l\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\lux_l\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.8\\microsoft.entityframeworkcore.6.0.8.nupkg.sha512",
     "C:\\Users\\lux_l\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.8\\microsoft.entityframeworkcore.abstractions.6.0.8.nupkg.sha512",
     "C:\\Users\\lux_l\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.8\\microsoft.entityframeworkcore.analyzers.6.0.8.nupkg.sha512",

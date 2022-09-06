@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lux_l\\source\\repos\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj": {}
+    "C:\\Users\\lux_l\\source\\repos\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lux_l\\source\\repos\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj": {
+    "C:\\Users\\lux_l\\source\\repos\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lux_l\\source\\repos\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
+        "projectUniqueName": "C:\\Users\\lux_l\\source\\repos\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
         "projectName": "BackendMecanicaElEnano",
-        "projectPath": "C:\\Users\\lux_l\\source\\repos\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
+        "projectPath": "C:\\Users\\lux_l\\source\\repos\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
         "packagesPath": "C:\\Users\\lux_l\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lux_l\\source\\repos\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\obj\\",
+        "outputPath": "C:\\Users\\lux_l\\source\\repos\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\lux_l\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[11.0.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.8, )"
