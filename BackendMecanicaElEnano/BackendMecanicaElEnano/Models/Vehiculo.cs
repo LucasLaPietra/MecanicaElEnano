@@ -7,6 +7,10 @@ namespace BackendMecanicaElEnano.Models
     [Table("vehiculo")]
     public class Vehiculo
     {
+        public Vehiculo()
+        {
+        }
+
         public Vehiculo(Guid idVehiculo, string patente, string modelo, string numeroChasis, string cliente, string telefono, string direccion, string mail, string cuit)
         {
             IdVehiculo = idVehiculo;
@@ -20,6 +24,7 @@ namespace BackendMecanicaElEnano.Models
             Cuit = cuit;
         }
 
+        [Key]
         public Guid IdVehiculo { get; set; }
 
         [Required(ErrorMessage = "Se requiere una patente para registrar un vehiculo")]

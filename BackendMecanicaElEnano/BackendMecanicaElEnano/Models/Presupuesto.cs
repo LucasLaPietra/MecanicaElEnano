@@ -7,6 +7,10 @@ namespace BackendMecanicaElEnano.Models
     [Table("presupuesto")]
     public class Presupuesto
     {
+        public Presupuesto()
+        {
+        }
+
         public Presupuesto(Guid idPresupuesto, DateTime fecha, DateTime validoHasta, int km, string trabajoARealizar, Vehiculo vehiculo)
         {
             IdPresupuesto = idPresupuesto;
@@ -17,6 +21,7 @@ namespace BackendMecanicaElEnano.Models
             Vehiculo = vehiculo;
         }
 
+        [Key]
         public Guid IdPresupuesto { get; set; }
 
         [Required(ErrorMessage = "Se requiere una fecha para registrar un presupuesto")]

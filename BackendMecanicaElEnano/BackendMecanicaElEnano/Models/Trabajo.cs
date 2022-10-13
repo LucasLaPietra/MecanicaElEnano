@@ -7,6 +7,7 @@ namespace BackendMecanicaElEnano.Models
     [Table("trabajo")]
     public class Trabajo
     {
+        [Key]
         public Guid IdPresupuesto { get; set; }
 
         [Required(ErrorMessage = "Se requiere una fecha para registrar un trabajo")]

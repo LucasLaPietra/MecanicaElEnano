@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackendMecanicaElEnano.Models
 {
-    [Table("repuesto")]
+    [Table("repuestoTrabajo")]
     public class RepuestoTrabajo
     {
+        [Key]
         public Guid IdRepuestoTrabajo { get; set; }
 
         [Required(ErrorMessage = "Se requiere una cantidad para registrar un repuesto")]

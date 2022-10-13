@@ -2,8 +2,6 @@
 {
     public class VehiculoDto
     {
-        public class Vehiculo
-        {
             public Guid IdVehiculo { get; set; }
 
             public string Patente { get; set; } = null!;
@@ -21,6 +19,6 @@
             public string Mail { get; set; } = null!;
 
             public string Cuit { get; set; } = null!;
-        }
+        
     }
 }

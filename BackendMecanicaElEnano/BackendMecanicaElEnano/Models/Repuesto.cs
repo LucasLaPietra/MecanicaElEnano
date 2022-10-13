@@ -6,6 +6,7 @@ namespace BackendMecanicaElEnano.Models
     [Table("repuesto")]
     public class Repuesto
     {
+        [Key]
         public Guid IdRepuesto { get; set; }
 
         [Required(ErrorMessage = "Se requiere una cantidad para registrar un repuesto")]
