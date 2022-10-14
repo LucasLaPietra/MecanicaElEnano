@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { state, Vehiculo } from 'src/domain/entities';
+import { VehiculosService } from './vehiculo.service';
 
 @Component({
   selector: 'app-vehiculo',
@@ -12,52 +13,17 @@ import { state, Vehiculo } from 'src/domain/entities';
 })
 export class VehiculoComponent implements AfterViewInit {
 
-  vehiculos : Vehiculo[] =
-  [
-    {
-      cliente: 'Lucas',
-      cuit: '2039760439',
-      direccion:'san martin 977',
-      mail:'lelapietra@gmail.com',
-      marcaYModelo:'Chevrolet Cruze',
-      nroChasis:'1111',
-      nroMotor:'1111',
-      patente:'AA111AA',
-      telefono:'3442456149'
-    },
-    {
-      cliente: 'John',
-      cuit: '111111111',
-      direccion:'direccion 1',
-      mail:'john@gmail.com',
-      marcaYModelo:'VW Gol',
-      nroChasis:'1111',
-      nroMotor:'1111',
-      patente:'AA111AA',
-      telefono:'1111111111'
-    },
-    {
-      cliente: 'Susana',
-      cuit: '111111111',
-      direccion:'direccion 2',
-      mail:'susan@gmail.com',
-      marcaYModelo:'Ford Fiesta',
-      nroChasis:'1111',
-      nroMotor:'1111',
-      patente:'AA111AA',
-      telefono:'111111111'
-    }
-  ]
+  vehiculos : Vehiculo[] = [];
   
   vehiculoForm = new FormGroup({
     patente: new FormControl('', [Validators.required, Validators.maxLength(7)]),
     cliente: new FormControl('', Validators.required),
-    marcaYModelo: new FormControl('', Validators.required),
+    modelo: new FormControl('', Validators.required),
     direccion: new FormControl('', Validators.required),
     telefono: new FormControl('', Validators.required),
     mail: new FormControl('', [Validators.required, Validators.email]),
-    nroMotor: new FormControl('', [Validators.required, Validators.maxLength(17)]),
-    nroChasis: new FormControl('', [Validators.required, Validators.maxLength(17)]),
+    numeroMotor: new FormControl('', [Validators.required, Validators.maxLength(17)]),
+    numeroChasis: new FormControl('', [Validators.required, Validators.maxLength(17)]),
     cuit: new FormControl('', [Validators.required, Validators.maxLength(11)]),
   });
 
@@ -70,14 +36,28 @@ export class VehiculoComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor() {
-    this.dataSource = new MatTableDataSource(this.vehiculos);
+  constructor(private vehiculoService: VehiculosService) {
+    this.dataSource = new MatTableDataSource();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.vehiculoService.GetVehiculos().subscribe(vehiculos => {
+      this.dataSource.data = vehiculos;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
     this.vehiculoForm.disable();
+  }
+
+  getVehiculos(): void {
+    this.vehiculoService.GetVehiculos()
+    .subscribe(vehiculos => this.vehiculos = vehiculos);
+    this.vehiculoTable.renderRows();
+    this.dataSource._updateChangeSubscription();
+    console.log(this.dataSource.data);
+    console.log(this.vehiculos);
   }
 
   applyFilter(event: Event) {
@@ -107,9 +87,9 @@ export class VehiculoComponent implements AfterViewInit {
       this.selectedVehicle?.cuit==this.vehiculoForm.value.cuit &&
       this.selectedVehicle?.direccion==this.vehiculoForm.value.direccion &&
       this.selectedVehicle?.mail==this.vehiculoForm.value.mail &&
-      this.selectedVehicle?.marcaYModelo==this.vehiculoForm.value.marcaYModelo &&
-      this.selectedVehicle?.nroChasis==this.vehiculoForm.value.nroChasis &&
-      this.selectedVehicle?.nroMotor==this.vehiculoForm.value.nroMotor &&
+      this.selectedVehicle?.modelo==this.vehiculoForm.value.modelo &&
+      this.selectedVehicle?.numeroChasis==this.vehiculoForm.value.numeroChasis &&
+      this.selectedVehicle?.nroMotor==this.vehiculoForm.value.numeroMotor &&
       this.selectedVehicle?.patente==this.vehiculoForm.value.patente &&
       this.selectedVehicle?.telefono==this.vehiculoForm.value.telefono)
       return true; else return false
@@ -123,15 +103,6 @@ export class VehiculoComponent implements AfterViewInit {
   cancelUpdateVehicle(){
     this.state=state.viewing;
     this.vehiculoForm.patchValue(this.selectedVehicle as Vehiculo);
-    this.vehiculoForm.disable();
-  }
-
-  updateVehicle(){
-    const indexOfObject =  this.dataSource.data.indexOf(this.selectedVehicle as Vehiculo);
-    this.dataSource.data[indexOfObject]=this.vehiculoForm.value as Vehiculo;
-    this.vehiculoTable.renderRows();
-    this.dataSource._updateChangeSubscription();
-    this.state=state.viewing;
     this.vehiculoForm.disable();
   }
 
@@ -150,7 +121,10 @@ export class VehiculoComponent implements AfterViewInit {
 
   createVehicle(){
     const vehiculoACrear: Vehiculo = this.vehiculoForm.value as Vehiculo;
-    this.dataSource.data.push(vehiculoACrear);
+    this.vehiculoService.CreateVehiculo(vehiculoACrear)
+    .subscribe(vehiculo => {
+      this.dataSource.data.push(vehiculo);
+    });
     this.vehiculoTable.renderRows();
     this.dataSource._updateChangeSubscription();
     console.log(this.dataSource.data);
@@ -159,14 +133,28 @@ export class VehiculoComponent implements AfterViewInit {
     this.vehiculoForm.disable();
   }
 
+  updateVehicle(){
+    if(this.selectedVehicle){
+      const indexOfObject =  this.dataSource.data.indexOf(this.selectedVehicle);
+      this.vehiculoService.UpdateVehiculo(this.selectedVehicle).subscribe(vehiculo => {
+        this.dataSource.data[indexOfObject] = vehiculo;
+      });
+      this.vehiculoTable.renderRows();
+      this.dataSource._updateChangeSubscription();
+      this.state=state.viewing;
+      this.vehiculoForm.disable();
+    }
+  }
+
   deleteVehicle(){
-    const indexOfObject =  this.dataSource.data.indexOf(this.selectedVehicle as Vehiculo);
-    this.dataSource.data.splice(indexOfObject, 1);
-    this.vehiculoTable.renderRows();
-    this.dataSource._updateChangeSubscription();
-    this.selectedVehicle = null;
-    this.vehiculoForm.reset();
-    console.log(this.dataSource.data);
+    if(this.selectedVehicle){
+      this.vehiculoService.DeleteVehiculo(this.selectedVehicle.idVehiculo).subscribe();
+      this.dataSource.data = this.dataSource.data.filter(h => h !== this.selectedVehicle);
+      this.vehiculoTable.renderRows();
+      this.dataSource._updateChangeSubscription();
+      this.selectedVehicle = null;
+      this.vehiculoForm.reset();
+    }
   }
 
   openWhatsapp(telephone: string){

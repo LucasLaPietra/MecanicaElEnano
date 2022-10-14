@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BackendMecanicaElEnano.Controllers
 {
     [ApiController]
-    [Route("vehiculos")]
+    [Route("api/vehiculos")]
     public class VehiculoController : ControllerBase
     {
 

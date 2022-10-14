@@ -11,22 +11,22 @@ export class VehiculosService {
   constructor(private httpClient:HttpClient) { }
 
   public CreateVehiculo(vehiculo:Vehiculo): Observable<Vehiculo> {
-    return this.httpClient.post<Vehiculo>('http://localhost:8085/api/vehiculo',vehiculo)
+    return this.httpClient.post<Vehiculo>('https://localhost:7009/api/vehiculos',vehiculo)
   }
 
   public GetVehiculos(): Observable<Vehiculo[]> {
-    return this.httpClient.get<Vehiculo[]>('http://localhost:8085/api/vehiculo');
+    return this.httpClient.get<Vehiculo[]>('https://localhost:7009/api/vehiculos');
   }
 
 /*   public GetVehiculo(id:number): Observable<Vehiculo> {
-    return this.httpClient.get<Vehiculo>('http://localhost:8085/api/vehiculo/' + id);
+    return this.httpClient.get<Vehiculo>('http://localhost:7009/api/vehiculos/' + id);
   } */
 
   public UpdateVehiculo(vehiculo:Vehiculo): Observable<Vehiculo> {
-    return this.httpClient.put<Vehiculo>('http://localhost:8085/api/vehiculo', vehiculo)
+    return this.httpClient.put<Vehiculo>('https://localhost:7009/api/vehiculos', vehiculo)
   }
 
   public DeleteVehiculo(id:string): Observable<Vehiculo> {
-    return this.httpClient.delete<Vehiculo>('http://localhost:8085/api/vehiculo/' + id);
+    return this.httpClient.delete<Vehiculo>('https://localhost:7009/api/vehiculos/' + id);
   }
 }

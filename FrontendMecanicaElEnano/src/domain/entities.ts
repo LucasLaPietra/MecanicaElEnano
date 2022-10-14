@@ -1,13 +1,14 @@
 export interface Vehiculo
 {
+    idVehiculo: string,
     patente: string,
     cliente: string,
-    marcaYModelo: string,
+    modelo: string,
     direccion: string,
     telefono: string,
     mail: string,
     nroMotor: string,
-    nroChasis: string,
+    numeroChasis: string,
     cuit: string
 }
 

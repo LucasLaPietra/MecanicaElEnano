@@ -97,19 +97,19 @@
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Marca y modelo</mat-label>
-            <input matInput formControlName="marcaYModelo">
+            <input matInput formControlName="modelo">
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Numero de chasis</mat-label>
-            <input matInput formControlName="nroChasis">
-            <mat-error *ngIf="vehiculoForm.controls['nroChasis'].hasError('maxlength')">
+            <input matInput formControlName="numeroChasis">
+            <mat-error *ngIf="vehiculoForm.controls['numeroChasis'].hasError('maxlength')">
                 El numero de chasis no puede contener mas de 17 caracteres
             </mat-error>
         </mat-form-field>
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Numero de motor</mat-label>
-            <input matInput formControlName="nroMotor">
-            <mat-error *ngIf="vehiculoForm.controls['nroMotor'].hasError('maxlength')">
+            <input matInput formControlName="numeroMotor">
+            <mat-error *ngIf="vehiculoForm.controls['numeroMotor'].hasError('maxlength')">
                 El numero de chasis no puede contener mas de 17 caracteres
             </mat-error>
         </mat-form-field>
