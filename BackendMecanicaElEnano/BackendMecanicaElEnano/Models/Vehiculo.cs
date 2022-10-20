@@ -13,7 +13,7 @@ namespace BackendMecanicaElEnano.Models
 
         public Vehiculo(Guid idVehiculo, string patente, string modelo, string numeroChasis, string cliente, string telefono, string direccion, string mail, string cuit)
         {
-            IdVehiculo = idVehiculo;
+            VehiculoId = idVehiculo;
             Patente = patente;
             Modelo = modelo;
             NumeroChasis = numeroChasis;
@@ -25,7 +25,7 @@ namespace BackendMecanicaElEnano.Models
         }
 
         [Key]
-        public Guid IdVehiculo { get; set; }
+        public Guid VehiculoId { get; set; }
 
         [Required(ErrorMessage = "Se requiere una patente para registrar un vehiculo")]
         [StringLength(7, ErrorMessage = "La patente debe tener 6 o 7 caracteres")]
@@ -55,7 +55,7 @@ namespace BackendMecanicaElEnano.Models
         [StringLength(11, ErrorMessage = "El Cuit debe tener 11 digitos")]
         public string Cuit { get; set; } = null!;
 
-        public ICollection<Presupuesto> Presupuestos { get; set; } = new Collection<Presupuesto>();
+        public virtual ICollection<Presupuesto> Presupuestos { get; set; } = new Collection<Presupuesto>();
 
     }
 }

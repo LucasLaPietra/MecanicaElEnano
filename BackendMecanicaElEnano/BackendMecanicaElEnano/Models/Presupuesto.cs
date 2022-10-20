@@ -13,7 +13,7 @@ namespace BackendMecanicaElEnano.Models
 
         public Presupuesto(Guid idPresupuesto, DateTime fecha, DateTime validoHasta, int km, string trabajoARealizar, Vehiculo vehiculo)
         {
-            IdPresupuesto = idPresupuesto;
+            PresupuestoId = idPresupuesto;
             Fecha = fecha;
             ValidoHasta = validoHasta;
             Km = km;
@@ -22,7 +22,7 @@ namespace BackendMecanicaElEnano.Models
         }
 
         [Key]
-        public Guid IdPresupuesto { get; set; }
+        public Guid PresupuestoId { get; set; }
 
         [Required(ErrorMessage = "Se requiere una fecha para registrar un presupuesto")]
         public DateTime Fecha { get; set; }
@@ -35,8 +35,9 @@ namespace BackendMecanicaElEnano.Models
         [Required(ErrorMessage = "Se requiere un trabajo a realizar para registrar un presupuesto")]
         public string TrabajoARealizar { get; set; } = null!;
 
-        public Vehiculo Vehiculo { get; set; } = null!;
+        public Guid VehiculoId { get; set; }
+        public virtual Vehiculo Vehiculo { get; set; } = null!;
 
-        public ICollection<Repuesto> Repuestos { get; set; } = new Collection<Repuesto>();
+        public virtual ICollection<Repuesto> Repuestos { get; set; } = new Collection<Repuesto>();
     }
 }

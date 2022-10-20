@@ -2,7 +2,7 @@
 {
     public class VehiculoDto
     {
-            public Guid IdVehiculo { get; set; }
+            public Guid VehiculoId { get; set; }
 
             public string Patente { get; set; } = null!;
 

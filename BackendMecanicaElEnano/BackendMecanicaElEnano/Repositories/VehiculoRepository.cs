@@ -24,7 +24,7 @@ namespace BackendMecanicaElEnano.Repositories
             return _mapper.Map<IList<VehiculoDto>>(vehiculos);
         }
 
-        public async Task<VehiculoDto> FindByIdAsync(long id)
+        public async Task<VehiculoDto> FindByIdAsync(Guid id)
         {
             var result = await this.mecanicaContext.FindAsync<Vehiculo>(id);
             return _mapper.Map<VehiculoDto>(result);
@@ -41,7 +41,7 @@ namespace BackendMecanicaElEnano.Repositories
 
         public async Task<VehiculoDto> UpdateAsync(VehiculoDto vehiculoDto)
         {
-            var result = await this.mecanicaContext.FindAsync<Vehiculo>(vehiculoDto.IdVehiculo);
+            var result = await this.mecanicaContext.FindAsync<Vehiculo>(vehiculoDto.VehiculoId);
             if (result != null)
             {
                 result.Direccion = vehiculoDto.Direccion;

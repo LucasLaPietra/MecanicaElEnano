@@ -8,7 +8,7 @@ namespace BackendMecanicaElEnano.Models
     public class Trabajo
     {
         [Key]
-        public Guid IdPresupuesto { get; set; }
+        public Guid TrabajoId { get; set; }
 
         [Required(ErrorMessage = "Se requiere una fecha para registrar un trabajo")]
         public DateTime Fecha { get; set; }
@@ -21,8 +21,8 @@ namespace BackendMecanicaElEnano.Models
 
         public string TrabajosPendientes { get; set; } = null!;
 
-        public Vehiculo Vehiculo { get; set; } = null!;
+        public virtual Vehiculo Vehiculo { get; set; } = null!;
 
-        public ICollection<RepuestoTrabajo> Repuestos { get; set; } = new Collection<RepuestoTrabajo>();
+        public virtual ICollection<RepuestoTrabajo> Repuestos { get; set; } = new Collection<RepuestoTrabajo>();
     }
 }

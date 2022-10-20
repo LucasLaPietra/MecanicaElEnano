@@ -7,7 +7,7 @@ namespace BackendMecanicaElEnano.Models
     public class RepuestoTrabajo
     {
         [Key]
-        public Guid IdRepuestoTrabajo { get; set; }
+        public Guid RepuestoTrabajoId { get; set; }
 
         [Required(ErrorMessage = "Se requiere una cantidad para registrar un repuesto")]
         public int Cantidad { get; set; }
@@ -21,6 +21,6 @@ namespace BackendMecanicaElEnano.Models
         [Required(ErrorMessage = "Se requiere un tipo de trabajo para registrar un repuesto")]
         public TipoTrabajo Tipo { get; set; }
 
-        public Presupuesto Presupuesto { get; set; } = null!;
+        public virtual Presupuesto Presupuesto { get; set; } = null!;
     }
 }
