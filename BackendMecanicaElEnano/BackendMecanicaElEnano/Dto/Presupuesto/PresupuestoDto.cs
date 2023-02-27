@@ -13,8 +13,6 @@ namespace BackendMecanicaElEnano.Dto
 
         public string TrabajoARealizar { get; set; } = null!;
 
-        public VehiculoDto Vehiculo { get; set; } = null!;
-
         public ICollection<RepuestoDto> Repuestos { get; set; } = new Collection<RepuestoDto>();
     }
 }

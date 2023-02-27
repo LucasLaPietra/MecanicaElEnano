@@ -33,6 +33,15 @@ namespace BackendMecanicaElEnano.Controllers
             return vehiculos;
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<VehiculoDto>> GetById(Guid id)
+        {
+            var vehiculo = await this.repository.FindByIdAsync(id);
+            return vehiculo;
+        }
+
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
