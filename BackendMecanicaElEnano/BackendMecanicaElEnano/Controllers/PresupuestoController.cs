@@ -18,9 +18,9 @@ namespace BackendMecanicaElEnano.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<PresupuestoDto>> Create(CreatePresupuestoDto vechiculo)
+        public async Task<ActionResult<PresupuestoDto>> Create(Guid vehiculoId)
         {
-            var presupuestoCreated = await this.repository.CreateAsync(vechiculo);
+            var presupuestoCreated = await this.repository.CreateAsync(vehiculoId);
             return presupuestoCreated;
         }
 

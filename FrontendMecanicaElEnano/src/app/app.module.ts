@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
 import { HttpClientModule } from '@angular/common/http';
+import { PresupuestoModule } from 'src/presupuesto/presupuesto.module';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatNativeDateModule,
     VehiculoModule,
+    PresupuestoModule,
     HttpClientModule
   ],
   providers: [],

@@ -4,6 +4,7 @@ using BackendMecanicaElEnano;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendMecanicaElEnano.Migrations
 {
     [DbContext(typeof(MecanicaContext))]
-    partial class MecanicaContextModelSnapshot : ModelSnapshot
+    [Migration("20230301190620_nullablecolpresupuesto")]
+    partial class nullablecolpresupuesto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

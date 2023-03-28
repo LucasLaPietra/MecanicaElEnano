@@ -148,7 +148,7 @@ export class VehiculoComponent implements AfterViewInit {
 
   deleteVehicle(){
     if(this.selectedVehicle){
-      this.vehiculoService.DeleteVehiculo(this.selectedVehicle.idVehiculo).subscribe();
+      this.vehiculoService.DeleteVehiculo(this.selectedVehicle.vehiculoId).subscribe();
       this.dataSource.data = this.dataSource.data.filter(h => h !== this.selectedVehicle);
       this.vehiculoTable.renderRows();
       this.dataSource._updateChangeSubscription();

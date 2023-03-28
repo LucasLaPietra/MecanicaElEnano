@@ -45,3 +45,8 @@ table {
   td {
     padding-right: 8px;
   }
+
+  mat-card-actions {
+    margin : 0px;
+    padding-bottom: 0px;
+  }

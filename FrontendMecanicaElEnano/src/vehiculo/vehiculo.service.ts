@@ -18,9 +18,9 @@ export class VehiculosService {
     return this.httpClient.get<Vehiculo[]>('https://localhost:7009/api/vehiculos');
   }
 
-/*   public GetVehiculo(id:number): Observable<Vehiculo> {
-    return this.httpClient.get<Vehiculo>('http://localhost:7009/api/vehiculos/' + id);
-  } */
+  public GetVehiculo(id:string): Observable<Vehiculo> {
+    return this.httpClient.get<Vehiculo>('https://localhost:7009/api/vehiculos/' + id);
+  } 
 
   public UpdateVehiculo(vehiculo:Vehiculo): Observable<Vehiculo> {
     return this.httpClient.put<Vehiculo>('https://localhost:7009/api/vehiculos', vehiculo)

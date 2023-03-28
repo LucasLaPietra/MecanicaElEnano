@@ -120,13 +120,16 @@
   </form>
   <mat-divider inset></mat-divider>
   <mat-card-actions align="end">
-    <button *ngIf="state==0" mat-stroked-button (click)="createVehicleButton()">Nuevo</button>
-    <button *ngIf="state==1" mat-raised-button color="primary" [disabled]="!vehiculoForm.valid" type="submit" (click)="createVehicle()">Crear vehiculo</button>
-    <button *ngIf="state==1" mat-stroked-button color="warn" (click)="cancelCreateVehicle()">Cancelar</button>
-    <button *ngIf="state==0 && selectedVehicle" mat-stroked-button (click)="updateVehicleButton()">Actualizar</button>
-    <button *ngIf="state==2" mat-raised-button color="primary" [disabled]="!vehiculoForm.valid || compareSelectedtoForm()" type="submit" (click)="updateVehicle()">Guardar cambios</button>
-    <button *ngIf="state==2" mat-stroked-button color="warn" (click)="cancelUpdateVehicle()">Cancelar</button>
-    <button *ngIf="state==0 && selectedVehicle" mat-stroked-button color="warn" (click)="deleteVehicle()">Eliminar</button>
+      <button *ngIf="state==0" mat-stroked-button (click)="createVehicleButton()">Nuevo</button>
+      <button *ngIf="state==1" mat-raised-button color="primary" [disabled]="!vehiculoForm.valid" type="submit" (click)="createVehicle()">Crear vehiculo</button>
+      <button *ngIf="state==1" mat-stroked-button color="warn" (click)="cancelCreateVehicle()">Cancelar</button>
+      <button *ngIf="state==0 && selectedVehicle" mat-stroked-button (click)="updateVehicleButton()">Actualizar</button>
+      <button *ngIf="state==2" mat-raised-button color="primary" [disabled]="!vehiculoForm.valid || compareSelectedtoForm()" type="submit" (click)="updateVehicle()">Guardar cambios</button>
+      <button *ngIf="state==2" mat-stroked-button color="warn" (click)="cancelUpdateVehicle()">Cancelar</button>
+      <button *ngIf="state==0 && selectedVehicle" mat-stroked-button color="warn" (click)="deleteVehicle()">Eliminar</button>
+  </mat-card-actions>
+  <mat-card-actions *ngIf="selectedVehicle" align="end">
+    <button mat-raised-button [routerLink]="['/presupuestos', selectedVehicle.vehiculoId]">Presupuesto</button>
   </mat-card-actions>
 </mat-card>
 </div>

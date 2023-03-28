@@ -32,9 +32,16 @@ namespace BackendMecanicaElEnano.Repositories
             return _mapper.Map<PresupuestoDto>(result);
         }
 
-        public async Task<PresupuestoDto> CreateAsync(CreatePresupuestoDto createPresupuestoDto)
+        public async Task<PresupuestoDto> CreateAsync(Guid vehiculoId)
         {
-            var presupuesto = _mapper.Map<Presupuesto>(createPresupuestoDto);
+            var presupuesto = new Presupuesto()
+            {
+                VehiculoId = vehiculoId,
+                Fecha = DateTime.Today,
+                ValidoHasta = DateTime.Today,
+                Km = 0,
+                TrabajoARealizar= string.Empty,
+            };
             var result = await this.mecanicaContext.AddAsync(presupuesto);
             await CommitAsync();
             var addedPresupuesto = result.Entity;
