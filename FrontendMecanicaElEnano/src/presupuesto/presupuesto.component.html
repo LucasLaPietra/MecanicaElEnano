@@ -1,0 +1,141 @@
+<p>
+    <mat-toolbar color="primary">
+       <span>Menu Presupuesto</span>
+     </mat-toolbar>
+   </p>
+ <div class="presupuestos-page">
+<div fxLayout="row">
+        <div class="presupuestos-vehicle-data">
+            <h2>{{vehiculo.patente}}-{{vehiculo.modelo}}</h2>
+            <h3>{{vehiculo.cliente}}-{{vehiculo.telefono}}</h3>
+        </div>
+</div>
+<div class="presupuestos-container">
+  <div class="mat-elevation-z8 presupuestos-table">
+    <div style="text-align: center; ">
+      <h3 style="margin-bottom: 0px;">Lista Presupuestos</h3>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort>
+  
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+        <td mat-cell *matCellDef="let row"> {{row.fecha| date:'dd/MM/yyyy'}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="validoHasta">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Valido Hasta </th>
+        <td mat-cell *matCellDef="let row"> {{row.validoHasta| date:'dd/MM/yyyy'}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="km">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> KM </th>
+        <td mat-cell *matCellDef="let row"> {{row.km}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row 
+      (click)="selectPresupuesto(row)"
+      [class.row-is-clicked]="row==selectedPresupuesto"
+       *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No existen presupuestos para el vehiculo</td>
+      </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar presupuestos a mostrar"></mat-paginator>
+  </div>
+  <div class="repuestos-button-container">
+    <button *ngIf="state==0" class="repuestos-button" mat-fab color="primary" (click)="createPresupuesto()"><mat-icon>add</mat-icon></button>
+    <button *ngIf="selectedPresupuesto && state==0" class="repuestos-button" mat-fab color="accent" (click)="updatePresupuestoButton()"><mat-icon>update</mat-icon></button>
+    <button *ngIf="selectedPresupuesto && state==0" class="repuestos-button" mat-fab color="warn" (click)="deletePresupuesto()"><mat-icon>delete</mat-icon></button>
+    <button *ngIf="selectedPresupuesto && state==2" class="repuestos-button" mat-fab color="accent" (click)="updatePresupuesto()"><mat-icon>check</mat-icon></button>
+    <button *ngIf="selectedPresupuesto && state==2" class="repuestos-button" mat-fab (click)="cancelUpdatePresupuesto()"><mat-icon>close</mat-icon></button>
+  </div>
+  <form [formGroup]="presupuestoForm">
+  <div class="presupuestos-properties-container">
+    <div class="presupuestos-fields-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Fecha</mat-label>
+        <input matInput formControlName="fecha" [matDatepicker]="pickerDate">
+        <mat-datepicker-toggle matSuffix [for]="pickerDate"></mat-datepicker-toggle>
+        <mat-datepicker #pickerDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Valido hasta</mat-label>
+        <input matInput formControlName="validoHasta" [matDatepicker]="pickerValidoHasta">
+        <mat-datepicker-toggle matSuffix [for]="pickerValidoHasta"></mat-datepicker-toggle>
+        <mat-datepicker #pickerValidoHasta></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>KM</mat-label>
+        <input type="text" matInput formControlName="km">
+    </mat-form-field>
+  </div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Trabajos a realizarse</mat-label>
+      <textarea matInput formControlName="trabajoARealizar" placeholder="Escribe una breve descripción de los trabajos a realizar"></textarea>
+    </mat-form-field>
+</div>
+</form>
+ </div>
+ <div class="repuestos-container">
+  <div class="mat-elevation-z8 repuestos-table">
+    <div style="text-align: center; ">
+      <h3 style="margin-bottom: 0px;">Repuestos y mano de obra</h3>
+    </div>
+    <table mat-table [dataSource]="dataSourceRepuestos">
+      <ng-container matColumnDef="cantidad">
+        <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+        <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
+      </ng-container>
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+        <td mat-cell *matCellDef="let row"> {{row.descripcion}} </td>
+      </ng-container>
+      <ng-container matColumnDef="tipoTrabajo">
+        <th mat-header-cell *matHeaderCellDef> Tipo Trabajo </th>
+        <td mat-cell *matCellDef="let row"> 
+          <mat-button-toggle-group value={{row.tipo}} aria-label="Font Style">
+            <mat-button-toggle value="0">Repuesto</mat-button-toggle>
+            <mat-button-toggle value="1">Mano obra</mat-button-toggle>
+          </mat-button-toggle-group>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef> Precio </th>
+        <td mat-cell *matCellDef="let row"> {{row.precio}} </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumnsRepuestos"></tr>
+      <tr mat-row 
+      (click)="selectRepuesto(row)"
+      [class.row-is-clicked]="row==selectedRepuesto"
+       *matRowDef="let row; columns: displayedColumnsRepuestos;"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No existen repuestos para el presupuesto</td>
+      </tr>
+    </table>
+  </div>
+  <div class="repuestos-button-container">
+    <button *ngIf="selectedPresupuesto" class="repuestos-button" mat-fab color="primary" (click)="createRepuesto()"><mat-icon>add</mat-icon></button>
+    <button *ngIf="selectedRepuesto" class="repuestos-button" mat-fab color="warn" (click)="deleteRepuesto()"><mat-icon>delete</mat-icon></button>
+</div>
+  <div class="repuestos-precios-container">
+    <h2>
+      Mano de obra:
+    </h2>
+    <h3>
+      ${{manoObra}}
+    </h3>
+    <h2>
+      Repuestos:
+    </h2>
+    <h3>
+      ${{repuestos}}
+    </h3>
+    <h2>
+      Total:
+    </h2>
+    <h3>
+      ${{total}}
+    </h3>
+</div>
+ </div>
+
