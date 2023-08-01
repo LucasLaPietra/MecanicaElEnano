@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Z1rPQrJEahQdV3y3jYQ7P9BVHuWWEb2lxXjBW1/0oSPKgmkYYEad7VUylDsnu4QzjojFtrDpNgUzGnSzb0JbTg==",
+  "dgSpecHash": "SQnRk7J5AlW85J11sVEwKdvHDSgzHs6CFgS9oeeL1gNoItIpNUskf0sN/hPEo9Bsni/M2/FNqtDunuj+E1l2Bg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\lux_l\\source\\repos\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
+  "projectFilePath": "C:\\Users\\lux_l\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lux_l\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\lux_l\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

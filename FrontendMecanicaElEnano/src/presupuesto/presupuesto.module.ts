@@ -13,6 +13,9 @@ import { CuotasModule } from 'src/cuotas/cuotas.module';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -34,6 +37,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatToolbarModule,
     MatDatepickerModule,
     MatIconModule,
+    MatOptionModule,
+    MatSelectModule,
     CuotasModule
   ],
   exports:[

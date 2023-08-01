@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Cuota } from 'src/domain/cuotas';
 
 @Component({
   selector: 'app-cuotas',
@@ -7,33 +8,34 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 })
 export class CuotasComponent implements OnInit {
 
-  @Input() precio = 0;
+  @Input() costo = 0;
 
   displayedColumns: string[] = ['numero', 'precio'];
 
-  values= new Map([
-    ['3', 0],
-    ['6', 0],
-    ['9', 0],
-    ['12', 0],
-    ['18', 0]
-   ]);
+  values: Cuota[] = [
+    {numero: 3, precio: 0},
+    {numero: 6, precio: 0},
+    {numero: 9, precio: 0},
+    {numero: 12, precio: 0},
+    {numero: 18, precio: 0},
+   ];
 
-   multipliers= [1.3,1.6,1.8,2,2.2]
+   multipliers = [1.3, 1.6, 1.8, 2, 2.2];
 
-   dataSource=[...this.values]
-   
-  updateDataSource(){
-    this.values.set('3',this.precio*this.multipliers[1]);
-    this.values.set('6',this.precio*this.multipliers[2]);
-    this.values.set('9',this.precio*this.multipliers[3]);
-    this.values.set('12',this.precio*this.multipliers[4]);
-    this.values.set('18',this.precio*this.multipliers[5]);
+   dataSource!: Cuota[];
+
+  updateDataSource() {
+    for (let i = 0; i < this.values.length; i++) {
+      this.values[i].precio = this.costo * this.multipliers[i];
+    }
   }
+
   constructor() { }
 
   ngOnInit(): void {
     this.updateDataSource();
+    this.dataSource = [...this.values];
+    console.log(this.values);
   }
 
   ngOnChanges(changes: SimpleChanges) {

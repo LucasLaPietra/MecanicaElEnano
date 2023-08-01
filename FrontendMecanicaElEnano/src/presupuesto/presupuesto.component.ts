@@ -26,15 +26,19 @@ export class PresupuestoComponent implements AfterViewInit {
     km: new FormControl('', Validators.required),
     trabajoARealizar: new FormControl('', Validators.required),
   });
-  
+
   displayedColumns: string[] = ['fecha', 'validoHasta', 'km'];
   displayedColumnsRepuestos: string[] = ['cantidad', 'descripcion', 'tipoTrabajo', 'precio'];
   selectedPresupuesto: Presupuesto|null = null;
   selectedRepuesto: Repuesto|null = null;
   state: state = 0;
 
-  manoObra: number = 0;
-  repuestos: number = 0;
+  tipoOptions = [
+    { value: 0, label: 'Repuesto' },
+    { value: 1, label: 'Mano obra' },
+  ];
+  manoObraPrice: number = 0;
+  repuestosPrice: number = 0;
   total: number = 0;
 
   @ViewChild(MatTable) presupuestoTable!: MatTable<Presupuesto>;
@@ -44,14 +48,13 @@ export class PresupuestoComponent implements AfterViewInit {
   dataSourceRepuestos: MatTableDataSource<any>;
 
   constructor(
-    private presupuestoService: PresupuestosService, 
-    private vehiculoService: VehiculosService, 
+    private presupuestoService: PresupuestosService,
+    private vehiculoService: VehiculosService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
       this.dataSource = new MatTableDataSource();
       this.createRepuestosForm();
-      this.dataSourceRepuestos = new MatTableDataSource();
-      this.dataSourceRepuestos = new MatTableDataSource((this.repuestoForm.get('repuestos') as FormArray).controls);
+      this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
      }
 
   ngOnInit(): void {
@@ -70,21 +73,34 @@ export class PresupuestoComponent implements AfterViewInit {
       this.dataSource.sort = this.sort;
     })
     this.presupuestoForm.disable();
+    this.repuestoForm.disable();
   }
 
   selectPresupuesto(row: Presupuesto){
     if (this.selectedPresupuesto!=row)
     {
+      this.cancelUpdatePresupuesto()
+      this.createRepuestosForm();
       this.selectedPresupuesto=row;
       this.presupuestoForm.patchValue(row);
-      this.dataSourceRepuestos.data = this.selectedPresupuesto.repuestos;
-      this.calculateCosts(this.selectedPresupuesto);
+      const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+      repuestos.valueChanges.subscribe((value) => {
+        this.calculateCosts();
+      });
+      this.selectedPresupuesto.repuestos.forEach(repuesto => {
+        repuestos.push(
+          this.addRow(repuesto)
+        );
+      });
+      this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
+      this.repuestoForm.disable()
     }
-    else 
+    else
     {
       this.selectedPresupuesto = null;
       this.dataSourceRepuestos.data = [];
       this.presupuestoForm.reset();
+      this.createRepuestosForm();
     }
   }
 
@@ -93,26 +109,28 @@ export class PresupuestoComponent implements AfterViewInit {
     {
       this.selectedRepuesto=row;
     }
-    else 
+    else
     {
       this.selectedRepuesto = null;
     }
   }
 
-  calculateCosts(presupuesto: Presupuesto){
-    this.manoObra = 0;
-    this.repuestos = 0;
-    presupuesto.repuestos.forEach(r => {
-      if (r.tipo=0)
-      {
-        this.repuestos += r.precio;
-      }
-      else
-      {
-        this.manoObra += r.precio;
-      }
-    });
-    this.total = this.manoObra + this.repuestos;
+  calculateCosts(){
+    this.manoObraPrice = 0;
+    this.repuestosPrice = 0;
+    if(this.selectedPresupuesto){
+      this.repuestoForm.get('repuestos')?.value.forEach((r: Repuesto) => {
+        if (r.tipo==0)
+        {
+          this.repuestosPrice += r.precio * r.cantidad;
+        }
+        else
+        {
+          this.manoObraPrice += r.precio * r.cantidad;
+        }
+      });
+    }
+    this.total = this.manoObraPrice + this.repuestosPrice;
   }
 
   compareSelectedtoForm(){
@@ -126,12 +144,14 @@ export class PresupuestoComponent implements AfterViewInit {
   updatePresupuestoButton(){
     this.state=state.updating;
     this.presupuestoForm.enable();
+    this.repuestoForm.enable()
   }
 
   cancelUpdatePresupuesto(){
     this.state=state.viewing;
     this.presupuestoForm.patchValue(this.selectedPresupuesto as Presupuesto);
     this.presupuestoForm.disable();
+    this.repuestoForm.disable()
   }
 
   createPresupuesto(){
@@ -140,7 +160,6 @@ export class PresupuestoComponent implements AfterViewInit {
       this.dataSource.data.push(presupuesto);
       this.dataSource._updateChangeSubscription();
     });
-    console.log(this.dataSource.data);
     this.state=state.viewing;
     this.presupuestoForm.reset();
     this.presupuestoForm.disable();
@@ -149,12 +168,12 @@ export class PresupuestoComponent implements AfterViewInit {
   updatePresupuesto(){
     if(this.selectedPresupuesto){
       const indexOfObject =  this.dataSource.data.indexOf(this.selectedPresupuesto);
-      console.log(this.presupuestoForm.value as Presupuesto)
       let presupuestoActualizado: Presupuesto = this.selectedPresupuesto;
       presupuestoActualizado.fecha = this.presupuestoForm.value.fecha as Date;
       presupuestoActualizado.validoHasta = this.presupuestoForm.value.validoHasta as Date;
       presupuestoActualizado.km = this.presupuestoForm.value.km as string;
       presupuestoActualizado.trabajoARealizar = this.presupuestoForm.value.trabajoARealizar as string;
+      presupuestoActualizado.repuestos= this.repuestoForm.controls['repuestos'].value
       this.presupuestoService.UpdatePresupuesto(presupuestoActualizado).subscribe(presupuesto => {
         this.dataSource.data[indexOfObject] = presupuesto;
       });
@@ -177,18 +196,14 @@ export class PresupuestoComponent implements AfterViewInit {
   }
 
   createRepuestosForm() {
-    let listaVacia: Repuesto[] = []
     this.repuestoForm = this.formBuilder.group({
-      repuestos: this.formBuilder.array(listaVacia),
+      repuestos: this.formBuilder.array([]),
     });
-  }
-
-  get formArr() {
-    return this.repuestoForm.get('repuestos') as FormArray;
   }
 
   addRow(repuesto: Repuesto) {
     return this.formBuilder.group({
+      repuestoId: [repuesto.repuestoId],
       cantidad: [repuesto.cantidad],
       descripcion: [repuesto.descripcion],
       precio: [repuesto.precio],
@@ -196,33 +211,33 @@ export class PresupuestoComponent implements AfterViewInit {
     });
   }
 
-  addNewRow() {
-    let repuesto: Repuesto = {
-      cantidad: 0,
-      descripcion: "",
-      precio: 0,
-      tipo: 0,
-    };
-    this.formArr.push(this.addRow(repuesto));
-  }
-
   createRepuesto(){
-    this.addNewRow();
+    const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+    repuestos.push(
+      this.formBuilder.group({
+        repuestoId: [null],
+        cantidad: [1, Validators.required],
+        descripcion: ["", Validators.required],
+        precio: [0, Validators.required],
+        tipo: [0, Validators.required],
+      })
+    );
+    this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
   }
 
-  deleteRepuesto(){
-    if(this.selectedRepuesto){
-      let index = this.selectedPresupuesto?.repuestos.indexOf(this.selectedRepuesto)
-      if(index){
-        this.formArr.removeAt(index)
-        this.selectedRepuesto = null;
-      }
-    }
+  deleteRepuesto() {
+    const index = this.dataSourceRepuestos.data.indexOf(this.selectedRepuesto);
+    const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+    repuestos.removeAt(index);
+    this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
+  }
+
+  getFormGroup(index: number): FormGroup {
+    const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+    return repuestos.controls[index] as FormGroup;
   }
 
   getFormattedDate(date:Date){
-    console.log(date.toString())
-    console.log(new Date(parseInt(/-?\d+/.exec(date.toString())![0])))
     return date.getDate();
   }
 
