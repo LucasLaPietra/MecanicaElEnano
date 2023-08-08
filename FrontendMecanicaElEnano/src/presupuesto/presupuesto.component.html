@@ -10,11 +10,12 @@
             <h3>{{vehiculo.cliente}}-{{vehiculo.telefono}}</h3>
         </div>
 </div>
-<div class="presupuestos-container">
+<div fxLayout="row" class="presupuestos-container">
   <div class="mat-elevation-z8 presupuestos-table">
     <div style="text-align: center; ">
       <h3 style="margin-bottom: 0px;">Lista Presupuestos</h3>
     </div>
+    <div class="presupuestos-table-container">
     <table mat-table [dataSource]="dataSource" matSort>
 
       <ng-container matColumnDef="fecha">
@@ -40,11 +41,15 @@
         <td class="mat-cell" colspan="4">No existen presupuestos para el vehiculo</td>
       </tr>
     </table>
+  </div>
+  <div>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar presupuestos a mostrar"></mat-paginator>
+  </div>
   </div>
   <div class="repuestos-button-container">
     <button *ngIf="state==0" class="repuestos-button" mat-fab color="primary" (click)="createPresupuesto()"><mat-icon>add</mat-icon></button>
     <button *ngIf="selectedPresupuesto && state==0" class="repuestos-button" mat-fab color="accent" (click)="updatePresupuestoButton()"><mat-icon>update</mat-icon></button>
+    <button *ngIf="selectedPresupuesto && state==0" class="repuestos-button" mat-fab color="accent" (click)="printPresupuesto()"><mat-icon>print</mat-icon></button>
     <button *ngIf="selectedPresupuesto && state==0" class="repuestos-button" mat-fab color="warn" (click)="deletePresupuesto()"><mat-icon>delete</mat-icon></button>
     <button *ngIf="selectedPresupuesto && state==2" class="repuestos-button" mat-fab color="accent" (click)="updatePresupuesto()"><mat-icon>check</mat-icon></button>
     <button *ngIf="selectedPresupuesto && state==2" class="repuestos-button" mat-fab (click)="cancelUpdatePresupuesto()"><mat-icon>close</mat-icon></button>
@@ -75,7 +80,7 @@
     </mat-form-field>
 </div>
 </form>
-<div *ngIf="selectedPresupuesto">
+<div>
   <app-cuotas [costo]='total'></app-cuotas>
 </div>
  </div>

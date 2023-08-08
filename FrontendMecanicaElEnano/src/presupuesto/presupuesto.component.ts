@@ -181,6 +181,7 @@ export class PresupuestoComponent implements AfterViewInit {
       this.dataSource._updateChangeSubscription();
       this.state=state.viewing;
       this.presupuestoForm.disable();
+      this.repuestoForm.disable();
     }
   }
 
@@ -193,6 +194,10 @@ export class PresupuestoComponent implements AfterViewInit {
       this.selectedPresupuesto = null;
       this.presupuestoForm.reset();
     }
+  }
+
+  printPresupuesto(){
+    
   }
 
   createRepuestosForm() {

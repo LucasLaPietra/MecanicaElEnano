@@ -7,13 +7,13 @@
   }
 
   .presupuestos-container {
-    display: inline-flex;
+    display: flex;
     gap: 10px;
     margin-bottom: 2%;
   }
 
   .presupuestos-fields-container{
-    display: inline-flex;
+    display: flex;
     gap: 10px;
   }
 
@@ -34,6 +34,9 @@
   .presupuestos-table{
     width: max-content;
     flex: 1 1 0;
+  }
+  .presupuestos-table-container{
+    overflow: auto;
   }
 
   table{

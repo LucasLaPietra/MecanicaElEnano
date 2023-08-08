@@ -26,7 +26,7 @@ export class CuotasComponent implements OnInit {
 
   updateDataSource() {
     for (let i = 0; i < this.values.length; i++) {
-      this.values[i].precio = this.costo * this.multipliers[i];
+      this.values[i].precio = (Number)((this.costo * this.multipliers[i]).toPrecision(2));
     }
   }
 
