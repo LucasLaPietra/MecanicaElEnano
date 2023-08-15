@@ -14,5 +14,6 @@ namespace BackendMecanicaElEnano
         public DbSet<Repuesto>? Repuestos { get; set; }
         public DbSet<Trabajo>? Trabajos { get; set; }
         public DbSet<RepuestoTrabajo>? RepuestoTrabajos { get; set; }
+        public DbSet<Turno>? Turnos { get; set; }
     }
 }
