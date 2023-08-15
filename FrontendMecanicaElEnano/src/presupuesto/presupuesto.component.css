@@ -7,13 +7,13 @@
   }
 
   .presupuestos-container {
-    display: inline-flex;
+    display: flex;
     gap: 10px;
     margin-bottom: 2%;
   }
 
   .presupuestos-fields-container{
-    display: inline-flex;
+    display: flex;
     gap: 10px;
   }
 
@@ -35,6 +35,9 @@
     width: max-content;
     flex: 1 1 0;
   }
+  .presupuestos-table-container{
+    overflow: auto;
+  }
 
   table{
     width: 100%;
@@ -48,7 +51,7 @@
 
   .repuestos-table{
     width: 60%;
-    flex: 2 2 0;
+    flex: 4 2 0;
   }
 
   .repuestos-button-container {
