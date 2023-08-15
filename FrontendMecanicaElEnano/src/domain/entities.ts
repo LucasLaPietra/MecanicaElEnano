@@ -13,6 +13,13 @@ export interface Vehiculo
     presupuestos: Presupuesto[]
 }
 
+export interface Turno
+{
+    turnoId: string,
+    fechayHora: Date,
+    vehiculo: Vehiculo
+}
+
 export interface Presupuesto
 {
     presupuestoId: string,
