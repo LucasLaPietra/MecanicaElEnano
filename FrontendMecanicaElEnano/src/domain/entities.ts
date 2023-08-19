@@ -24,6 +24,17 @@ export interface Presupuesto
 {
     presupuestoId: string,
     fecha: Date,
+    km: string,
+    trabajosRealizados: string,
+    trabajosPendientes: string,
+    vehiculoId: string
+    repuestos: Repuesto[]
+}
+
+export interface Trabajo
+{
+    trabajoId: string,
+    fecha: Date,
     validoHasta: Date,
     km: string,
     trabajoARealizar: string,
@@ -34,6 +45,15 @@ export interface Presupuesto
 export interface Repuesto
 {
     repuestoId?: string,
+    cantidad: number,
+    descripcion: string,
+    precio: number,
+    tipo: number,
+}
+
+export interface RepuestoTrabajo
+{
+    repuestoTrabajoId?: string,
     cantidad: number,
     descripcion: string,
     precio: number,
