@@ -21,6 +21,6 @@ namespace BackendMecanicaElEnano.Models
         [Required(ErrorMessage = "Se requiere un tipo de trabajo para registrar un repuesto")]
         public TipoTrabajo Tipo { get; set; }
 
-        public virtual Presupuesto Presupuesto { get; set; } = null!;
+        public virtual Trabajo Trabajo { get; set; } = null!;
     }
 }

@@ -21,6 +21,8 @@ namespace BackendMecanicaElEnano.Models
 
         public string TrabajosPendientes { get; set; } = null!;
 
+        public Guid? VehiculoId { get; set; }
+
         public virtual Vehiculo Vehiculo { get; set; } = null!;
 
         public virtual ICollection<RepuestoTrabajo> Repuestos { get; set; } = new Collection<RepuestoTrabajo>();
