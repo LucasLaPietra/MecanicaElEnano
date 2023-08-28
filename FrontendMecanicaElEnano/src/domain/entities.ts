@@ -17,23 +17,24 @@ export interface Turno
 {
     turnoId: string,
     fechayHora: Date,
+    detalle: string,
     vehiculo: Vehiculo
-}
-
-export interface Presupuesto
-{
-    presupuestoId: string,
-    fecha: Date,
-    km: string,
-    trabajosRealizados: string,
-    trabajosPendientes: string,
-    vehiculoId: string
-    repuestos: Repuesto[]
 }
 
 export interface Trabajo
 {
     trabajoId: string,
+    fecha: Date,
+    km: string,
+    trabajosRealizados: string,
+    trabajosPendientes: string,
+    vehiculoId: string
+    repuestos: RepuestoTrabajo[]
+}
+
+export interface Presupuesto
+{
+    presupuestoId: string,
     fecha: Date,
     validoHasta: Date,
     km: string,

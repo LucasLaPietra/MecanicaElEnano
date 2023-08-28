@@ -37,6 +37,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatOptionModule,
     MatSelectModule
+  ],
+  exports:[
+    TurnosComponent
   ]
 })
 export class TurnosModule { }

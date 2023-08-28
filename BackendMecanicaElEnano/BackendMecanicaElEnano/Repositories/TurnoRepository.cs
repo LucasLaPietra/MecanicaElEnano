@@ -45,6 +45,7 @@ namespace BackendMecanicaElEnano.Repositories
             if (result != null)
             {
                 result.FechayHora = TurnoDto.FechayHora;
+                result.Detalle = TurnoDto.Detalle;
             }
             await CommitAsync();
             return _mapper.Map<TurnoDto>(result);

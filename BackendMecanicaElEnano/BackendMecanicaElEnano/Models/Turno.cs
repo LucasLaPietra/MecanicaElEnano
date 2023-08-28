@@ -10,9 +10,10 @@ namespace BackendMecanicaElEnano.Models
     [Table("turno")]
     public class Turno
     {
-        public Turno(DateTime fechayHora)
+        public Turno(DateTime fechayHora, string detalle)
         {
             FechayHora = fechayHora;
+            Detalle = detalle;
         }
 
         public Turno()
@@ -27,6 +28,7 @@ namespace BackendMecanicaElEnano.Models
         [Required(ErrorMessage = "Se requiere una fecha para registrar un turno")]
         public DateTime FechayHora { get; set; }
 
+        public string Detalle { get; set; } = null!;
 
         public virtual Vehiculo Vehiculo { get; set; } = null!;
     }

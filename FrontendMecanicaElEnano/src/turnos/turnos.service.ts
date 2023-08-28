@@ -20,7 +20,7 @@ export class TurnosService {
 
   public GetTurno(id:string): Observable<Turno> {
     return this.httpClient.get<Turno>('https://localhost:7009/api/turnos/' + id);
-  } 
+  }
 
   public UpdateTurno(turno:Turno): Observable<Turno> {
     return this.httpClient.put<Turno>('https://localhost:7009/api/turnos', turno)

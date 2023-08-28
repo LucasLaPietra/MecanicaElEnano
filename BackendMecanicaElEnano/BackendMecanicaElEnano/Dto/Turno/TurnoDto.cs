@@ -9,5 +9,7 @@ namespace BackendMecanicaElEnano.Dto
         public DateTime FechayHora { get; set; }
 
         public virtual VehiculoDto? Vehiculo { get; set; }
+
+        public string Detalle { get; set; } = null!;
     }
 }

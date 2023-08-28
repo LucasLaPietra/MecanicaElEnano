@@ -8,6 +8,7 @@ import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
 import { HttpClientModule } from '@angular/common/http';
 import { PresupuestoModule } from 'src/presupuesto/presupuesto.module';
 import { MatNativeDateModule } from '@angular/material/core';
+import { TurnosModule } from 'src/turnos/turnos.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatNativeDateModule,
     VehiculoModule,
     PresupuestoModule,
+    TurnosModule,
     HttpClientModule
   ],
   providers: [],
