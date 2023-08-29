@@ -10,17 +10,40 @@
   margin: 10px;
 }
 
+.column-no-border {
+  flex-direction: column;
+  flex: 1 1 0;
+}
+
+.turnos-button-column {
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+  padding-top: 16px;
+  flex: .1 1 0;
+}
+
 .row {
   margin-bottom: 20px;
+  display: flex;
+}
+
+table {
+  width: 100%;
 }
 
 .calendario {
   width: 300px;
 }
 
+.input-detalle{
+  width: 100%;
+  margin-top: 3vh;
+}
+
 
 @media (max-width: 768px) {
-  .container {
+  .turnos-page {
       flex-direction: column;
       align-items: center;
   }
