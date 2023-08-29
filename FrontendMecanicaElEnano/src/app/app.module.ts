@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
 import { HttpClientModule } from '@angular/common/http';
 import { PresupuestoModule } from 'src/presupuesto/presupuesto.module';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { TurnosModule } from 'src/turnos/turnos.module';
 
 @NgModule({
@@ -24,7 +24,9 @@ import { TurnosModule } from 'src/turnos/turnos.module';
     TurnosModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
