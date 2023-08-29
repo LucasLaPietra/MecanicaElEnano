@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { state, Vehiculo } from 'src/domain/entities';
+import { state, Turno, Vehiculo } from 'src/domain/entities';
 import { VehiculosService } from './vehiculo.service';
 
 @Component({
@@ -14,7 +14,8 @@ import { VehiculosService } from './vehiculo.service';
 export class VehiculoComponent implements AfterViewInit {
 
   vehiculos : Vehiculo[] = [];
-  
+  @Input() fecha: Date | undefined;
+
   vehiculoForm = new FormGroup({
     patente: new FormControl('', [Validators.required, Validators.maxLength(7)]),
     cliente: new FormControl('', Validators.required),
@@ -35,7 +36,7 @@ export class VehiculoComponent implements AfterViewInit {
   @ViewChild(MatTable) vehiculoTable!: MatTable<Vehiculo>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   constructor(private vehiculoService: VehiculosService) {
     this.dataSource = new MatTableDataSource();
   }
@@ -75,7 +76,7 @@ export class VehiculoComponent implements AfterViewInit {
       this.selectedVehicle=row;
       this.vehiculoForm.patchValue(row);
     }
-    else 
+    else
     {
       this.selectedVehicle = null;
       this.vehiculoForm.reset();

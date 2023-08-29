@@ -5,4 +5,29 @@
    </p>
 
  <div class="turnos-page">
+  <div class="column">
+    <div class="row">
+      <mat-card class="calendario">
+        <mat-calendar [(selected)]="selectedDate"></mat-calendar>
+      </mat-card>
+    </div>
+    <div class="row">
+        <span><h3>Hora: <mat-form-field><input type="time" matInput [formControl]="timeFormControl"></mat-form-field></h3></span>
+        <h3 *ngIf="selectedTurno">Patente: {{selectedTurno.vehiculo.patente}}</h3>
+        <h4 *ngIf="selectedTurno">Patente: {{selectedTurno.vehiculo.cliente}}</h4>
+        <h4 *ngIf="selectedTurno">Patente: {{selectedTurno.vehiculo.direccion}}</h4>
+        <h4 *ngIf="selectedTurno">Patente: {{selectedTurno.vehiculo.telefono}}</h4>
+        <h4 *ngIf="selectedTurno">Patente: {{selectedTurno.vehiculo.mail}}</h4>
+    </div>
+</div>
+<div class="column">
+    <div class="row">
+        <h2>Column 2, Row 1</h2>
+        <p>Nulla porttitor accumsan tincidunt. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
+    </div>
+    <div class="row">
+        <h2>Column 2, Row 2</h2>
+        <p>Fusce nec arcu sed erat vehicula ultricies. Quisque ac sollicitudin metus.</p>
+    </div>
+</div>
  </div>

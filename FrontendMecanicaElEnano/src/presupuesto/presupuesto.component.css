@@ -1,5 +1,6 @@
 .presupuestos-page {
     margin: 1%;
+    display: flex;
   }
 
   .presupuestos-vehicle-data {
