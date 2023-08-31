@@ -8,6 +8,8 @@ const routes: Routes = [
   { path: 'presupuestos/:id', component: PresupuestoComponent },
   { path: 'turnos', component: TurnosComponent },
   { path: 'vehiculos', component: VehiculoComponent },
+  { path: 'turnos/:date/:id', component: TurnosComponent },
+  { path: 'vehiculos/:date', component: VehiculoComponent },
 ];
 
 @NgModule({

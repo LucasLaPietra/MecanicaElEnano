@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { state, Turno, Vehiculo } from 'src/domain/entities';
 import { VehiculosService } from './vehiculo.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-vehiculo',
@@ -14,7 +15,7 @@ import { VehiculosService } from './vehiculo.service';
 export class VehiculoComponent implements AfterViewInit {
 
   vehiculos : Vehiculo[] = [];
-  @Input() fecha: Date | undefined;
+  date: string | undefined;
 
   vehiculoForm = new FormGroup({
     patente: new FormControl('', [Validators.required, Validators.maxLength(7)]),
@@ -37,11 +38,15 @@ export class VehiculoComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private vehiculoService: VehiculosService) {
+  constructor(private vehiculoService: VehiculosService,
+              private route: ActivatedRoute) {
     this.dataSource = new MatTableDataSource();
   }
 
   ngAfterViewInit() {
+    if (this.route.snapshot.params['date']) {
+      this.date = this.route.snapshot.paramMap.get('date')!
+    }
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.vehiculoService.GetVehiculos().subscribe(vehiculos => {

@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -38,7 +39,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatOptionModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    RouterModule,
   ],
   exports:[
     TurnosComponent

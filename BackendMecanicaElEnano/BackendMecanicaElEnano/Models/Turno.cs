@@ -30,6 +30,8 @@ namespace BackendMecanicaElEnano.Models
 
         public string Detalle { get; set; } = null!;
 
+        public Guid? VehiculoId { get; set; }
+
         public virtual Vehiculo Vehiculo { get; set; } = null!;
     }
 }

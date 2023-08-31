@@ -3,6 +3,8 @@
     "",
     "\\BackendMecanicaElEnano",
     "\\BackendMecanicaElEnano\\Controllers",
+    "\\BackendMecanicaElEnano\\Dto",
+    "\\BackendMecanicaElEnano\\Dto\\Presupuesto",
     "\\BackendMecanicaElEnano\\Models",
     "\\BackendMecanicaElEnano\\Repositories"
   ],

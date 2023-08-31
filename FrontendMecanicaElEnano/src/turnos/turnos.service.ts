@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CreateTurno } from 'src/domain/dto';
 import { Turno } from 'src/domain/entities';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class TurnosService {
 
   constructor(private httpClient:HttpClient) { }
 
-  public CreateTurno(turno:Turno): Observable<Turno> {
+  public CreateTurno(turno:CreateTurno): Observable<Turno> {
     return this.httpClient.post<Turno>('https://localhost:7009/api/turnos',turno)
   }
 

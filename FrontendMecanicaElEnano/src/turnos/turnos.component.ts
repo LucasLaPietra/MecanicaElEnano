@@ -5,6 +5,10 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Turno, Vehiculo, state } from 'src/domain/entities';
 import { TurnosService } from './turnos.service';
 import { FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { VehiculosService } from 'src/vehiculo/vehiculo.service';
+import { CreateTurno } from 'src/domain/dto';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-turnos',
@@ -13,11 +17,14 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class TurnosComponent implements AfterViewInit {
 
-  selectedDate: Date | undefined;
-  selectedTurno: Turno | undefined;
-  timeFormControl = new FormControl('', [Validators.required]);
+  turnos: Turno[] = [];
+  selectedDate: Date = new Date();
+  selectedTurno: Turno | null = null;
+  dateFormControl = new FormControl(new Date(), [Validators.required])
+  timeFormControl = new FormControl("", [Validators.required]);
+  detalleFormControl = new FormControl("", [Validators.required]);
   state: state = 0;
-  @Input() selectedVehiculo: Vehiculo | undefined;
+  selectedVehiculo: Vehiculo | undefined;
 
   displayedColumns: string[] = ['hora', 'patente', 'vehiculo', 'cliente'];
   dataSource: MatTableDataSource<Turno>;
@@ -26,23 +33,62 @@ export class TurnosComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private turnoService: TurnosService) {
+  constructor(
+    private turnoService: TurnosService,
+    private vehiculoService: VehiculosService,
+    private route: ActivatedRoute)
+    {
     this.dataSource = new MatTableDataSource();
   }
 
   ngAfterViewInit() {
+    if (this.route.snapshot.paramMap.get('date')) {
+      this.state=state.creating;
+      this.selectedDate= new Date(this.route.snapshot.paramMap.get('date')!);
+      this.vehiculoService.GetVehiculo((this.route.snapshot.paramMap.get('id')!))
+      .subscribe(vehiculo => this.selectedVehiculo = vehiculo);
+    }
+    else{
+      this.state=state.viewing;
+      this.detalleFormControl.disable();
+      this.timeFormControl.disable()
+    }
+    this.timeFormControl.setValue(this.getTimeAsString(this.selectedDate));
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.turnoService.GetTurnos().subscribe(turnos => {
-      this.dataSource.data = turnos.filter((t:Turno)=>{t.fechayHora.getDate() == this.selectedDate?.getDate()});
+      console.log(new Date(turnos[1].fechayHora))
+      console.log(this.selectedDate)
+      this.turnos=turnos
+      this.dataSource.data = this.turnos.filter((t:Turno)=>{this.formatDate(new Date(t.fechayHora)) == this.formatDate(this.selectedDate)});
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
 
-  getVehiculos(): void {
+  selectDate(){
+    console.log(new Date(this.turnos[1].fechayHora))
+    console.log(this.selectedDate)
+    console.log(this.turnos)
+    this.dataSource.data = this.turnos.filter((t:Turno)=>this.formatDate(new Date(t.fechayHora)) == this.formatDate(this.selectedDate));
+  }
+
+  getTimeAsString(date: Date) {
+    return `${date.getHours()==0?"00":date.getHours()}:${(date.getMinutes() < 10 ? "0" : "") +
+      date.getMinutes()}`;
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+
+    return `${day}:${month}:${year}`;
+  }
+
+  getTurnos(): void {
     this.turnoService.GetTurnos()
-    .subscribe(turnos => turnos.filter((t:Turno)=>{t.fechayHora.getDate() == this.selectedDate?.getDate()}));
+    .subscribe(turnos => turnos.filter((t:Turno)=>{this.formatDate(t.fechayHora) == this.formatDate(this.selectedDate)}));
     this.turnoTable.renderRows();
     this.dataSource._updateChangeSubscription();
   }
@@ -57,30 +103,98 @@ export class TurnosComponent implements AfterViewInit {
   }
 
   selectTurno(row: Turno){
+    if (this.selectedTurno!=row)
+    {
+      this.selectedTurno=row;
+      console.log(new Date(row.fechayHora).getHours());
+      this.timeFormControl.patchValue(this.getTimeAsString(new Date(row.fechayHora)));
+      this.detalleFormControl.patchValue(row.detalle)
+    }
+    else
+    {
+      this.selectedTurno = null;
+      this.timeFormControl.patchValue("08:00");
+      this.detalleFormControl.reset();
+    }
   }
 
   updateTurnoButton(){
+    this.state=state.updating;
+    this.detalleFormControl.enable();
+    this.timeFormControl.enable();
   }
 
   cancelUpdateTurno(){
+    this.state=state.viewing;
+    this.timeFormControl.patchValue(this.getTimeAsString(new Date(this.selectedTurno?.fechayHora!)));
+    this.detalleFormControl.patchValue(this.selectedTurno?.detalle!);
+    this.detalleFormControl.disable();
+    this.timeFormControl.disable()
   }
 
   createTurno(){
+    let completeDate: Date = this.selectedDate;
+    const parts = this.timeFormControl.value!.split(":");
+    completeDate.setHours(parseInt(parts[0], 10));
+    completeDate.setMinutes(parseInt(parts[1], 10));
+    completeDate.setSeconds(0)
+    console.log(completeDate);
+    const turnoACrear: CreateTurno = {
+      detalle : this.detalleFormControl.value!,
+      fechayHora: completeDate,
+      vehiculoId: this.route.snapshot.paramMap.get('id')!,
+    }
+    this.turnoService.CreateTurno(turnoACrear)
+    .subscribe(turno => {
+      this.dataSource.data.push(turno);
+    });
+    this.turnoTable.renderRows();
+    this.dataSource._updateChangeSubscription();
+    console.log(this.dataSource.data);
+    this.state=state.viewing;
+    this.detalleFormControl.disable();
+    this.timeFormControl.disable();
+  }
+
+  cancelCreateTurno(){
+    this.state=state.viewing;
+    this.selectedVehiculo=undefined;
+    this.detalleFormControl.disable();
+    this.timeFormControl.disable();
   }
 
   updateTurno(){
     if(this.selectedTurno){
+      const indexOfObject =  this.dataSource.data.indexOf(this.selectedTurno);
+      let turnoActualizado: Turno = this.selectedTurno;
+      turnoActualizado.detalle = this.detalleFormControl.value?this.detalleFormControl.value:""
+      let completeDate: Date = new Date(this.selectedTurno.fechayHora);
+      const parts = this.timeFormControl.value!.split(":");
+      completeDate.setHours(parseInt(parts[0], 10));
+      completeDate.setMinutes(parseInt(parts[1], 10));
+      completeDate.setSeconds(0)
+      turnoActualizado.fechayHora = completeDate;
+      this.turnoService.UpdateTurno(turnoActualizado).subscribe(turno => {
+        this.dataSource.data[indexOfObject] = turno;
+      });
+      this.turnoTable.renderRows();
+      this.dataSource._updateChangeSubscription();
+      this.state=state.viewing;
+      this.detalleFormControl.disable();
+      this.timeFormControl.disable();
     }
   }
 
   deleteTurno(){
     if(this.selectedTurno){
+      this.turnoService.DeleteTurno(this.selectedTurno.turnoId).subscribe();
+      this.dataSource.data = this.dataSource.data.filter(h => h !== this.selectedTurno);
+      this.turnoTable.renderRows();
+      this.dataSource._updateChangeSubscription();
+      this.selectedTurno = null;
+      this.timeFormControl.patchValue("08:00");
+      this.detalleFormControl.reset();
     }
-  }
-
-
-  getHora(date: Date):string{
-    return date.getTime().toString();
   }
 
 }
