@@ -5,7 +5,7 @@
 </p>
 
 <div class="turnos-page">
-  <div class="column">
+  <div class="column-left">
     <div class="row">
       <div class="column-no-border">
         <mat-card class="calendario">
@@ -90,7 +90,7 @@
       ></span>
     </div>
   </div>
-  <div class="column">
+  <div class="column-right">
     <mat-form-field class="buscar-input" appearance="standard">
       <mat-label>Buscar</mat-label>
       <input
@@ -106,7 +106,7 @@
         <ng-container matColumnDef="hora">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Hora</th>
           <td mat-cell *matCellDef="let row">
-            {{ row.fechayHora | date : "HH:mm" }}
+            {{ row.fechayHora | date : "HH:mm a" }}
           </td>
         </ng-container>
 
