@@ -60,7 +60,7 @@ export class TurnosComponent implements AfterViewInit {
       console.log(new Date(turnos[1].fechayHora))
       console.log(this.selectedDate)
       this.turnos=turnos
-      this.dataSource.data = this.turnos.filter((t:Turno)=>{this.formatDate(new Date(t.fechayHora)) == this.formatDate(this.selectedDate)});
+      this.dataSource.data = this.turnos.filter((t:Turno)=>this.formatDate(new Date(t.fechayHora)) == this.formatDate(this.selectedDate));
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -88,7 +88,7 @@ export class TurnosComponent implements AfterViewInit {
 
   getTurnos(): void {
     this.turnoService.GetTurnos()
-    .subscribe(turnos => turnos.filter((t:Turno)=>{this.formatDate(t.fechayHora) == this.formatDate(this.selectedDate)}));
+    .subscribe(turnos => turnos.filter((t:Turno)=>this.formatDate(t.fechayHora) == this.formatDate(this.selectedDate)));
     this.turnoTable.renderRows();
     this.dataSource._updateChangeSubscription();
   }
@@ -103,6 +103,8 @@ export class TurnosComponent implements AfterViewInit {
   }
 
   selectTurno(row: Turno){
+    this.cancelCreateTurno();
+    this.cancelUpdateTurno();
     if (this.selectedTurno!=row)
     {
       this.selectedTurno=row;
