@@ -1,15 +1,9 @@
 <p>
   <mat-toolbar color="primary">
-    <span>Menu Presupuesto</span>
+    <span><b>Presupuestos</b> - {{ vehiculo.patente }}-{{ vehiculo.modelo }} - {{ vehiculo.cliente }}-{{ vehiculo.telefono }}</span>
   </mat-toolbar>
 </p>
 <div class="presupuestos-page">
-  <div fxLayout="row">
-    <div class="presupuestos-vehicle-data">
-      <h2>{{ vehiculo.patente }}-{{ vehiculo.modelo }}</h2>
-      <h3>{{ vehiculo.cliente }}-{{ vehiculo.telefono }}</h3>
-    </div>
-  </div>
   <div fxLayout="row" class="presupuestos-container">
     <div class="mat-elevation-z8 presupuestos-table">
       <div style="text-align: center">
@@ -113,8 +107,8 @@
         <mat-icon>close</mat-icon>
       </button>
     </div>
+    <div class="presupuestos-properties-container">
     <form [formGroup]="presupuestoForm">
-      <div class="presupuestos-properties-container">
         <div class="presupuestos-fields-container">
           <mat-form-field appearance="fill">
             <mat-label>Fecha</mat-label>
@@ -147,7 +141,7 @@
             <input type="text" matInput formControlName="km" />
           </mat-form-field>
         </div>
-        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-form-field class="detalles-field" appearance="fill">
           <mat-label>Trabajos a realizarse</mat-label>
           <textarea
             matInput
@@ -155,9 +149,9 @@
             placeholder="Escribe una breve descripción de los trabajos a realizar"
           ></textarea>
         </mat-form-field>
-      </div>
     </form>
-    <div>
+  </div>
+    <div class="cuotas-column">
       <app-cuotas [costo]="total"></app-cuotas>
     </div>
   </div>

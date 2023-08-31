@@ -94,6 +94,7 @@ export class PresupuestoComponent implements AfterViewInit {
       });
       this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
       this.repuestoForm.disable()
+      this.calculateCosts()
     }
     else
     {
@@ -101,6 +102,7 @@ export class PresupuestoComponent implements AfterViewInit {
       this.dataSourceRepuestos.data = [];
       this.presupuestoForm.reset();
       this.createRepuestosForm();
+      this.calculateCosts()
     }
   }
 
@@ -197,7 +199,7 @@ export class PresupuestoComponent implements AfterViewInit {
   }
 
   printPresupuesto(){
-    
+
   }
 
   createRepuestosForm() {
