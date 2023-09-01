@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PresupuestoModule } from 'src/presupuesto/presupuesto.module';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { TurnosModule } from 'src/turnos/turnos.module';
+import { TrabajoModule } from 'src/trabajo/trabajo.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TurnosModule } from 'src/turnos/turnos.module';
     VehiculoModule,
     PresupuestoModule,
     TurnosModule,
-    HttpClientModule
+    HttpClientModule,
+    TrabajoModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}

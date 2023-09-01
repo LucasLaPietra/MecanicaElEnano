@@ -1,0 +1,90 @@
+.trabajos-page {
+  margin: 1%;
+}
+
+.trabajos-vehicle-data {
+  text-align: center;
+}
+
+.trabajos-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 2%;
+}
+
+.trabajos-table-container{
+  overflow: auto;
+}
+
+.trabajos-table{
+  width: max-content;
+  flex: 1;
+}
+
+.trabajos-fields-container{
+  display: flex;
+  gap: 10px;
+}
+
+.trabajos-button-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+  flex: .1;
+}
+
+.trabajos-properties-container {
+  display: inline-flex;
+  flex-flow: column wrap;
+  flex: 2;
+}
+
+.detalles-field{
+  width: 100%;
+}
+
+.cuotas-column{
+  display: flex;
+  flex: .5;
+}
+
+table{
+  width: 100%;
+ }
+
+.repuestos-container {
+  display: flex;
+  flex-direction: column wrap;
+  gap: 10px;
+}
+
+.repuestos-table{
+  width: 60%;
+  flex: 4 2 0;
+}
+
+.repuestos-button-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+  flex: .1 1 0;
+}
+
+.repuestos-button {
+  margin-bottom: 5px;
+}
+
+.repuestos-precios-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+  flex: .5 1 0;
+}
+
+.row-is-clicked {
+  background-color: #c3cbf9;
+  font-weight: bold;
+}

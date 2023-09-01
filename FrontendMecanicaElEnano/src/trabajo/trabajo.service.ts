@@ -10,8 +10,8 @@ export class TrabajosService {
 
   constructor(private httpClient:HttpClient) { }
 
-  public CreateTrabajo(trabajo:Trabajo): Observable<Trabajo> {
-    return this.httpClient.post<Trabajo>('https://localhost:7009/api/trabajos',trabajo)
+  public CreateTrabajo(vehiculoId:string): Observable<Trabajo> {
+    return this.httpClient.post<Trabajo>('https://localhost:7009/api/trabajos' + "?vehiculoId=" + vehiculoId, "")
   }
 
   public GetTrabajos(): Observable<Trabajo[]> {
@@ -20,7 +20,7 @@ export class TrabajosService {
 
   public GetTrabajo(id:string): Observable<Trabajo> {
     return this.httpClient.get<Trabajo>('https://localhost:7009/api/trabajos/' + id);
-  } 
+  }
 
   public UpdateTrabajo(trabajo:Trabajo): Observable<Trabajo> {
     return this.httpClient.put<Trabajo>('https://localhost:7009/api/trabajos', trabajo)

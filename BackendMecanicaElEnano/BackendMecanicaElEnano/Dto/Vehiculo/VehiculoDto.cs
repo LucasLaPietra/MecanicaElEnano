@@ -23,6 +23,8 @@ namespace BackendMecanicaElEnano.Dto
             public string Cuit { get; set; } = null!;
 
             public ICollection<PresupuestoDto> Presupuestos { get; set; }= new Collection<PresupuestoDto>();
-        
+
+            public virtual ICollection<TrabajoDto> Trabajos { get; set; } = new Collection<TrabajoDto>();
+
     }
 }

@@ -1,1 +1,280 @@
-<p>trabajo works!</p>
+<mat-drawer-container [hasBackdrop]="true" autosize>
+  <mat-drawer #drawer class="sidenav mat-primary" mode="over">
+    <div class="sidenav-button">
+      <button mat-button [routerLink]="['/vehiculos']">Vehiculos</button>
+    </div>
+    <div class="sidenav-button">
+      <button mat-button [routerLink]="['/turnos']">Turnos</button>
+    </div>
+  </mat-drawer>
+  <p>
+    <mat-toolbar color="primary">
+      <span>
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>more_vert</mat-icon></button
+        ><b>Trabajos</b> - {{ vehiculo.patente }}-{{ vehiculo.modelo }} -
+        {{ vehiculo.cliente }}-{{ vehiculo.telefono }}</span
+      >
+    </mat-toolbar>
+  </p>
+  <div class="trabajos-page">
+    <div fxLayout="row" class="trabajos-container">
+      <div class="mat-elevation-z8 trabajos-table">
+        <div style="text-align: center">
+          <h3 style="margin-bottom: 0px">Lista Trabajos</h3>
+        </div>
+        <div class="trabajos-table-container">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="fecha">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+              <td mat-cell *matCellDef="let row">
+                {{ row.fecha | date : "dd/MM/yyyy" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="km">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>KM</th>
+              <td mat-cell *matCellDef="let row">{{ row.km }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              (click)="selectTrabajo(row)"
+              [class.row-is-clicked]="row == selectedTrabajo"
+              *matRowDef="let row; columns: displayedColumns"
+            ></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No existen trabajos para el vehiculo
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Seleccionar trabajos a mostrar"
+          ></mat-paginator>
+        </div>
+      </div>
+      <div class="repuestos-button-container">
+        <button
+          *ngIf="state == 0"
+          class="repuestos-button"
+          mat-fab
+          color="primary"
+          (click)="createTrabajo()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+        <button
+          *ngIf="selectedTrabajo && state == 0"
+          class="repuestos-button"
+          mat-fab
+          color="accent"
+          (click)="updateTrabajoButton()"
+        >
+          <mat-icon>update</mat-icon>
+        </button>
+        <button
+          *ngIf="selectedTrabajo && state == 0"
+          class="repuestos-button"
+          mat-fab
+          color="accent"
+          (click)="printTrabajo()"
+        >
+          <mat-icon>print</mat-icon>
+        </button>
+        <button
+          *ngIf="selectedTrabajo && state == 0"
+          class="repuestos-button"
+          mat-fab
+          color="warn"
+          (click)="deleteTrabajo()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button
+          *ngIf="selectedTrabajo && state == 2"
+          class="repuestos-button"
+          mat-fab
+          color="accent"
+          (click)="updateTrabajo()"
+        >
+          <mat-icon>check</mat-icon>
+        </button>
+        <button
+          *ngIf="selectedTrabajo && state == 2"
+          class="repuestos-button"
+          mat-fab
+          (click)="cancelUpdateTrabajo()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="trabajos-properties-container">
+        <form [formGroup]="trabajoForm">
+          <div class="trabajos-fields-container">
+            <mat-form-field appearance="fill">
+              <mat-label>Fecha</mat-label>
+              <input
+                matInput
+                formControlName="fecha"
+                [matDatepicker]="pickerDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerDate></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>KM</mat-label>
+              <input type="text" matInput formControlName="km" />
+            </mat-form-field>
+          </div>
+          <mat-form-field class="detalles-field" appearance="fill">
+            <mat-label>Trabajos realizados</mat-label>
+            <textarea
+              matInput
+              formControlName="trabajosRealizados"
+              placeholder="Escribe una breve descripción de los trabajos realizados"
+            ></textarea>
+          </mat-form-field>
+          <mat-form-field class="detalles-field" appearance="fill">
+            <mat-label>Trabajos pendientes</mat-label>
+            <textarea
+              matInput
+              formControlName="trabajosPendientes"
+              placeholder="Escribe una breve descripción de los trabajos pendientes"
+            ></textarea>
+          </mat-form-field>
+        </form>
+      </div>
+      <div class="cuotas-column">
+        <app-cuotas [costo]="total"></app-cuotas>
+      </div>
+    </div>
+    <div class="repuestos-container">
+      <div class="mat-elevation-z8 repuestos-table">
+        <div style="text-align: center">
+          <h3 style="margin-bottom: 0px">Repuestos y mano de obra</h3>
+        </div>
+        <form [formGroup]="repuestoForm">
+          <table
+            mat-table
+            [dataSource]="dataSourceRepuestos"
+            formArrayName="repuestos"
+          >
+            <ng-container matColumnDef="cantidad">
+              <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <mat-form-field
+                  appearance="outline"
+                  [formGroup]="getFormGroup(i)"
+                >
+                  <input matInput type="number" formControlName="cantidad" />
+                </mat-form-field>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="descripcion">
+              <th mat-header-cell *matHeaderCellDef>Descripción</th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <mat-form-field
+                  appearance="outline"
+                  [formGroup]="getFormGroup(i)"
+                >
+                  <input matInput formControlName="descripcion" />
+                </mat-form-field>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="tipoTrabajo">
+              <th mat-header-cell *matHeaderCellDef>Tipo</th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <mat-form-field
+                  appearance="outline"
+                  [formGroup]="getFormGroup(i)"
+                >
+                  <mat-select formControlName="tipo">
+                    <mat-option
+                      *ngFor="let option of tipoOptions"
+                      [value]="option.value"
+                    >
+                      {{ option.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="precio">
+              <th mat-header-cell *matHeaderCellDef>Precio</th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <mat-form-field
+                  appearance="outline"
+                  [formGroup]="getFormGroup(i)"
+                >
+                  <input matInput type="number" formControlName="precio" />
+                </mat-form-field>
+              </td>
+            </ng-container>
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumnsRepuestos"
+            ></tr>
+            <tr
+              mat-row
+              (click)="selectRepuesto(row)"
+              [class.row-is-clicked]="row == selectedRepuesto"
+              *matRowDef="let row; columns: displayedColumnsRepuestos"
+            ></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No existen repuestos para el trabajo
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <div class="repuestos-button-container">
+        <button
+          *ngIf="selectedTrabajo && state == 2"
+          class="repuestos-button"
+          mat-fab
+          color="primary"
+          (click)="createRepuesto()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+        <button
+          *ngIf="selectedRepuesto && state == 2"
+          class="repuestos-button"
+          mat-fab
+          color="warn"
+          (click)="deleteRepuesto()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button
+          *ngIf="selectedTrabajo && state == 2"
+          class="repuestos-button"
+          mat-fab
+          color="accent"
+          [routerLink]="[
+            '/presupuestos',
+            vehiculo.vehiculoId,
+            selectedTrabajo.trabajoId
+          ]"
+        >
+          <mat-icon> import_export</mat-icon>
+        </button>
+      </div>
+      <div class="repuestos-precios-container">
+        <h2>Mano de obra:</h2>
+        <h3>${{ manoObraPrice }}</h3>
+        <h2>Repuestos:</h2>
+        <h3>${{ repuestosPrice }}</h3>
+        <h2>Total:</h2>
+        <h3>${{ total }}</h3>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>

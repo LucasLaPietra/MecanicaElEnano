@@ -16,6 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { RouterModule } from '@angular/router';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 
@@ -39,7 +41,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatOptionModule,
     MatSelectModule,
-    CuotasModule
+    CuotasModule,
+    RouterModule,
+    MatSidenavModule
   ],
   exports:[
     PresupuestoComponent

@@ -1,230 +1,252 @@
-<p>
-  <mat-toolbar color="primary">
-    <span>Menu Vehiculos</span>
-  </mat-toolbar>
-</p>
-<div class="vehiculos-page">
-  <mat-form-field class="buscar-input" appearance="standard">
-    <mat-label>Buscar</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Inserte texto a buscar"
-      #input
-    />
-  </mat-form-field>
+<mat-drawer-container [hasBackdrop]="true" autosize>
+  <mat-drawer #drawer class="sidenav mat-primary" mode="over">
+    <div class="sidenav-button">
+      <button mat-button [routerLink]="['/turnos']">Turnos</button>
+    </div>
+  </mat-drawer>
+  <p>
+    <mat-toolbar color="primary">
+      <span>
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        Menu Vehiculos
+      </span>
+    </mat-toolbar>
+  </p>
+  <div class="vehiculos-page">
+    <mat-form-field class="buscar-input" appearance="standard">
+      <mat-label>Buscar</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Inserte texto a buscar"
+        #input
+      />
+    </mat-form-field>
 
-  <div class="mat-elevation-z8 vehiculos-table">
-    <table #vehiculoTable mat-table [dataSource]="dataSource" matSort>
-      <ng-container matColumnDef="patente">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Patente</th>
-        <td mat-cell *matCellDef="let row">{{ row.patente }}</td>
-      </ng-container>
+    <div class="mat-elevation-z8 vehiculos-table">
+      <table #vehiculoTable mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="patente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Patente</th>
+          <td mat-cell *matCellDef="let row">{{ row.patente }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="marcaYModelo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
-        <td mat-cell *matCellDef="let row">{{ row.modelo }}</td>
-      </ng-container>
+        <ng-container matColumnDef="marcaYModelo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
+          <td mat-cell *matCellDef="let row">{{ row.modelo }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="cliente">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
-        <td mat-cell *matCellDef="let row">{{ row.cliente }}</td>
-      </ng-container>
+        <ng-container matColumnDef="cliente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+          <td mat-cell *matCellDef="let row">{{ row.cliente }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="telefono">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
-        <td mat-cell *matCellDef="let row">
-          {{ row.telefono }}
-          <button
-            mat-icon-button
-            color="accent"
-            class="button-message"
-            (click)="openWhatsapp(row.telefono)"
-          >
-            <mat-icon>message</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        (click)="selectVehicle(row)"
-        [class.row-is-clicked]="row == selectedVehicle"
-        *matRowDef="let row; columns: displayedColumns"
-      ></tr>
-
-      <!-- Row shown when there is no matching data. -->
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">
-          No existen vehiculos que coincidan con la busqueda
-        </td>
-      </tr>
-    </table>
-
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      aria-label="Seleccionar vehiculos a mostrar"
-    ></mat-paginator>
-  </div>
-
-  <mat-card>
-    <form [formGroup]="vehiculoForm">
-      <table cellspacing="0">
-        <tr>
-          <td class="form-column">
-            <h3>Datos del cliente</h3>
-            <p>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Cliente</mat-label>
-                <input matInput formControlName="cliente" />
-              </mat-form-field>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Direccion</mat-label>
-                <input matInput formControlName="direccion" />
-              </mat-form-field>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Telefono</mat-label>
-                <input matInput formControlName="telefono" />
-              </mat-form-field>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>CUIT</mat-label>
-                <input matInput formControlName="cuit" />
-                <mat-error
-                  *ngIf="vehiculoForm.controls['cuit'].hasError('maxlength')"
-                >
-                  El CUIT no puede contener mas de 11 caracteres
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Mail</mat-label>
-                <input type="email" matInput formControlName="mail" />
-                <mat-error
-                  *ngIf="vehiculoForm.controls['mail'].hasError('email')"
-                >
-                  El email no es valido
-                </mat-error>
-              </mat-form-field>
-            </p>
+        <ng-container matColumnDef="telefono">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.telefono }}
+            <button
+              mat-icon-button
+              color="accent"
+              class="button-message"
+              (click)="openWhatsapp(row.telefono)"
+            >
+              <mat-icon>message</mat-icon>
+            </button>
           </td>
-          <td class="form-column">
-            <h3>Datos del vehiculo</h3>
-            <p>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Patente</mat-label>
-                <input matInput formControlName="patente" />
-                <mat-error
-                  *ngIf="vehiculoForm.controls['patente'].hasError('maxlength')"
-                >
-                  La patente no puede contener mas de 7 caracteres
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Marca y modelo</mat-label>
-                <input matInput formControlName="modelo" />
-              </mat-form-field>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Numero de chasis</mat-label>
-                <input matInput formControlName="numeroChasis" />
-                <mat-error
-                  *ngIf="
-                    vehiculoForm.controls['numeroChasis'].hasError('maxlength')
-                  "
-                >
-                  El numero de chasis no puede contener mas de 17 caracteres
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>Numero de motor</mat-label>
-                <input matInput formControlName="numeroMotor" />
-                <mat-error
-                  *ngIf="
-                    vehiculoForm.controls['numeroMotor'].hasError('maxlength')
-                  "
-                >
-                  El numero de chasis no puede contener mas de 17 caracteres
-                </mat-error>
-              </mat-form-field>
-            </p>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          (click)="selectVehicle(row)"
+          [class.row-is-clicked]="row == selectedVehicle"
+          *matRowDef="let row; columns: displayedColumns"
+        ></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">
+            No existen vehiculos que coincidan con la busqueda
           </td>
         </tr>
       </table>
-    </form>
-    <mat-divider inset></mat-divider>
-    <mat-card-actions align="end">
-      <button
-        *ngIf="state == 0"
-        mat-stroked-button
-        (click)="createVehicleButton()"
-      >
-        Nuevo
-      </button>
-      <button
-        *ngIf="state == 1"
-        mat-raised-button
-        color="primary"
-        [disabled]="!vehiculoForm.valid"
-        type="submit"
-        (click)="createVehicle()"
-      >
-        Crear vehiculo
-      </button>
-      <button
-        *ngIf="state == 1"
-        mat-stroked-button
-        color="warn"
-        (click)="cancelCreateVehicle()"
-      >
-        Cancelar
-      </button>
-      <button
-        *ngIf="state == 0 && selectedVehicle"
-        mat-stroked-button
-        (click)="updateVehicleButton()"
-      >
-        Actualizar
-      </button>
-      <button
-        *ngIf="state == 2"
-        mat-raised-button
-        color="primary"
-        [disabled]="!vehiculoForm.valid || compareSelectedtoForm()"
-        type="submit"
-        (click)="updateVehicle()"
-      >
-        Guardar cambios
-      </button>
-      <button
-        *ngIf="state == 2"
-        mat-stroked-button
-        color="warn"
-        (click)="cancelUpdateVehicle()"
-      >
-        Cancelar
-      </button>
-      <button
-        *ngIf="state == 0 && selectedVehicle"
-        mat-stroked-button
-        color="warn"
-        (click)="deleteVehicle()"
-      >
-        Eliminar
-      </button>
-    </mat-card-actions>
-    <mat-card-actions *ngIf="selectedVehicle" align="end">
-      <button
-        *ngIf="date"
-        mat-raised-button
-        [routerLink]="['/turnos', date, selectedVehicle.vehiculoId]"
-      >
-        Crear turno
-      </button>
-      <button
-        mat-raised-button
-        [routerLink]="['/presupuestos', selectedVehicle.vehiculoId]"
-      >
-        Presupuesto
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</div>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Seleccionar vehiculos a mostrar"
+      ></mat-paginator>
+    </div>
+
+    <mat-card>
+      <form [formGroup]="vehiculoForm">
+        <table cellspacing="0">
+          <tr>
+            <td class="form-column">
+              <h3>Datos del cliente</h3>
+              <p>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Cliente</mat-label>
+                  <input matInput formControlName="cliente" />
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Direccion</mat-label>
+                  <input matInput formControlName="direccion" />
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Telefono</mat-label>
+                  <input matInput formControlName="telefono" />
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>CUIT</mat-label>
+                  <input matInput formControlName="cuit" />
+                  <mat-error
+                    *ngIf="vehiculoForm.controls['cuit'].hasError('maxlength')"
+                  >
+                    El CUIT no puede contener mas de 11 caracteres
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Mail</mat-label>
+                  <input type="email" matInput formControlName="mail" />
+                  <mat-error
+                    *ngIf="vehiculoForm.controls['mail'].hasError('email')"
+                  >
+                    El email no es valido
+                  </mat-error>
+                </mat-form-field>
+              </p>
+            </td>
+            <td class="form-column">
+              <h3>Datos del vehiculo</h3>
+              <p>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Patente</mat-label>
+                  <input matInput formControlName="patente" />
+                  <mat-error
+                    *ngIf="
+                      vehiculoForm.controls['patente'].hasError('maxlength')
+                    "
+                  >
+                    La patente no puede contener mas de 7 caracteres
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Marca y modelo</mat-label>
+                  <input matInput formControlName="modelo" />
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Numero de chasis</mat-label>
+                  <input matInput formControlName="numeroChasis" />
+                  <mat-error
+                    *ngIf="
+                      vehiculoForm.controls['numeroChasis'].hasError(
+                        'maxlength'
+                      )
+                    "
+                  >
+                    El numero de chasis no puede contener mas de 17 caracteres
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Numero de motor</mat-label>
+                  <input matInput formControlName="numeroMotor" />
+                  <mat-error
+                    *ngIf="
+                      vehiculoForm.controls['numeroMotor'].hasError('maxlength')
+                    "
+                  >
+                    El numero de chasis no puede contener mas de 17 caracteres
+                  </mat-error>
+                </mat-form-field>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </form>
+      <mat-divider inset></mat-divider>
+      <mat-card-actions align="end">
+        <button
+          *ngIf="state == 0"
+          mat-stroked-button
+          (click)="createVehicleButton()"
+        >
+          Nuevo
+        </button>
+        <button
+          *ngIf="state == 1"
+          mat-raised-button
+          color="primary"
+          [disabled]="!vehiculoForm.valid"
+          type="submit"
+          (click)="createVehicle()"
+        >
+          Crear vehiculo
+        </button>
+        <button
+          *ngIf="state == 1"
+          mat-stroked-button
+          color="warn"
+          (click)="cancelCreateVehicle()"
+        >
+          Cancelar
+        </button>
+        <button
+          *ngIf="state == 0 && selectedVehicle"
+          mat-stroked-button
+          (click)="updateVehicleButton()"
+        >
+          Actualizar
+        </button>
+        <button
+          *ngIf="state == 2"
+          mat-raised-button
+          color="primary"
+          [disabled]="!vehiculoForm.valid || compareSelectedtoForm()"
+          type="submit"
+          (click)="updateVehicle()"
+        >
+          Guardar cambios
+        </button>
+        <button
+          *ngIf="state == 2"
+          mat-stroked-button
+          color="warn"
+          (click)="cancelUpdateVehicle()"
+        >
+          Cancelar
+        </button>
+        <button
+          *ngIf="state == 0 && selectedVehicle"
+          mat-stroked-button
+          color="warn"
+          (click)="deleteVehicle()"
+        >
+          Eliminar
+        </button>
+      </mat-card-actions>
+      <mat-card-actions *ngIf="selectedVehicle" align="end">
+        <button
+          *ngIf="date"
+          mat-raised-button
+          [routerLink]="['/turnos', date, selectedVehicle.vehiculoId]"
+        >
+          Crear turno
+        </button>
+        <button
+          mat-raised-button
+          [routerLink]="['/presupuestos', selectedVehicle.vehiculoId]"
+        >
+          Presupuestos
+        </button>
+        <button
+          mat-raised-button
+          [routerLink]="['/trabajos', selectedVehicle.vehiculoId]"
+        >
+          Trabajos
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</mat-drawer-container>

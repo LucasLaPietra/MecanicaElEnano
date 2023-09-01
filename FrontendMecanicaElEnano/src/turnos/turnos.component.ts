@@ -137,9 +137,9 @@ export class TurnosComponent implements AfterViewInit {
   createTurno(){
     let completeDate: Date = this.selectedDate;
     const parts = this.timeFormControl.value!.split(":");
-    completeDate.setHours(parseInt(parts[0], 10));
-    completeDate.setMinutes(parseInt(parts[1], 10));
-    completeDate.setSeconds(0)
+    completeDate.setUTCHours(parseInt(parts[0], 10));
+    completeDate.setUTCMinutes(parseInt(parts[1], 10));
+    completeDate.setUTCSeconds(0)
     console.log(completeDate);
     const turnoACrear: CreateTurno = {
       detalle : this.detalleFormControl.value!,
@@ -172,9 +172,9 @@ export class TurnosComponent implements AfterViewInit {
       turnoActualizado.detalle = this.detalleFormControl.value?this.detalleFormControl.value:""
       let completeDate: Date = new Date(this.selectedTurno.fechayHora);
       const parts = this.timeFormControl.value!.split(":");
-      completeDate.setHours(parseInt(parts[0], 10));
-      completeDate.setMinutes(parseInt(parts[1], 10));
-      completeDate.setSeconds(0)
+      completeDate.setUTCHours(parseInt(parts[0], 10));
+      completeDate.setUTCMinutes(parseInt(parts[1], 10));
+      completeDate.setUTCSeconds(0)
       turnoActualizado.fechayHora = completeDate;
       this.turnoService.UpdateTurno(turnoActualizado).subscribe(turno => {
         this.dataSource.data[indexOfObject] = turno;

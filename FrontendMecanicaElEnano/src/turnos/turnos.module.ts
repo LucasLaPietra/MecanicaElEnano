@@ -16,6 +16,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 
@@ -41,6 +42,7 @@ import { RouterModule } from '@angular/router';
     MatSelectModule,
     MatCardModule,
     RouterModule,
+    MatSidenavModule
   ],
   exports:[
     TurnosComponent

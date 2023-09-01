@@ -57,5 +57,7 @@ namespace BackendMecanicaElEnano.Models
 
         public virtual ICollection<Presupuesto> Presupuestos { get; set; } = new Collection<Presupuesto>();
 
+        public virtual ICollection<Trabajo> Trabajos { get; set; } = new Collection<Trabajo>();
+
     }
 }

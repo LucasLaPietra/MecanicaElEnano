@@ -11,6 +11,7 @@ export interface Vehiculo
     numeroChasis: string,
     cuit: string
     presupuestos: Presupuesto[]
+    trabajos: Trabajo[]
 }
 
 export interface Turno
@@ -29,7 +30,7 @@ export interface Trabajo
     trabajosRealizados: string,
     trabajosPendientes: string,
     vehiculoId: string
-    repuestos: RepuestoTrabajo[]
+    repuestos: Repuesto[]
 }
 
 export interface Presupuesto
@@ -46,15 +47,6 @@ export interface Presupuesto
 export interface Repuesto
 {
     repuestoId?: string,
-    cantidad: number,
-    descripcion: string,
-    precio: number,
-    tipo: number,
-}
-
-export interface RepuestoTrabajo
-{
-    repuestoTrabajoId?: string,
     cantidad: number,
     descripcion: string,
     precio: number,
