@@ -1,0 +1,2 @@
+cd BackendMecanicaElEnano\BackendMecanicaElEnano
+dotnet run environment=development
