@@ -146,13 +146,22 @@ export class TurnosComponent implements AfterViewInit {
       fechayHora: completeDate,
       vehiculoId: this.route.snapshot.paramMap.get('id')!,
     }
+    const turnoNuevo: Turno = {
+      turnoId: "",
+      detalle : this.detalleFormControl.value!,
+      fechayHora: completeDate,
+      vehiculo: this.selectedVehiculo!
+    }
     this.turnoService.CreateTurno(turnoACrear)
     .subscribe(turno => {
-      this.dataSource.data.push(turno);
+      completeDate.setHours(parseInt(parts[0], 10));
+      completeDate.setMinutes(parseInt(parts[1], 10));
+      completeDate.setSeconds(0)
+      turnoNuevo.fechayHora=completeDate
+      this.dataSource.data.push(turnoNuevo);
+      this.turnoTable.renderRows();
+      this.dataSource._updateChangeSubscription();
     });
-    this.turnoTable.renderRows();
-    this.dataSource._updateChangeSubscription();
-    console.log(this.dataSource.data);
     this.state=state.viewing;
     this.detalleFormControl.disable();
     this.timeFormControl.disable();
@@ -177,6 +186,10 @@ export class TurnosComponent implements AfterViewInit {
       completeDate.setUTCSeconds(0)
       turnoActualizado.fechayHora = completeDate;
       this.turnoService.UpdateTurno(turnoActualizado).subscribe(turno => {
+        completeDate.setHours(parseInt(parts[0], 10));
+        completeDate.setMinutes(parseInt(parts[1], 10));
+        completeDate.setSeconds(0)
+        turno.fechayHora=completeDate
         this.dataSource.data[indexOfObject] = turno;
       });
       this.turnoTable.renderRows();
