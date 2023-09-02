@@ -1,0 +1,156 @@
+<mat-drawer-container [hasBackdrop]="true" autosize>
+    <mat-drawer #drawer class="sidenav mat-primary" mode="over">
+      <div class="sidenav-button">
+        <button mat-button [routerLink]="['/vehiculos']">Vehiculos</button>
+      </div>
+      <div class="sidenav-button">
+        <button mat-button [routerLink]="['/turnos']">Turnos</button>
+      </div>
+    </mat-drawer>
+    <p>
+      <mat-toolbar color="primary">
+        <span>
+          <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>more_vert</mat-icon></button
+          ><b>Ordenes de Trabajo</b> - {{ vehiculo.patente }}-{{ vehiculo.modelo }} -
+          {{ vehiculo.cliente }}-{{ vehiculo.telefono }}</span
+        >
+      </mat-toolbar>
+    </p>
+    <div class="ordenOrdenTrabajos-page">
+      <div fxLayout="row" class="ordenOrdenTrabajos-container">
+        <div class="mat-elevation-z8 ordenOrdenTrabajos-table">
+          <div style="text-align: center">
+            <h3 style="margin-bottom: 0px">Lista OrdenTrabajos</h3>
+          </div>
+          <div class="ordenOrdenTrabajos-table-container">
+            <table mat-table [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+                <td mat-cell *matCellDef="let row">
+                  {{ row.fecha | date : "dd/MM/yyyy" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="km">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>KM</th>
+                <td mat-cell *matCellDef="let row">{{ row.km }}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr
+                mat-row
+                (click)="selectOrdenTrabajo(row)"
+                [class.row-is-clicked]="row == selectedOrdenTrabajo"
+                *matRowDef="let row; columns: displayedColumns"
+              ></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">
+                  No existen ordenOrdenTrabajos para el vehiculo
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div>
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Seleccionar ordenOrdenTrabajos a mostrar"
+            ></mat-paginator>
+          </div>
+        </div>
+        <div class="repuestos-button-container">
+          <button
+            *ngIf="state == 0"
+            class="repuestos-button"
+            mat-fab
+            color="primary"
+            (click)="createOrdenTrabajo()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+          <button
+            *ngIf="selectedOrdenTrabajo && state == 0"
+            class="repuestos-button"
+            mat-fab
+            color="accent"
+            (click)="updateOrdenTrabajoButton()"
+          >
+            <mat-icon>update</mat-icon>
+          </button>
+          <button
+            *ngIf="selectedOrdenTrabajo && state == 0"
+            class="repuestos-button"
+            mat-fab
+            color="accent"
+            (click)="printOrdenTrabajo()"
+          >
+            <mat-icon>print</mat-icon>
+          </button>
+          <button
+            *ngIf="selectedOrdenTrabajo && state == 0"
+            class="repuestos-button"
+            mat-fab
+            color="warn"
+            (click)="deleteOrdenTrabajo()"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button
+            *ngIf="selectedOrdenTrabajo && state == 2"
+            class="repuestos-button"
+            mat-fab
+            color="accent"
+            (click)="updateOrdenTrabajo()"
+          >
+            <mat-icon>check</mat-icon>
+          </button>
+          <button
+            *ngIf="selectedOrdenTrabajo && state == 2"
+            class="repuestos-button"
+            mat-fab
+            (click)="cancelUpdateOrdenTrabajo()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="ordenOrdenTrabajos-properties-container">
+          <form [formGroup]="ordenTrabajoForm">
+            <div class="ordenOrdenTrabajos-fields-container">
+              <mat-form-field appearance="fill">
+                <mat-label>Fecha</mat-label>
+                <input
+                  matInput
+                  formControlName="fecha"
+                  [matDatepicker]="pickerDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerDate"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerDate></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>KM</mat-label>
+                <input type="text" matInput formControlName="km" />
+              </mat-form-field>
+            </div>
+            <mat-form-field class="detalles-field" appearance="fill">
+              <mat-label>Manifiesto</mat-label>
+              <textarea
+                matInput
+                formControlName="manifiesto"
+                placeholder="Escribe una breve descripción de los trabajos a realizar"
+              ></textarea>
+            </mat-form-field>
+            <mat-form-field class="mecanico-field" appearance="fill">
+              <mat-label>mecanico</mat-label>
+              <input 
+                type="text"
+                matInput
+                formControlName="mecanico"
+              >
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+    </div>
+  </mat-drawer-container>
+  

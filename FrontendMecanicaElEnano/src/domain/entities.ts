@@ -12,6 +12,7 @@ export interface Vehiculo
     cuit: string
     presupuestos: Presupuesto[]
     trabajos: Trabajo[]
+    ordenTrabajos: OrdenTrabajo[]
 }
 
 export interface Turno
@@ -31,6 +32,16 @@ export interface Trabajo
     trabajosPendientes: string,
     vehiculoId: string
     repuestos: Repuesto[]
+}
+
+export interface OrdenTrabajo
+{
+    ordenTrabajoId: string,
+    fecha: Date,
+    km: string,
+    manifiesto: string,
+    mecanico: string,
+    vehiculoId: string
 }
 
 export interface Presupuesto
