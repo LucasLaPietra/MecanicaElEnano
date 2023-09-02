@@ -26,5 +26,7 @@ namespace BackendMecanicaElEnano.Dto
 
             public virtual ICollection<TrabajoDto> Trabajos { get; set; } = new Collection<TrabajoDto>();
 
+            public virtual ICollection<OrdenTrabajoDto> OrdenTrabajos { get; set; } = new Collection<OrdenTrabajoDto>();
+
     }
 }
