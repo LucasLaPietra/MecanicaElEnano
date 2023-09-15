@@ -79,22 +79,30 @@ export class OrdenTrabajoComponent implements AfterViewInit {
         this.dataSource.data = vehiculo.ordenTrabajos;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      });
-    this.ordenTrabajoForm.disable();
-    if (this.route.snapshot.paramMap.get('idOrdenTrabajo')) {
-      this.ordenTrabajoService
-        .GetOrdenTrabajo(this.route.snapshot.paramMap.get('idOrdenTrabajo')!)
-        .subscribe((t) => {
-          this.selectOrdenTrabajo(t);
-          this.updateOrdenTrabajoButton();
-          this.presupuestoService
-            .GetPresupuesto(this.route.snapshot.paramMap.get('idPresupuesto')!)
-            .subscribe((p) => {
-              this.presupuesto = p;
+        this.ordenTrabajoForm.disable();
+        if (this.route.snapshot.paramMap.get('idOrdenTrabajo')) {
+          this.ordenTrabajoService
+            .GetOrdenTrabajo(
+              this.route.snapshot.paramMap.get('idOrdenTrabajo')!
+            )
+            .subscribe((t) => {
+              this.selectOrdenTrabajo(t);
+              this.updateOrdenTrabajoButton();
+              this.presupuestoService
+                .GetPresupuesto(
+                  this.route.snapshot.paramMap.get('idPresupuesto')!
+                )
+                .subscribe((p) => {
+                  this.presupuesto = p;
+                  this.updateFormFromPresupuesto(this.presupuesto);
+                });
             });
-          console.log(this.presupuesto);
-        });
-    }
+        } else {
+          if (this.route.snapshot.paramMap.get('idPresupuesto')) {
+            this.createOrdenTrabajoFromPresupuesto();
+          }
+        }
+      });
   }
 
   selectOrdenTrabajo(row: OrdenTrabajo) {
@@ -144,9 +152,39 @@ export class OrdenTrabajoComponent implements AfterViewInit {
     this.ordenTrabajoForm.disable();
   }
 
+  createOrdenTrabajoFromPresupuesto() {
+    this.ordenTrabajoService
+      .CreateOrdenTrabajo(this.route.snapshot.paramMap.get('id')!)
+      .subscribe((ordenTrabajo) => {
+        this.dataSource.data.push(ordenTrabajo);
+        this.dataSource._updateChangeSubscription();
+        this.selectOrdenTrabajo(ordenTrabajo);
+        this.updateOrdenTrabajoButton();
+        this.presupuestoService
+          .GetPresupuesto(this.route.snapshot.paramMap.get('idPresupuesto')!)
+          .subscribe((p) => {
+            this.presupuesto = p;
+            this.updateFormFromPresupuesto(this.presupuesto);
+          });
+      });
+  }
+
+  updateFormFromPresupuesto(presupuesto: Presupuesto) {
+    let manifiestoValue = `${this.ordenTrabajoForm.value.manifiesto}\n`;
+    presupuesto.repuestos.forEach((repuesto) => {
+      manifiestoValue += `- ${repuesto.descripcion}\n`;
+    });
+    this.ordenTrabajoForm.patchValue({
+      km: presupuesto.km,
+      manifiesto: manifiestoValue,
+    });
+  }
+
   updateOrdenTrabajo() {
     if (this.selectedOrdenTrabajo) {
-      const indexOfObject = this.dataSource.data.indexOf(this.selectedOrdenTrabajo);
+      const indexOfObject = this.dataSource.data.indexOf(
+        this.selectedOrdenTrabajo
+      );
       let ordenTrabajoActualizado: OrdenTrabajo = this.selectedOrdenTrabajo;
       ordenTrabajoActualizado.fecha = this.ordenTrabajoForm.value.fecha as Date;
       ordenTrabajoActualizado.km = this.ordenTrabajoForm.value.km as string;

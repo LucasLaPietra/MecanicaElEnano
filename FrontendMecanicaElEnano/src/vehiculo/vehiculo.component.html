@@ -246,6 +246,12 @@
         >
           Trabajos
         </button>
+        <button
+        mat-raised-button
+        [routerLink]="['/ordentrabajos', selectedVehicle.vehiculoId]"
+      >
+        Ordenes de trabajo
+      </button>
       </mat-card-actions>
     </mat-card>
   </div>

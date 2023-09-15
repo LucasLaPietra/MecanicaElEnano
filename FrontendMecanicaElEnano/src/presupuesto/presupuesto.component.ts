@@ -22,6 +22,8 @@ export class PresupuestoComponent implements AfterViewInit {
 
   trabajoId: String | undefined;
 
+  ordenTrabajoId: String | undefined;
+
   presupuestoForm = new FormGroup({
     fecha: new FormControl(new Date(), Validators.required),
     validoHasta: new FormControl(new Date(), Validators.required),
@@ -78,6 +80,9 @@ export class PresupuestoComponent implements AfterViewInit {
     this.repuestoForm.disable();
     if (this.route.snapshot.paramMap.get('idTrabajo')){
       this.trabajoId = this.route.snapshot.paramMap.get('idTrabajo')!;
+    }
+    if (this.route.snapshot.paramMap.get('idOrdenTrabajo')){
+      this.ordenTrabajoId = this.route.snapshot.paramMap.get('idOrdenTrabajo')!;
     }
   }
 

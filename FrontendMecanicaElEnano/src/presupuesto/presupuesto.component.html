@@ -96,6 +96,33 @@
           <mat-icon>print</mat-icon>
         </button>
         <button
+          *ngIf="selectedPresupuesto && state == 0 && !ordenTrabajoId"
+          class="repuestos-button"
+          mat-fab
+          color="accent"
+          [routerLink]="[
+          '/ordentrabajos',
+          vehiculo.vehiculoId,
+          selectedPresupuesto.presupuestoId]
+          "
+        >
+          <mat-icon>event_note</mat-icon>
+        </button>
+        <button
+          *ngIf="selectedPresupuesto && state == 0 && ordenTrabajoId"
+          class="repuestos-button"
+          mat-fab
+          color="accent"
+          [routerLink]="[
+          '/ordentrabajos',
+          vehiculo.vehiculoId,
+          selectedPresupuesto.presupuestoId,
+          ordenTrabajoId]
+          "
+        >
+          <mat-icon>event_note</mat-icon>
+        </button>
+        <button
           *ngIf="selectedPresupuesto && state == 0"
           class="repuestos-button"
           mat-fab

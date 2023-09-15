@@ -17,13 +17,13 @@
         >
       </mat-toolbar>
     </p>
-    <div class="ordenOrdenTrabajos-page">
-      <div fxLayout="row" class="ordenOrdenTrabajos-container">
-        <div class="mat-elevation-z8 ordenOrdenTrabajos-table">
+    <div class="ordenTrabajos-page">
+      <div fxLayout="row" class="ordenTrabajos-container">
+        <div class="mat-elevation-z8 ordenTrabajos-table">
           <div style="text-align: center">
             <h3 style="margin-bottom: 0px">Lista OrdenTrabajos</h3>
           </div>
-          <div class="ordenOrdenTrabajos-table-container">
+          <div class="ordenTrabajos-table-container">
             <table mat-table [dataSource]="dataSource" matSort>
               <ng-container matColumnDef="fecha">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
@@ -44,7 +44,7 @@
               ></tr>
               <tr class="mat-row" *matNoDataRow>
                 <td class="mat-cell" colspan="4">
-                  No existen ordenOrdenTrabajos para el vehiculo
+                  No existen ordenes de trabajo para el vehiculo
                 </td>
               </tr>
             </table>
@@ -52,7 +52,7 @@
           <div>
             <mat-paginator
               [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Seleccionar ordenOrdenTrabajos a mostrar"
+              aria-label="Seleccionar ordenes de trabajo a mostrar"
             ></mat-paginator>
           </div>
         </div>
@@ -103,6 +103,20 @@
             <mat-icon>check</mat-icon>
           </button>
           <button
+          *ngIf="selectedOrdenTrabajo && state == 2"
+          class="repuestos-button"
+          mat-fab
+          color="accent"
+          (click)="updateOrdenTrabajo()"
+          [routerLink]="[
+            '/presupuestos/ordenTrabajo/',
+            vehiculo.vehiculoId,
+            selectedOrdenTrabajo.ordenTrabajoId
+          ]"
+        >
+          <mat-icon> import_export</mat-icon>
+        </button>
+          <button
             *ngIf="selectedOrdenTrabajo && state == 2"
             class="repuestos-button"
             mat-fab
@@ -111,9 +125,9 @@
             <mat-icon>close</mat-icon>
           </button>
         </div>
-        <div class="ordenOrdenTrabajos-properties-container">
+        <div class="ordenTrabajos-properties-container">
           <form [formGroup]="ordenTrabajoForm">
-            <div class="ordenOrdenTrabajos-fields-container">
+            <div class="ordenTrabajos-fields-container">
               <mat-form-field appearance="fill">
                 <mat-label>Fecha</mat-label>
                 <input
@@ -136,13 +150,16 @@
               <mat-label>Manifiesto</mat-label>
               <textarea
                 matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="10"
+                cdkAutosizeMaxRows="20"
                 formControlName="manifiesto"
                 placeholder="Escribe una breve descripción de los trabajos a realizar"
               ></textarea>
             </mat-form-field>
             <mat-form-field class="mecanico-field" appearance="fill">
               <mat-label>mecanico</mat-label>
-              <input 
+              <input
                 type="text"
                 matInput
                 formControlName="mecanico"
@@ -153,4 +170,3 @@
       </div>
     </div>
   </mat-drawer-container>
-  

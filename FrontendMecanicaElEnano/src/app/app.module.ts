@@ -10,6 +10,7 @@ import { PresupuestoModule } from 'src/presupuesto/presupuesto.module';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { TurnosModule } from 'src/turnos/turnos.module';
 import { TrabajoModule } from 'src/trabajo/trabajo.module';
+import { OrdenTrabajoModule } from 'src/orden-trabajo/orden-trabajo.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { TrabajoModule } from 'src/trabajo/trabajo.module';
     PresupuestoModule,
     TurnosModule,
     HttpClientModule,
-    TrabajoModule
+    TrabajoModule,
+    OrdenTrabajoModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}
