@@ -123,7 +123,7 @@
               <p>
                 <mat-form-field class="example-full-width" appearance="fill">
                   <mat-label>Patente</mat-label>
-                  <input matInput formControlName="patente" />
+                  <input matInput oninput="this.value = this.value.toUpperCase()" formControlName="patente" />
                   <mat-error
                     *ngIf="
                       vehiculoForm.controls['patente'].hasError('maxlength')

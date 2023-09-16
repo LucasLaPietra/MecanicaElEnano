@@ -64,6 +64,15 @@
             <mat-icon>update</mat-icon>
           </button>
           <button
+          *ngIf="selectedTurno && state == 0"
+          class="turnos-button"
+          mat-fab
+          color="accent"
+          [routerLink]="['/ordentrabajos', selectedTurno.vehiculo.vehiculoId]"
+        >
+          <mat-icon>event_note</mat-icon>
+        </button>
+          <button
             *ngIf="selectedTurno && state == 0"
             class="turnos-button"
             mat-fab
