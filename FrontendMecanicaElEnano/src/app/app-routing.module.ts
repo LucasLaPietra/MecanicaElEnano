@@ -7,7 +7,6 @@ import { TurnosComponent } from 'src/turnos/turnos.component';
 import { VehiculoComponent } from 'src/vehiculo/vehiculo.component';
 
 const routes: Routes = [
-  { path: '*', component: TurnosComponent },
   { path: 'presupuestos/:id', component: PresupuestoComponent },
   { path: 'presupuestos/:id/:idTrabajo', component: PresupuestoComponent },
   { path: 'presupuestos/ordenTrabajo/:id/:idOrdenTrabajo', component: PresupuestoComponent },
@@ -20,6 +19,7 @@ const routes: Routes = [
   { path: 'vehiculos', component: VehiculoComponent },
   { path: 'turnos/:date/:id', component: TurnosComponent },
   { path: 'vehiculos/:date', component: VehiculoComponent },
+  { path: '**', component: TurnosComponent },
 ];
 
 @NgModule({

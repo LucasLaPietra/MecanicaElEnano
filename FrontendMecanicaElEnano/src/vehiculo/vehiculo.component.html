@@ -15,6 +15,8 @@
     </mat-toolbar>
   </p>
   <div class="vehiculos-page">
+    <div class="column-left">
+      <div class="row">
     <mat-form-field class="buscar-input" appearance="standard">
       <mat-label>Buscar</mat-label>
       <input
@@ -78,6 +80,122 @@
         aria-label="Seleccionar vehiculos a mostrar"
       ></mat-paginator>
     </div>
+      </div>
+    </div>
+    <div class="vehiculo-button-column">
+        <button
+          *ngIf="state == 0"
+          mat-fab
+          class="vehiculo-button"
+          color="primary"
+          (click)="createVehicleButton()"
+        >
+        <mat-icon>add</mat-icon>
+        </button>
+        <button
+          *ngIf="state == 1"
+          class="vehiculo-button"
+          mat-fab
+          color="accent"
+          [disabled]="!vehiculoForm.valid"
+          type="submit"
+          (click)="createVehicle()"
+        >
+        <mat-icon>check</mat-icon>
+        </button>
+        <button
+          *ngIf="state == 1"
+          class="vehiculo-button"
+          mat-fab
+          (click)="cancelCreateVehicle()"
+        >
+        <mat-icon>close</mat-icon>
+        </button>
+        <button
+          *ngIf="state == 0 && selectedVehicle"
+          class="vehiculo-button"
+          mat-fab
+          color="accent"
+          (click)="updateVehicleButton()"
+        >
+        <mat-icon>update</mat-icon>
+        </button>
+        <button
+          *ngIf="state == 2"
+          class="vehiculo-button"
+          mat-fab
+          color="accent"
+          [disabled]="!vehiculoForm.valid || compareSelectedtoForm()"
+          type="submit"
+          (click)="updateVehicle()"
+        >
+        <mat-icon>check</mat-icon>
+        </button>
+        <button
+          *ngIf="state == 2"
+          class="vehiculo-button"
+          mat-fab
+          (click)="cancelUpdateVehicle()"
+        >
+        <mat-icon>close</mat-icon>
+        </button>
+        <button
+          *ngIf="state == 0 && selectedVehicle"
+          class="last-vehiculo-button"
+          mat-fab
+          color="warn"
+          (click)="deleteVehicle()"
+        >
+        <mat-icon>delete</mat-icon>
+        </button>
+        <button
+          *ngIf="state == 0 && date && selectedVehicle"
+          class="vehiculo-button"
+          matTooltip="crear turno"
+          matTooltipShowDelay="1000"
+          matTooltipPosition="right"
+        mat-fab
+        color="accent"
+          [routerLink]="['/turnos', date, selectedVehicle.vehiculoId]"
+        >
+        <mat-icon>calendar_today</mat-icon>
+        </button>
+        <button  *ngIf="state == 0 && selectedVehicle"
+        class="vehiculo-button"
+        matTooltip="presupuestos"
+        matTooltipShowDelay="1000"
+        matTooltipPosition="right"
+        mat-fab
+        color="accent"
+          [routerLink]="['/presupuestos', selectedVehicle.vehiculoId]"
+        >
+        <mat-icon>event_note</mat-icon>
+        </button>
+        <button  *ngIf="state == 0 && selectedVehicle"
+        class="vehiculo-button"
+        matTooltip="trabajos"
+        matTooltipShowDelay="1000"
+        matTooltipPosition="right"
+        mat-fab
+        color="accent"
+          [routerLink]="['/trabajos', selectedVehicle.vehiculoId]"
+        >
+        <mat-icon>build</mat-icon>
+        </button>
+        <button  *ngIf="state == 0 && selectedVehicle"
+        class="vehiculo-button"
+        matTooltip="Ordenes de trabajo"
+        matTooltipShowDelay="1000"
+        matTooltipPosition="right"
+          mat-fab
+          color="accent"
+        [routerLink]="['/ordentrabajos', selectedVehicle.vehiculoId]"
+      >
+      <mat-icon>assignment</mat-icon>
+      </button>
+    </div>
+    <div class="column">
+      <div class="row">
 
     <mat-card>
       <form [formGroup]="vehiculoForm">
@@ -165,94 +283,9 @@
           </tr>
         </table>
       </form>
-      <mat-divider inset></mat-divider>
-      <mat-card-actions align="end">
-        <button
-          *ngIf="state == 0"
-          mat-stroked-button
-          (click)="createVehicleButton()"
-        >
-          Nuevo
-        </button>
-        <button
-          *ngIf="state == 1"
-          mat-raised-button
-          color="primary"
-          [disabled]="!vehiculoForm.valid"
-          type="submit"
-          (click)="createVehicle()"
-        >
-          Crear vehiculo
-        </button>
-        <button
-          *ngIf="state == 1"
-          mat-stroked-button
-          color="warn"
-          (click)="cancelCreateVehicle()"
-        >
-          Cancelar
-        </button>
-        <button
-          *ngIf="state == 0 && selectedVehicle"
-          mat-stroked-button
-          (click)="updateVehicleButton()"
-        >
-          Actualizar
-        </button>
-        <button
-          *ngIf="state == 2"
-          mat-raised-button
-          color="primary"
-          [disabled]="!vehiculoForm.valid || compareSelectedtoForm()"
-          type="submit"
-          (click)="updateVehicle()"
-        >
-          Guardar cambios
-        </button>
-        <button
-          *ngIf="state == 2"
-          mat-stroked-button
-          color="warn"
-          (click)="cancelUpdateVehicle()"
-        >
-          Cancelar
-        </button>
-        <button
-          *ngIf="state == 0 && selectedVehicle"
-          mat-stroked-button
-          color="warn"
-          (click)="deleteVehicle()"
-        >
-          Eliminar
-        </button>
-      </mat-card-actions>
-      <mat-card-actions *ngIf="selectedVehicle" align="end">
-        <button
-          *ngIf="date"
-          mat-raised-button
-          [routerLink]="['/turnos', date, selectedVehicle.vehiculoId]"
-        >
-          Crear turno
-        </button>
-        <button
-          mat-raised-button
-          [routerLink]="['/presupuestos', selectedVehicle.vehiculoId]"
-        >
-          Presupuestos
-        </button>
-        <button
-          mat-raised-button
-          [routerLink]="['/trabajos', selectedVehicle.vehiculoId]"
-        >
-          Trabajos
-        </button>
-        <button
-        mat-raised-button
-        [routerLink]="['/ordentrabajos', selectedVehicle.vehiculoId]"
-      >
-        Ordenes de trabajo
-      </button>
-      </mat-card-actions>
     </mat-card>
   </div>
+</div>
+</div>
 </mat-drawer-container>
+

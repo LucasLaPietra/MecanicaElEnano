@@ -121,7 +121,6 @@ export class TrabajoComponent implements AfterViewInit {
               this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(
                 this.repuestoForm.controls['repuestos'].value
               );
-              console.log(this.dataSourceRepuestos);
             });
           console.log(this.presupuesto);
         });

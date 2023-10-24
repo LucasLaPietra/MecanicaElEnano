@@ -4,6 +4,47 @@ table {
 
   .vehiculos-page {
     margin: 1%;
+    display: flex;
+  }
+
+  .column {
+    flex: 1;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .column-left {
+    flex: 1;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .column-right {
+    flex: 2;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .column-no-border {
+    flex-direction: column;
+    flex: 1 1 1;
+  }
+
+  .vehiculo-button-column {
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    text-align: center;
+    flex: .1 1 0;
+  }
+
+  .vehiculo-button {
+    margin-bottom: 5px;
+  }
+
+  .last-vehiculo-button {
+    margin-bottom: 15px;
   }
 
   .vehiculos-table {
@@ -18,7 +59,7 @@ table {
     background-color: #c3cbf9;
     font-weight: bold;
   }
-  
+
   .mat-form-field {
     font-size: 14px;
     width: 100%;
@@ -27,7 +68,7 @@ table {
   .form-column {
     vertical-align: top;
   }
-  
+
   td, th {
     width: 25%;
   }
@@ -37,11 +78,11 @@ table {
     max-width: 500px;
     width: 100%;
   }
-  
+
   .example-full-width {
     width: 100%;
   }
-  
+
   td {
     padding-right: 8px;
   }
