@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { TrabajoComponent } from './trabajo.component';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -28,6 +29,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     CommonModule,
     MatPaginatorModule,
     MatButtonToggleModule,
+    MatDialogModule,
     MatTableModule,
     MatButtonModule,
     MatFormFieldModule,
