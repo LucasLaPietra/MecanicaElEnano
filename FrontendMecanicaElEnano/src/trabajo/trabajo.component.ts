@@ -27,6 +27,8 @@ import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
 import { VehiculosService } from 'src/vehiculo/vehiculo.service';
 import { TrabajosService } from './trabajo.service';
 import { PresupuestosService } from 'src/presupuesto/presupuesto.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CancelModalComponent } from 'src/cancel-modal/cancel-modal.component';
 
 @Component({
   selector: 'app-trabajo',
@@ -76,7 +78,8 @@ export class TrabajoComponent implements AfterViewInit {
     private vehiculoService: VehiculosService,
     private presupuestoService: PresupuestosService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog
   ) {
     this.dataSource = new MatTableDataSource();
     this.createRepuestosForm();
@@ -307,5 +310,29 @@ export class TrabajoComponent implements AfterViewInit {
     return date.getDate();
   }
 
-  importFromPresupuesto() {}
+  openUpdateDialog(): void {
+    this.dialog
+      .open(CancelModalComponent, {
+        data: {action:'update',entity:'trabajo'}
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          this.updateTrabajo();
+        }
+      }).unsubscribe();
+    }
+
+    openDeleteDialog(): void {
+      this.dialog
+        .open(CancelModalComponent, {
+          data: {action:'delete',entity:'trabajo'}
+        })
+        .afterClosed()
+        .subscribe((confirmado: Boolean) => {
+          if (confirmado) {
+            this.deleteTrabajo();
+          }
+        }).unsubscribe();
+      }
 }
