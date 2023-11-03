@@ -11,6 +11,7 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { TurnosModule } from 'src/turnos/turnos.module';
 import { TrabajoModule } from 'src/trabajo/trabajo.module';
 import { OrdenTrabajoModule } from 'src/orden-trabajo/orden-trabajo.module';
+import { CancelModalModule } from 'src/cancel-modal/cancel-modal.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { OrdenTrabajoModule } from 'src/orden-trabajo/orden-trabajo.module';
     TurnosModule,
     HttpClientModule,
     TrabajoModule,
-    OrdenTrabajoModule
+    OrdenTrabajoModule,
+    CancelModalModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}

@@ -6,6 +6,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { state, Turno, Vehiculo } from 'src/domain/entities';
 import { VehiculosService } from './vehiculo.service';
 import { ActivatedRoute } from '@angular/router';
+import { CancelModalComponent } from 'src/cancel-modal/cancel-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-vehiculo',
@@ -39,7 +41,8 @@ export class VehiculoComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private vehiculoService: VehiculosService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -167,4 +170,30 @@ export class VehiculoComponent implements AfterViewInit {
     const url : string= "https://api.whatsapp.com/send?phone=" + telephone;
     window.open(url, "_blank");
   }
+
+  openUpdateDialog(): void {
+    this.dialog
+      .open(CancelModalComponent, {
+        data: {action:'modificar',entity:'vehiculo'}
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          this.updateVehicle();
+        }
+      })
+    }
+
+    openDeleteDialog(): void {
+      this.dialog
+        .open(CancelModalComponent, {
+          data: {action:'borrar',entity:'vehiculo'}
+        })
+        .afterClosed()
+        .subscribe((confirmado: Boolean) => {
+          if (confirmado) {
+            this.deleteVehicle();
+          }
+        })
+      }
 }

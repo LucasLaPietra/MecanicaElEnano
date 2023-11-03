@@ -27,6 +27,8 @@ import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
 import { VehiculosService } from 'src/vehiculo/vehiculo.service';
 import { OrdenTrabajosService } from './orden-trabajo.service';
 import { PresupuestosService } from 'src/presupuesto/presupuesto.service';
+import { CancelModalComponent } from 'src/cancel-modal/cancel-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ordenTrabajo',
@@ -58,7 +60,7 @@ export class OrdenTrabajoComponent implements AfterViewInit {
     private vehiculoService: VehiculosService,
     private presupuestoService: PresupuestosService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    public dialog: MatDialog
   ) {
     this.dataSource = new MatTableDataSource();
   }
@@ -224,4 +226,30 @@ export class OrdenTrabajoComponent implements AfterViewInit {
   getFormattedDate(date: Date) {
     return date.getDate();
   }
+
+  openUpdateDialog(): void {
+    this.dialog
+      .open(CancelModalComponent, {
+        data: {action:'modificar',entity:'orden de trabajo'}
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          this.updateOrdenTrabajo();
+        }
+      })
+    }
+
+    openDeleteDialog(): void {
+      this.dialog
+        .open(CancelModalComponent, {
+          data: {action:'borrar',entity:'orden de trabajo'}
+        })
+        .afterClosed()
+        .subscribe((confirmado: Boolean) => {
+          if (confirmado) {
+            this.deleteOrdenTrabajo();
+          }
+        })
+      }
 }

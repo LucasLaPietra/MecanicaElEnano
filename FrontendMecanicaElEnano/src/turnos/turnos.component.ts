@@ -9,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { VehiculosService } from 'src/vehiculo/vehiculo.service';
 import { CreateTurno } from 'src/domain/dto';
 import { Observable } from 'rxjs';
+import { CancelModalComponent } from 'src/cancel-modal/cancel-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-turnos',
@@ -36,7 +38,8 @@ export class TurnosComponent implements AfterViewInit {
   constructor(
     private turnoService: TurnosService,
     private vehiculoService: VehiculosService,
-    private route: ActivatedRoute)
+    private route: ActivatedRoute,
+    public dialog: MatDialog)
     {
     this.dataSource = new MatTableDataSource();
   }
@@ -211,5 +214,31 @@ export class TurnosComponent implements AfterViewInit {
       this.detalleFormControl.reset();
     }
   }
+
+  openUpdateDialog(): void {
+    this.dialog
+      .open(CancelModalComponent, {
+        data: {action:'modificar',entity:'turno'}
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          this.updateTurno();
+        }
+      })
+    }
+
+    openDeleteDialog(): void {
+      this.dialog
+        .open(CancelModalComponent, {
+          data: {action:'borrar',entity:'turno'}
+        })
+        .afterClosed()
+        .subscribe((confirmado: Boolean) => {
+          if (confirmado) {
+            this.deleteTurno();
+          }
+        })
+      }
 
 }

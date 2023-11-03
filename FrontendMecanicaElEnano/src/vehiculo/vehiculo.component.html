@@ -129,7 +129,7 @@
         color="accent"
         [disabled]="!vehiculoForm.valid || compareSelectedtoForm()"
         type="submit"
-        (click)="updateVehicle()"
+        (click)="openUpdateDialog()"
       >
         <mat-icon>check</mat-icon>
       </button>
@@ -146,7 +146,7 @@
         class="last-vehiculo-button"
         mat-fab
         color="warn"
-        (click)="deleteVehicle()"
+        (click)="openDeleteDialog()"
       >
         <mat-icon>delete</mat-icon>
       </button>

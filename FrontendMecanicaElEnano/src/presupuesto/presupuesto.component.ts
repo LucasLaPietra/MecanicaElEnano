@@ -8,6 +8,8 @@ import { Presupuesto, Repuesto, state, Vehiculo } from 'src/domain/entities';
 import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
 import { VehiculosService } from 'src/vehiculo/vehiculo.service';
 import { PresupuestosService } from './presupuesto.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CancelModalComponent } from 'src/cancel-modal/cancel-modal.component';
 
 @Component({
   selector: 'app-presupuesto',
@@ -55,7 +57,8 @@ export class PresupuestoComponent implements AfterViewInit {
     private presupuestoService: PresupuestosService,
     private vehiculoService: VehiculosService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog) {
       this.dataSource = new MatTableDataSource();
       this.createRepuestosForm();
       this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
@@ -257,6 +260,32 @@ export class PresupuestoComponent implements AfterViewInit {
   getFormattedDate(date:Date){
     return date.getDate();
   }
+
+  openUpdateDialog(): void {
+    this.dialog
+      .open(CancelModalComponent, {
+        data: {action:'modificar',entity:'presupuesto'}
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          this.updatePresupuesto();
+        }
+      })
+    }
+
+    openDeleteDialog(): void {
+      this.dialog
+        .open(CancelModalComponent, {
+          data: {action:'borrar',entity:'presupuesto'}
+        })
+        .afterClosed()
+        .subscribe((confirmado: Boolean) => {
+          if (confirmado) {
+            this.deletePresupuesto();
+          }
+        })
+      }
 
 
 }

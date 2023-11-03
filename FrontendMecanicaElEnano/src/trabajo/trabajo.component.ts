@@ -313,26 +313,26 @@ export class TrabajoComponent implements AfterViewInit {
   openUpdateDialog(): void {
     this.dialog
       .open(CancelModalComponent, {
-        data: {action:'update',entity:'trabajo'}
+        data: {action:'modificar',entity:'trabajo'}
       })
       .afterClosed()
       .subscribe((confirmado: Boolean) => {
         if (confirmado) {
           this.updateTrabajo();
         }
-      }).unsubscribe();
+      })
     }
 
     openDeleteDialog(): void {
       this.dialog
         .open(CancelModalComponent, {
-          data: {action:'delete',entity:'trabajo'}
+          data: {action:'borrar',entity:'trabajo'}
         })
         .afterClosed()
         .subscribe((confirmado: Boolean) => {
           if (confirmado) {
             this.deleteTrabajo();
           }
-        }).unsubscribe();
+        })
       }
 }
