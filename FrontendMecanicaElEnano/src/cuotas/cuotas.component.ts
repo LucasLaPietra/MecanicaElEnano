@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { Cuota } from 'src/domain/cuotas';
+import { Cuota, CuotaResponse } from 'src/domain/cuotas';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cuotas',
@@ -13,14 +14,9 @@ export class CuotasComponent implements OnInit {
   displayedColumns: string[] = ['numero', 'precio'];
 
   values: Cuota[] = [
-    {numero: 3, precio: 0},
-    {numero: 6, precio: 0},
-    {numero: 9, precio: 0},
-    {numero: 12, precio: 0},
-    {numero: 18, precio: 0},
    ];
 
-   multipliers = [1.3, 1.6, 1.8, 2, 2.2];
+   multipliers: number[]= [];
 
    dataSource!: Cuota[];
 
@@ -30,12 +26,19 @@ export class CuotasComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
-    this.updateDataSource();
-    this.dataSource = [...this.values];
-    console.log(this.values);
+    this.http.get("assets/cuotas.txt", { responseType: 'text'}).subscribe((data) => {
+      let dataArr: CuotaResponse[]= JSON.parse(data);
+      this.multipliers = dataArr.map(d => d.multiplicador);
+      dataArr.forEach(cuotaResponse => {
+        this.values.push({numero:cuotaResponse.numero, precio:0});
+      });
+      this.updateDataSource();
+      this.dataSource = [...this.values];
+      console.log(this.values);
+  })
   }
 
   ngOnChanges(changes: SimpleChanges) {
