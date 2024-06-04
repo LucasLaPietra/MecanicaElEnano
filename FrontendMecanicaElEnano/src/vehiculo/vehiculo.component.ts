@@ -133,13 +133,12 @@ export class VehiculoComponent implements AfterViewInit {
     this.vehiculoService.CreateVehiculo(vehiculoACrear)
     .subscribe(vehiculo => {
       this.dataSource.data.push(vehiculo);
+      this.dataSource._updateChangeSubscription();
+      this.vehiculoTable.renderRows();
+      this.state=state.viewing;
+      this.vehiculoForm.reset();
+      this.vehiculoForm.disable();
     });
-    this.vehiculoTable.renderRows();
-    this.dataSource._updateChangeSubscription();
-    console.log(this.dataSource.data);
-    this.state=state.viewing;
-    this.vehiculoForm.reset();
-    this.vehiculoForm.disable();
   }
 
   updateVehicle(){
