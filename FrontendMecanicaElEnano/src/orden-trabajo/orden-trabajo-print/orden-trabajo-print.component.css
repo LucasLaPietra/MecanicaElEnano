@@ -1,0 +1,51 @@
+.A4 {
+    background: url(/assets/mecanicaelenano.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 21cm;
+    height: 29.7cm;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 10px 25px;
+    margin-bottom: 0.5cm;
+    box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+    overflow-y: hidden;
+    box-sizing: border-box;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(/assets/mecanicaelenano.png);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+.mat-card{
+    background-color: transparent;
+}
+
+.top-image{
+    width: 5cm;
+}
+
+.top-info {
+    flex: 0 1 auto; /* Allow it to grow and shrink, but it won't take all the space */
+}
+
+.detail-lines {
+    flex: 1; /* This will take up the remaining space */
+}
+
+footer {
+    flex: 0 1 auto; /* Allow it to grow and shrink, but it won't take all the space */
+}
+
+
+

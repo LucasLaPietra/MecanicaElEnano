@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Presupuesto, Repuesto, state, Vehiculo } from 'src/domain/entities';
 import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
 import { VehiculosService } from 'src/vehiculo/vehiculo.service';
@@ -58,11 +58,13 @@ export class PresupuestoComponent implements AfterViewInit {
     private vehiculoService: VehiculosService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private router: Router) 
+    {
       this.dataSource = new MatTableDataSource();
       this.createRepuestosForm();
       this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
-     }
+    }
 
   ngOnInit(): void {
     this.vehiculoService.GetVehiculo(this.route.snapshot.paramMap.get('id')!)
@@ -211,8 +213,11 @@ export class PresupuestoComponent implements AfterViewInit {
     }
   }
 
-  printPresupuesto(){
-
+  printPresupuesto() {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(['/presupuestos-imprimir', this.vehiculo.vehiculoId, this.selectedPresupuesto!.presupuestoId])
+    );
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   createRepuestosForm() {

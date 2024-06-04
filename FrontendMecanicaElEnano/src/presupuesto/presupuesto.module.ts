@@ -14,16 +14,19 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { PresupuestoPrintComponent } from './presupuesto-print/presupuesto-print.component';
+import { MatCardModule } from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 
 @NgModule({
   declarations: [
-    PresupuestoComponent
+    PresupuestoComponent,
+    PresupuestoPrintComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +46,9 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatSelectModule,
     CuotasModule,
     RouterModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatCardModule,
+    MatGridListModule
   ],
   exports:[
     PresupuestoComponent

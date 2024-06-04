@@ -1,0 +1,83 @@
+<div class="A4">
+  <div class="top-info">
+    <div style="background-color: black">
+      <img class="top-image" src="assets/mecanica el enano top bar.png" />
+    </div>
+    <mat-card style="margin-bottom: 10px; background-color: lightgrey">
+      <mat-card-content>
+        <p>
+          <span>JJ Bruno 2762 - 3260 Concepcion del Uruguay</span>
+          <span style="float: right">Tel 3442521872 - 20-39841357-2</span>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    <div class="container">
+      <mat-grid-list cols="3" rowHeight="140px">
+        <mat-grid-tile>
+          <div class="text-column">
+            <b
+              ><p>{{ vehiculo.modelo }}</p></b
+            >
+            <p>{{ vehiculo.cliente }}</p>
+            <p>{{ vehiculo.direccion }}</p>
+            <p>tel: {{ vehiculo.telefono }}</p>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile>
+          <mat-card class="square-card">
+            <mat-card-content>
+              <h2>{{ vehiculo.patente }}</h2>
+              <p>km: {{ presupuesto.km }}</p>
+              <p>{{ presupuesto.fecha | date : "dd/MM/yyyy" }}</p>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+  <div class="titulo" style="text-align: center">
+    <h1>Presupuesto</h1>
+  </div>
+  <div class="tabla">
+  <table
+    mat-table
+    [dataSource]="presupuesto.repuestos"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="Cantidad">
+      <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+      <td mat-cell *matCellDef="let element">{{ element.cantidad }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Descripcion">
+      <th mat-header-cell *matHeaderCellDef>Descripcion</th>
+      <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Total">
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let element">${{ element.precio }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <div class="total">
+    <h2>Total: ${{ total }}</h2>
+  </div>
+</div>
+<div class="detalle">
+  <mat-card>
+    <mat-card-content
+      ><b> Presupuesto valido a 7 dias de caducar</b></mat-card-content
+    >
+  </mat-card>
+  <mat-card>
+    <mat-card-content>{{ presupuesto.trabajoARealizar }}</mat-card-content>
+  </mat-card>
+</div>
+  <footer style="background-color: lightgray">
+    <b><i>Un nuevo concepto en tecnologia</i></b>
+  </footer>
+</div>

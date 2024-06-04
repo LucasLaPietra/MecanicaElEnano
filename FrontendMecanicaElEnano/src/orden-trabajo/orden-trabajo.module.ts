@@ -17,12 +17,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { OrdenTrabajoComponent } from './orden-trabajo.component';
+import { OrdenTrabajoPrintComponent } from './orden-trabajo-print/orden-trabajo-print.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 
 @NgModule({
   declarations: [
-    OrdenTrabajoComponent
+    OrdenTrabajoComponent,
+    OrdenTrabajoPrintComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +36,7 @@ import { OrdenTrabajoComponent } from './orden-trabajo.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
+    MatCardModule,
     MatInputModule,
     MatSortModule,
     MatToolbarModule,

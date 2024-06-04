@@ -1,13 +1,9 @@
 import {
   AfterViewInit,
   Component,
-  Input,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import {
-  FormArray,
-  FormBuilder,
   FormControl,
   FormGroup,
   Validators,
@@ -15,15 +11,13 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   OrdenTrabajo,
-  Repuesto,
   state,
   Vehiculo,
   Presupuesto,
 } from 'src/domain/entities';
-import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
 import { VehiculosService } from 'src/vehiculo/vehiculo.service';
 import { OrdenTrabajosService } from './orden-trabajo.service';
 import { PresupuestosService } from 'src/presupuesto/presupuesto.service';
@@ -60,7 +54,8 @@ export class OrdenTrabajoComponent implements AfterViewInit {
     private vehiculoService: VehiculosService,
     private presupuestoService: PresupuestosService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     this.dataSource = new MatTableDataSource();
   }
@@ -99,11 +94,9 @@ export class OrdenTrabajoComponent implements AfterViewInit {
                   this.updateFormFromPresupuesto(this.presupuesto);
                 });
             });
-        } else {
-          if (this.route.snapshot.paramMap.get('idPresupuesto')) {
+        } else if (this.route.snapshot.paramMap.get('idPresupuesto')) {
             this.createOrdenTrabajoFromPresupuesto();
           }
-        }
       });
   }
 
@@ -221,7 +214,12 @@ export class OrdenTrabajoComponent implements AfterViewInit {
     }
   }
 
-  printOrdenTrabajo() {}
+  printOrdenTrabajo() {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(['/ordentrabajos-imprimir', this.vehiculo.vehiculoId, this.selectedOrdenTrabajo!.ordenTrabajoId])
+    );
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
 
   getFormattedDate(date: Date) {
     return date.getDate();
@@ -233,7 +231,7 @@ export class OrdenTrabajoComponent implements AfterViewInit {
         data: {action:'modificar',entity:'orden de trabajo'}
       })
       .afterClosed()
-      .subscribe((confirmado: Boolean) => {
+      .subscribe((confirmado: boolean) => {
         if (confirmado) {
           this.updateOrdenTrabajo();
         }
@@ -246,7 +244,7 @@ export class OrdenTrabajoComponent implements AfterViewInit {
           data: {action:'borrar',entity:'orden de trabajo'}
         })
         .afterClosed()
-        .subscribe((confirmado: Boolean) => {
+        .subscribe((confirmado: boolean) => {
           if (confirmado) {
             this.deleteOrdenTrabajo();
           }

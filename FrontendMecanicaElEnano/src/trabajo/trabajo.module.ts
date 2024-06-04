@@ -18,12 +18,16 @@ import { TrabajoComponent } from './trabajo.component';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TrabajoPrintComponent } from './trabajo-print/trabajo-print.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 
 
 @NgModule({
   declarations: [
-    TrabajoComponent
+    TrabajoComponent,
+    TrabajoPrintComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +48,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     CuotasModule,
     RouterModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatCardModule,
+    MatGridListModule
   ],
   exports:[
     TrabajoComponent

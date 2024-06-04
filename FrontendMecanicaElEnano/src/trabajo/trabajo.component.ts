@@ -15,7 +15,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   Trabajo,
   Repuesto,
@@ -79,7 +79,8 @@ export class TrabajoComponent implements AfterViewInit {
     private presupuestoService: PresupuestosService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     this.dataSource = new MatTableDataSource();
     this.createRepuestosForm();
@@ -258,7 +259,12 @@ export class TrabajoComponent implements AfterViewInit {
     }
   }
 
-  printTrabajo() {}
+  printTrabajo() {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(['/trabajos-imprimir', this.vehiculo.vehiculoId, this.selectedTrabajo!.trabajoId])
+    );
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
 
   createRepuestosForm() {
     this.repuestoForm = this.formBuilder.group({

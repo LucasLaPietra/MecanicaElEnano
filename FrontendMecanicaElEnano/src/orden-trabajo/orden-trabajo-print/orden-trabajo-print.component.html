@@ -1,0 +1,40 @@
+<div class="A4">
+    <div class="top-info">
+        <div style="background-color: black;">
+            <img class="top-image" src="assets/mecanica el enano top bar.png">
+        </div>
+        <mat-card style="margin-bottom: 10px;background-color: lightgrey;">
+            <mat-card-content>
+                <p><span>JJ Bruno 2762 - 3260 Concepcion del Uruguay</span>
+                <span style="float: right">Tel 3442521872 - 20-39841357-2</span></p>
+            </mat-card-content>
+        </mat-card>
+        <mat-card style="margin-bottom: 10px;">
+            <mat-card-content>
+                <h1>ORDEN DE TRABAJO</h1> 
+                <h3><b>{{vehiculo.patente}}</b> - {{vehiculo.modelo}}</h3>
+                <h4>{{ordenTrabajo.fecha | date : "dd/MM/yyyy"}} - {{ordenTrabajo.km}}km</h4>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-content>
+                <b>Descripcion</b><br>
+                {{ordenTrabajo.manifiesto}}
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="detail-lines">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="lines" width="100%" height="25" patternUnits="userSpaceOnUse">
+                    <rect width="100%" height="24" fill="transparent"/>
+                    <line x1="0" y1="25" x2="100%" y2="25" stroke="black" stroke-width="1"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#lines)"/>
+        </svg>
+    </div>
+    <footer>
+        <mat-card><b>Mecanico:</b> {{ordenTrabajo.mecanico}}</mat-card>
+    </footer>
+</div>
