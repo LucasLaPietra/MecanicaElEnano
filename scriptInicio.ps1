@@ -1,2 +1,2 @@
-cd FrontendMecanicaElEnano
-ng serve FrontendMecanicaElEnano
+cd web
+http-server -o

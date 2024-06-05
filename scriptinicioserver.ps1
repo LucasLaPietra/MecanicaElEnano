@@ -1,2 +1,2 @@
-cd BackendMecanicaElEnano\BackendMecanicaElEnano
-dotnet run environment=development
+cd api
+dotnet BackendMecanicaElEnano.dll --urls "https://localhost:7009"
