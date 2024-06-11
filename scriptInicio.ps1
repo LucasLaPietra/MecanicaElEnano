@@ -1,2 +1,2 @@
 cd web
-http-server -o
+http-server --proxy http://localhost:8080? -o
