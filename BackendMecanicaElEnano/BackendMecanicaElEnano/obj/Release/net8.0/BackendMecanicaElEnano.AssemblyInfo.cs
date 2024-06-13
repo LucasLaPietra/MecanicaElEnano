@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BackendMecanicaElEnano")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1e06c04e0b9df1040bf8f5b443dee5d668cb901e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bfa11bf1bdd856224bbfd8d5f2a03ef0b65bfab2")]
 [assembly: System.Reflection.AssemblyProductAttribute("BackendMecanicaElEnano")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BackendMecanicaElEnano")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

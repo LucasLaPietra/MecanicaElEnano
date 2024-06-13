@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\Users\Lucas\Documents\GitHub\MecanicaElEnano\BackendMecanicaElEnano\BackendMecanicaElEnano\bin\Release\net8.0\publish\</_PublishTargetUrl>
-    <History>True|2024-06-04T20:01:36.7149012Z;</History>
+    <History>True|2024-06-13T02:21:44.1736301Z;True|2024-06-04T17:01:36.7149012-03:00;</History>
     <LastFailureDetails />
     <TimeStampOfAssociatedLegacyPublishXmlFile />
   </PropertyGroup>
