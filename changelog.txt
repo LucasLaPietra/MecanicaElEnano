@@ -1,0 +1,10 @@
+V1 - version inicial
+
+V1.0.1 - 12/6/2024
+-se agregaron campos opcionales para vehículo
+-se corrigió error que permitía agregar letras en campos de solo números (teléfono/chasis/cuit)
+-se corrigió error que no permitía modificar vehículos
+
+V1.0.2 - 13/6/2024
+-se corrigieron mayusculas en impresiones y se agrego leyenda DETALLE
+-se corrigio error que no permitia crear vehiculos con campos opcionales
