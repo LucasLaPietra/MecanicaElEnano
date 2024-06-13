@@ -228,6 +228,15 @@
                     >
                       <mat-label>Telefono</mat-label>
                       <input matInput formControlName="telefono" />
+                      <mat-error
+                      *ngIf="
+                        vehiculoForm.controls['telefono'].hasError(
+                          'pattern'
+                        )
+                      "
+                    >
+                      El telefono no puede contener letras
+                    </mat-error>
                     </mat-form-field>
                     <mat-form-field
                       class="example-full-width"
@@ -242,6 +251,15 @@
                       >
                         El CUIT no puede contener mas de 11 caracteres
                       </mat-error>
+                      <mat-error
+                      *ngIf="
+                        vehiculoForm.controls['cuit'].hasError(
+                          'pattern'
+                        )
+                      "
+                    >
+                      El CUIT no puede contener letras
+                    </mat-error>
                     </mat-form-field>
                     <mat-form-field
                       class="example-full-width"
@@ -301,23 +319,15 @@
                         El numero de chasis no puede contener mas de 17
                         caracteres
                       </mat-error>
-                    </mat-form-field>
-                    <mat-form-field
-                      class="example-full-width"
-                      appearance="fill"
-                    >
-                      <mat-label>Numero de motor</mat-label>
-                      <input matInput formControlName="numeroMotor" />
                       <mat-error
-                        *ngIf="
-                          vehiculoForm.controls['numeroMotor'].hasError(
-                            'maxlength'
-                          )
-                        "
-                      >
-                        El numero de chasis no puede contener mas de 17
-                        caracteres
-                      </mat-error>
+                      *ngIf="
+                        vehiculoForm.controls['numeroChasis'].hasError(
+                          'pattern'
+                        )
+                      "
+                    >
+                      El numero de chasis no puede contener letras
+                    </mat-error>
                     </mat-form-field>
                   </p>
                 </td>

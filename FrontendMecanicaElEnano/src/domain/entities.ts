@@ -7,7 +7,6 @@ export interface Vehiculo
     direccion: string,
     telefono: string,
     mail: string,
-    nroMotor: string,
     numeroChasis: string,
     cuit: string
     presupuestos: Presupuesto[]

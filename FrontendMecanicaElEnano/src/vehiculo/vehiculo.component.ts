@@ -24,11 +24,10 @@ export class VehiculoComponent implements AfterViewInit {
     cliente: new FormControl('', Validators.required),
     modelo: new FormControl('', Validators.required),
     direccion: new FormControl('', Validators.required),
-    telefono: new FormControl('', Validators.required),
-    mail: new FormControl('', [Validators.required, Validators.email]),
-    numeroMotor: new FormControl('', [Validators.required, Validators.maxLength(17)]),
-    numeroChasis: new FormControl('', [Validators.required, Validators.maxLength(17)]),
-    cuit: new FormControl('', [Validators.required, Validators.maxLength(11)]),
+    telefono: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
+    mail: new FormControl('', Validators.email),
+    numeroChasis: new FormControl('', [Validators.maxLength(17), Validators.pattern("^[0-9]*$")]),
+    cuit: new FormControl('', [Validators.maxLength(11), Validators.pattern("^[0-9]*$")]),
   });
 
   displayedColumns: string[] = ['patente', 'marcaYModelo', 'cliente', 'telefono'];
@@ -98,7 +97,6 @@ export class VehiculoComponent implements AfterViewInit {
       this.selectedVehicle?.mail==this.vehiculoForm.value.mail &&
       this.selectedVehicle?.modelo==this.vehiculoForm.value.modelo &&
       this.selectedVehicle?.numeroChasis==this.vehiculoForm.value.numeroChasis &&
-      this.selectedVehicle?.nroMotor==this.vehiculoForm.value.numeroMotor &&
       this.selectedVehicle?.patente==this.vehiculoForm.value.patente &&
       this.selectedVehicle?.telefono==this.vehiculoForm.value.telefono)
       return true; else return false
@@ -144,13 +142,15 @@ export class VehiculoComponent implements AfterViewInit {
   updateVehicle(){
     if(this.selectedVehicle){
       const indexOfObject =  this.dataSource.data.indexOf(this.selectedVehicle);
-      this.vehiculoService.UpdateVehiculo(this.selectedVehicle).subscribe(vehiculo => {
+      const vehiculoAModificar: Vehiculo = this.vehiculoForm.value as Vehiculo;
+      vehiculoAModificar.vehiculoId = this.selectedVehicle.vehiculoId
+      this.vehiculoService.UpdateVehiculo(vehiculoAModificar).subscribe(vehiculo => {
         this.dataSource.data[indexOfObject] = vehiculo;
-      });
-      this.vehiculoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
-      this.state=state.viewing;
-      this.vehiculoForm.disable();
+        this.vehiculoTable.renderRows();
+        this.dataSource._updateChangeSubscription();
+        this.state=state.viewing;
+        this.vehiculoForm.disable();
+      });      
     }
   }
 

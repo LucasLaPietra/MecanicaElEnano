@@ -48,6 +48,10 @@ namespace BackendMecanicaElEnano.Repositories
                 result.Cuit = vehiculoDto.Cuit;
                 result.Modelo = vehiculoDto.Modelo;
                 result.Telefono = vehiculoDto.Telefono;
+                result.Cliente = vehiculoDto.Cliente;
+                result.Mail = vehiculoDto.Mail;
+                result.NumeroChasis = vehiculoDto.NumeroChasis;
+                result.Patente = vehiculoDto.Patente;
             }
             await CommitAsync();
             return _mapper.Map<VehiculoDto>(result);
