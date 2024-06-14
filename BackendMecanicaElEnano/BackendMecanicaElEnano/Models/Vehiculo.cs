@@ -35,7 +35,7 @@ namespace BackendMecanicaElEnano.Models
         public string Modelo { get; set; } = null!;
 
         [Required(ErrorMessage = "Se requiere un numero de chasis para registrar un vehiculo")]
-        public string NumeroChasis { get; set; } = null!;
+        public string? NumeroChasis { get; set; } = null!;
 
         [Required(ErrorMessage = "Se requiere un nombre de cliente para registrar un vehiculo")]
         public string Cliente { get; set; } = null!;
@@ -49,11 +49,11 @@ namespace BackendMecanicaElEnano.Models
 
         [Required(ErrorMessage = "Se requiere un mail del cliente para registrar un vehiculo")]
         [StringLength(60, ErrorMessage = "El mail es demasiado largo")]
-        public string Mail { get; set; } = null!;
+        public string? Mail { get; set; } = null!;
 
         [Required(ErrorMessage = "Se requiere un cuit de cliente para registrar un vehiculo")]
         [StringLength(11, ErrorMessage = "El Cuit debe tener 11 digitos")]
-        public string Cuit { get; set; } = null!;
+        public string? Cuit { get; set; } = null!;
 
         public virtual ICollection<Presupuesto> Presupuestos { get; set; } = new Collection<Presupuesto>();
 

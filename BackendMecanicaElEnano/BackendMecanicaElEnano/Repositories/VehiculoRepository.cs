@@ -32,6 +32,9 @@ namespace BackendMecanicaElEnano.Repositories
 
         public async Task<VehiculoDto> CreateAsync(CreateVehiculoDto createVehiculoDto)
         {
+            createVehiculoDto.Cuit ??= "";
+            createVehiculoDto.Mail ??= "";
+            createVehiculoDto.NumeroChasis ??= "";
             var vehiculo = _mapper.Map<Vehiculo>(createVehiculoDto);
             var result = await this.mecanicaContext.AddAsync(vehiculo);
             await CommitAsync();
