@@ -30,7 +30,7 @@ export interface Trabajo
     trabajosRealizados: string,
     trabajosPendientes: string,
     vehiculoId: string
-    repuestos: Repuesto[]
+    repuestos: RepuestoTrabajo[]
 }
 
 export interface OrdenTrabajo
@@ -57,6 +57,15 @@ export interface Presupuesto
 export interface Repuesto
 {
     repuestoId?: string,
+    cantidad: number,
+    descripcion: string,
+    precio: number,
+    tipo: number,
+}
+
+export interface RepuestoTrabajo
+{
+    repuestoTrabajoId?: string,
     cantidad: number,
     descripcion: string,
     precio: number,

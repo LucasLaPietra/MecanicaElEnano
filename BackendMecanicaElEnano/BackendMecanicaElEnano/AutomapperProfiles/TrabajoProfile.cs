@@ -10,8 +10,8 @@ namespace BackendMecanicaElEnano.AutomapperProfiles
         {
             CreateMap<TrabajoDto, Trabajo>();
             CreateMap<Trabajo, TrabajoDto>();
-            CreateMap<RepuestoTrabajoDto, RepuestoTrabajo>();
-            CreateMap<RepuestoTrabajo, RepuestoTrabajoDto>();
+            CreateMap<RepuestoTrabajoDto, RepuestoTrabajo>().ForMember(r => r.RepuestoTrabajoId, opt => opt.MapFrom(src => src.RepuestoId));
+            CreateMap<RepuestoTrabajo, RepuestoTrabajoDto>().ForMember(r => r.RepuestoId, opt => opt.MapFrom(src => src.RepuestoTrabajoId));
             CreateMap<CreateTrabajoDto, Trabajo>();
             CreateMap<CreateRepuestoDto, Repuesto>();
             CreateMap<UpdateTrabajoDto, Trabajo>();
