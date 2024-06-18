@@ -83,7 +83,9 @@ table {
     padding-bottom: 20px;
 }
 
-
+.mat-footer-row, .mat-header-row, .mat-row{
+    height: 20px !important;
+}
 
 
 
