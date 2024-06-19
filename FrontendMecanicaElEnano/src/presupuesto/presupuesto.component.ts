@@ -193,12 +193,23 @@ export class PresupuestoComponent implements AfterViewInit {
       presupuestoActualizado.repuestos= this.repuestoForm.controls['repuestos'].value
       this.presupuestoService.UpdatePresupuesto(presupuestoActualizado).subscribe(presupuesto => {
         this.dataSource.data[indexOfObject] = presupuesto;
+        this.presupuestoTable.renderRows();
+        this.dataSource._updateChangeSubscription();
+        this.state=state.viewing;
+        this.presupuestoForm.disable();
+        const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+        repuestos.valueChanges.subscribe((value) => {
+          this.calculateCosts();
+        });
+        presupuesto.repuestos.forEach(repuesto => {
+          repuestos.push(
+            this.addRow(repuesto)
+          );
+        });
+        this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
+        this.repuestoForm.disable()
+        this.selectPresupuesto(presupuesto);
       });
-      this.presupuestoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
-      this.state=state.viewing;
-      this.presupuestoForm.disable();
-      this.repuestoForm.disable();
     }
   }
 

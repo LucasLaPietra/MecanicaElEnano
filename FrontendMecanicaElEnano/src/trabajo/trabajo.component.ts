@@ -235,12 +235,24 @@ export class TrabajoComponent implements AfterViewInit {
         .UpdateTrabajo(trabajoActualizado)
         .subscribe((trabajo) => {
           this.dataSource.data[indexOfObject] = trabajo;
+          this.trabajoTable.renderRows();
+          this.dataSource._updateChangeSubscription();
+          this.state = state.viewing;
+          this.trabajoForm.disable();
+          const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+          repuestos.valueChanges.subscribe((value) => {
+            this.calculateCosts();
+          });
+          trabajo.repuestos.forEach((repuesto) => {
+            repuestos.push(this.addRow(repuesto));
+          });
+          this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(
+            this.repuestoForm.controls['repuestos'].value
+          );
+          this.repuestoForm.disable()
+          this.selectTrabajo(trabajo);
         });
-      this.trabajoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
-      this.state = state.viewing;
-      this.trabajoForm.disable();
-      this.repuestoForm.disable();
+      ;
     }
   }
 
