@@ -120,6 +120,7 @@ export class TrabajoComponent implements AfterViewInit {
               this.presupuesto = p;
               const repuestos = this.repuestoForm.get('repuestos') as FormArray;
               this.presupuesto!.repuestos.forEach((repuesto) => {
+                repuesto.repuestoId=undefined;
                 repuestos.push(this.addRow(repuesto));
               });
               this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(
