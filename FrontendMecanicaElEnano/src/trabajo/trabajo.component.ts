@@ -222,7 +222,8 @@ export class TrabajoComponent implements AfterViewInit {
 
   updateTrabajo() {
     if (this.selectedTrabajo) {
-      const indexOfObject = this.dataSource.data.indexOf(this.selectedTrabajo);
+      const indexOfObject = this.dataSource.data.findIndex(item => item.trabajoId === this.selectedTrabajo?.trabajoId);
+      console.log(indexOfObject)
       let trabajoActualizado: Trabajo = this.selectedTrabajo;
       trabajoActualizado.fecha = this.trabajoForm.value.fecha as Date;
       trabajoActualizado.km = this.trabajoForm.value.km as string;

@@ -177,9 +177,7 @@ export class OrdenTrabajoComponent implements AfterViewInit {
 
   updateOrdenTrabajo() {
     if (this.selectedOrdenTrabajo) {
-      const indexOfObject = this.dataSource.data.indexOf(
-        this.selectedOrdenTrabajo
-      );
+      const indexOfObject = this.dataSource.data.findIndex(item => item.ordenTrabajoId === this.selectedOrdenTrabajo?.ordenTrabajoId);
       let ordenTrabajoActualizado: OrdenTrabajo = this.selectedOrdenTrabajo;
       ordenTrabajoActualizado.fecha = this.ordenTrabajoForm.value.fecha as Date;
       ordenTrabajoActualizado.km = this.ordenTrabajoForm.value.km as string;

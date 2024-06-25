@@ -184,7 +184,7 @@ export class PresupuestoComponent implements AfterViewInit {
 
   updatePresupuesto(){
     if(this.selectedPresupuesto){
-      const indexOfObject =  this.dataSource.data.indexOf(this.selectedPresupuesto);
+      const indexOfObject = this.dataSource.data.findIndex(item => item.presupuestoId === this.selectedPresupuesto?.presupuestoId);
       let presupuestoActualizado: Presupuesto = this.selectedPresupuesto;
       presupuestoActualizado.fecha = this.presupuestoForm.value.fecha as Date;
       presupuestoActualizado.validoHasta = this.presupuestoForm.value.validoHasta as Date;
