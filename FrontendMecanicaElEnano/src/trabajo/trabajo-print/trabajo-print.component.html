@@ -69,12 +69,12 @@
   </div>
   <div class="detalle">
     <mat-card>
-        <mat-card-header><h3><b>Trabajo realizado</b></h3></mat-card-header>
-      <mat-card-content>{{ trabajo.trabajosRealizados }}</mat-card-content>
+        <mat-card-header><h3><b>Trabajos realizados</b></h3></mat-card-header>
+      <mat-card-content [innerHTML]="formatWithBullets(trabajo.trabajosRealizados)"></mat-card-content>
     </mat-card>
     <mat-card>
-        <mat-card-header><h3><b>Trabajo pendiente</b></h3></mat-card-header>
-      <mat-card-content>{{ trabajo.trabajosPendientes }}</mat-card-content>
+        <mat-card-header><h3><b>Trabajos pendientes</b></h3></mat-card-header>
+      <mat-card-content [innerHTML]="formatWithBullets(trabajo.trabajosPendientes)"></mat-card-content>
     </mat-card>
   </div>
     <footer style="background-color: lightgray">

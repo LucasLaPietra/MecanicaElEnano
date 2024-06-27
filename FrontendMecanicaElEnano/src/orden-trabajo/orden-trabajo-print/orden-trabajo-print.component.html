@@ -19,7 +19,7 @@
         <mat-card>
             <mat-card-content>
                 <b>Descripcion</b><br>
-                {{ordenTrabajo.manifiesto}}
+                <p [innerHTML]="formatManifesto(ordenTrabajo.manifiesto)"></p>
             </mat-card-content>
         </mat-card>
     </div>

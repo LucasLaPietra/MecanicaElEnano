@@ -27,11 +27,18 @@ export class TrabajoPrintComponent implements OnInit {
       .subscribe((vehiculo) => (this.vehiculo = vehiculo));
     this.trabajoService
       .GetTrabajo(this.route.snapshot.paramMap.get('idTrabajo')!)
-      .subscribe((trabajo) => {(this.trabajo = trabajo); this.getTotal()});
+      .subscribe((trabajo) => {
+        (this.trabajo = trabajo); 
+        this.getTotal();
+        console.log(trabajo.trabajosRealizados);
+      });
   }
 
   getTotal(){
     this.trabajo.repuestos.forEach((r: Repuesto) => {this.total += r.cantidad*r.precio})
   }
-
+  
+  formatWithBullets(data:string): string {
+    return data.split('\n').map(item => `• ${item}`).join('<br>');
+  }
 }

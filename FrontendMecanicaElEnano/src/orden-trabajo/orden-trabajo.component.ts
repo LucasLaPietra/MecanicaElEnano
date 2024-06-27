@@ -167,7 +167,7 @@ export class OrdenTrabajoComponent implements AfterViewInit {
   updateFormFromPresupuesto(presupuesto: Presupuesto) {
     let manifiestoValue = `${this.ordenTrabajoForm.value.manifiesto}\n`;
     presupuesto.repuestos.forEach((repuesto) => {
-      manifiestoValue += `- ${repuesto.descripcion}\n`;
+      manifiestoValue += `• ${repuesto.descripcion}\n`;
     });
     this.ordenTrabajoForm.patchValue({
       km: presupuesto.km,

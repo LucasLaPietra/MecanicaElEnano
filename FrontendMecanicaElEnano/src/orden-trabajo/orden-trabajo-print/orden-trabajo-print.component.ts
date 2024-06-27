@@ -28,4 +28,8 @@ export class OrdenTrabajoPrintComponent implements OnInit {
       .subscribe((ordenTrabajo) => (this.ordenTrabajo = ordenTrabajo));
   }
 
+  formatManifesto(data:string): string {
+    return data.split('\n').map(item => `${item}`).join('<br>');
+  }
+  
 }
