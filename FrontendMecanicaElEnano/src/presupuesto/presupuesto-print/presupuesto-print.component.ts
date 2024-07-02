@@ -31,6 +31,10 @@ export class PresupuestoPrintComponent implements OnInit {
   }
 
   getTotal(){
-    this.presupuesto.repuestos.forEach((r: Repuesto) => {this.total += r.cantidad*r.precio})
+    this.presupuesto.repuestos.forEach((r: Repuesto) => {this.total += this.getTotalFila(r)})
+  }
+
+  getTotalFila(r: Repuesto): number{
+    return r.cantidad*r.precio
   }
 }

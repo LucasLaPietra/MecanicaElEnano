@@ -35,8 +35,13 @@ export class TrabajoPrintComponent implements OnInit {
   }
 
   getTotal(){
-    this.trabajo.repuestos.forEach((r: Repuesto) => {this.total += r.cantidad*r.precio})
+    this.trabajo.repuestos.forEach((r: Repuesto) => {this.total += this.getTotalFila(r)})
   }
+
+  getTotalFila(r: Repuesto): number{
+    return r.cantidad*r.precio
+  }
+
   
   formatWithBullets(data:string): string {
     return data.split('\n').map(item => `• ${item}`).join('<br>');
