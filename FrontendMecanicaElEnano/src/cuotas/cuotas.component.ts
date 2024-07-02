@@ -11,7 +11,7 @@ export class CuotasComponent implements OnInit {
 
   @Input() costo = 0;
 
-  displayedColumns: string[] = ['numero', 'precio'];
+  displayedColumns: string[] = ['numero', 'precio', 'total'];
 
   values: Cuota[] = [
    ];
@@ -22,7 +22,8 @@ export class CuotasComponent implements OnInit {
 
   updateDataSource() {
     for (let i = 0; i < this.values.length; i++) {
-      this.values[i].precio = (Number)((this.costo * this.multipliers[i]).toPrecision(2));
+      this.values[i].total = (Number)((this.costo * this.multipliers[i]).toFixed(2));
+      this.values[i].precio = (Number)((this.values[i].total/this.values[i].numero).toFixed(2));
     }
   }
 
@@ -33,7 +34,7 @@ export class CuotasComponent implements OnInit {
       let dataArr: CuotaResponse[]= JSON.parse(data);
       this.multipliers = dataArr.map(d => d.multiplicador);
       dataArr.forEach(cuotaResponse => {
-        this.values.push({numero:cuotaResponse.numero, precio:0});
+        this.values.push({numero:cuotaResponse.numero, precio:0, total:0});
       });
       this.updateDataSource();
       this.dataSource = [...this.values];
