@@ -22,7 +22,7 @@ export class CuotasComponent implements OnInit {
 
   updateDataSource() {
     for (let i = 0; i < this.values.length; i++) {
-      this.values[i].total = (Number)((this.costo * this.multipliers[i]).toFixed(2));
+      this.values[i].total = (Number)((this.costo * 1.1 * this.multipliers[i]).toFixed(2));
       this.values[i].precio = (Number)((this.values[i].total/this.values[i].numero).toFixed(2));
     }
   }
