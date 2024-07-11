@@ -57,7 +57,46 @@ namespace BackendMecanicaElEnano.Repositories
                 result.Fecha = presupuestoDto.Fecha;
                 result.Km = presupuestoDto.Km;
                 result.ValidoHasta = presupuestoDto.ValidoHasta;
-                result.Repuestos = _mapper.Map<List<Repuesto>>(presupuestoDto.Repuestos);
+                // Handle Repuestos
+                if(result.Repuestos != null && result.Repuestos.Any())
+                {
+                    var updatedRepuestos = _mapper.Map<List<Repuesto>>(presupuestoDto.Repuestos);
+                    var existingRepuestos = result.Repuestos;
+
+                    // Determine Repuestos to delete
+                    var repuestosToDelete = existingRepuestos
+                        .Where(existing => !updatedRepuestos.Any(updated => updated.RepuestoId == existing.RepuestoId))
+                        .ToList();
+
+                    // Remove the Repuestos to delete from the context
+                    foreach (var repuesto in repuestosToDelete)
+                    {
+                        mecanicaContext.Repuestos.Remove(repuesto);
+                    }
+
+                    // Add or update the remaining Repuestos
+                    foreach (var updatedRepuesto in updatedRepuestos)
+                    {
+                        var existingRepuesto = existingRepuestos
+                            .FirstOrDefault(r => r.RepuestoId == updatedRepuesto.RepuestoId);
+
+                        if (existingRepuesto != null)
+                        {
+                            // Update existing Repuesto
+                            mecanicaContext.Entry(existingRepuesto).CurrentValues.SetValues(updatedRepuesto);
+                        }
+                        else
+                        {
+                            // Add new Repuesto
+                            result.Repuestos.Add(updatedRepuesto);
+                        }
+                    }
+                }
+                else
+                {
+                    result.Repuestos = _mapper.Map<List<Repuesto>>(presupuestoDto.Repuestos);
+                }
+                
             }
             await CommitAsync();
             return _mapper.Map<PresupuestoDto>(result);

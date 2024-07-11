@@ -74,7 +74,7 @@
     >
   </mat-card>
   <mat-card>
-    <mat-card-content>{{ presupuesto.trabajoARealizar }}</mat-card-content>
+    <mat-card-content [innerHTML]="formatTrabajoARealizar(presupuesto.trabajoARealizar)"></mat-card-content>
   </mat-card>
 </div>
   <footer style="background-color: lightgray">

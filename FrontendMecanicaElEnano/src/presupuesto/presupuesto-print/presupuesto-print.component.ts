@@ -37,4 +37,8 @@ export class PresupuestoPrintComponent implements OnInit {
   getTotalFila(r: Repuesto): number{
     return r.cantidad*r.precio
   }
+
+  formatTrabajoARealizar(data:string): string {
+    return data.split('\n').map(item => `${item}`).join('<br>');
+  }
 }

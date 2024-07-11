@@ -3,24 +3,32 @@
   "WorkspaceRootPath": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\automapperprofiles\\trabajoprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\automapperprofiles\\trabajoprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\repositories\\trabajorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\repositories\\trabajorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\dto\\trabajo\\repuestotrabajodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\dto\\trabajo\\repuestotrabajodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\repositories\\vehiculorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\repositories\\vehiculorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\repositories\\presupuestorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\repositories\\presupuestorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\models\\vehiculo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\models\\vehiculo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\dto\\trabajo\\repuestotrabajodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\dto\\trabajo\\repuestotrabajodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\automapperprofiles\\trabajoprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\automapperprofiles\\trabajoprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\repositories\\vehiculorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|solutionrelative:backendmecanicaelenano\\repositories\\vehiculorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F8D87FB0-0C59-48BC-A5B0-B506589B2C44}|BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj|d:\\users\\lucas\\documents\\github\\mecanicaelenano\\backendmecanicaelenano\\backendmecanicaelenano\\dto\\vehiculo\\createvehiculodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,24 +54,39 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TrabajoProfile.cs",
-              "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\AutomapperProfiles\\TrabajoProfile.cs",
-              "RelativeDocumentMoniker": "BackendMecanicaElEnano\\AutomapperProfiles\\TrabajoProfile.cs",
-              "ToolTip": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\AutomapperProfiles\\TrabajoProfile.cs",
-              "RelativeToolTip": "BackendMecanicaElEnano\\AutomapperProfiles\\TrabajoProfile.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAwAAACLAAAA",
+              "DocumentIndex": 1,
+              "Title": "PresupuestoRepository.cs",
+              "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Repositories\\PresupuestoRepository.cs",
+              "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Repositories\\PresupuestoRepository.cs",
+              "ToolTip": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Repositories\\PresupuestoRepository.cs",
+              "RelativeToolTip": "BackendMecanicaElEnano\\Repositories\\PresupuestoRepository.cs",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAiwGEAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-18T00:26:13.912Z",
+              "WhenOpened": "2024-07-11T17:00:20.08Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "TrabajoRepository.cs",
+              "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Repositories\\TrabajoRepository.cs",
+              "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Repositories\\TrabajoRepository.cs",
+              "ToolTip": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Repositories\\TrabajoRepository.cs",
+              "RelativeToolTip": "BackendMecanicaElEnano\\Repositories\\TrabajoRepository.cs",
+              "ViewState": "AQIAAEMAAAAAAAAAAADwv2AAAABUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-11T17:38:23.979Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "RepuestoTrabajoDto.cs",
               "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Dto\\Trabajo\\RepuestoTrabajoDto.cs",
               "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Dto\\Trabajo\\RepuestoTrabajoDto.cs",
@@ -71,12 +94,11 @@
               "RelativeToolTip": "BackendMecanicaElEnano\\Dto\\Trabajo\\RepuestoTrabajoDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-15T01:14:33.859Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-15T01:14:33.859Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "CreateVehiculoDto.cs",
               "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Dto\\Vehiculo\\CreateVehiculoDto.cs",
               "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Dto\\Vehiculo\\CreateVehiculoDto.cs",
@@ -88,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Vehiculo.cs",
               "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Models\\Vehiculo.cs",
               "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Models\\Vehiculo.cs",
@@ -96,11 +118,12 @@
               "RelativeToolTip": "BackendMecanicaElEnano\\Models\\Vehiculo.cs",
               "ViewState": "AQIAAB0AAAAAAAAAAAAwwDUAAAA6AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-13T19:05:04.047Z"
+              "WhenOpened": "2024-06-13T19:05:04.047Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "VehiculoRepository.cs",
               "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Repositories\\VehiculoRepository.cs",
               "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Repositories\\VehiculoRepository.cs",
@@ -112,7 +135,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Program.cs",
+              "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Program.cs",
+              "ToolTip": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Program.cs",
+              "RelativeToolTip": "BackendMecanicaElEnano\\Program.cs",
+              "ViewState": "AQIAACAAAAAAAAAAAAAuwDEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T19:57:32.207Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TrabajoProfile.cs",
+              "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\AutomapperProfiles\\TrabajoProfile.cs",
+              "RelativeDocumentMoniker": "BackendMecanicaElEnano\\AutomapperProfiles\\TrabajoProfile.cs",
+              "ToolTip": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\AutomapperProfiles\\TrabajoProfile.cs",
+              "RelativeToolTip": "BackendMecanicaElEnano\\AutomapperProfiles\\TrabajoProfile.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAwAAACLAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-18T00:26:13.912Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "VehiculoDto.cs",
               "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Dto\\Vehiculo\\VehiculoDto.cs",
               "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Dto\\Vehiculo\\VehiculoDto.cs",
@@ -124,19 +171,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Program.cs",
-              "RelativeDocumentMoniker": "BackendMecanicaElEnano\\Program.cs",
-              "ToolTip": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\Program.cs",
-              "RelativeToolTip": "BackendMecanicaElEnano\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-04T19:57:32.207Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\appsettings.json",
               "RelativeDocumentMoniker": "BackendMecanicaElEnano\\appsettings.json",
@@ -148,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "BackendMecanicaElEnano.csproj",
               "DocumentMoniker": "D:\\Users\\Lucas\\Documents\\GitHub\\MecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
               "RelativeDocumentMoniker": "BackendMecanicaElEnano\\BackendMecanicaElEnano.csproj",
