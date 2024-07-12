@@ -78,7 +78,7 @@ namespace BackendMecanicaElEnano.Repositories
                     foreach (var updatedRepuesto in updatedRepuestos)
                     {
                         var existingRepuesto = existingRepuestos
-                            .FirstOrDefault(r => r.RepuestoTrabajoId == updatedRepuesto.RepuestoTrabajoId);
+                            .FirstOrDefault(r => r.RepuestoTrabajoId == updatedRepuesto.RepuestoTrabajoId && updatedRepuesto.RepuestoTrabajoId != Guid.Empty);
 
                         if (existingRepuesto != null)
                         {
