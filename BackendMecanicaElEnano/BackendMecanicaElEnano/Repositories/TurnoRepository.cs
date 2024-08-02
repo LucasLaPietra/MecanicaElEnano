@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BackendMecanicaElEnano.Dto;
+using BackendMecanicaElEnano.Migrations;
 using BackendMecanicaElEnano.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace BackendMecanicaElEnano.Repositories
 {
@@ -32,8 +34,10 @@ namespace BackendMecanicaElEnano.Repositories
 
         public async Task<TurnoDto> CreateAsync(CreateTurnoDto createTurnoDto)
         {
-            var Turno = _mapper.Map<Turno>(createTurnoDto);
-            var result = await this.mecanicaContext.AddAsync(Turno);
+            var turno = _mapper.Map<Turno>(createTurnoDto);
+            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+            turno.FechayHora = TimeZoneInfo.ConvertTimeFromUtc(turno.FechayHora, timeZone);
+            var result = await this.mecanicaContext.AddAsync(turno);
             await CommitAsync();
             var addedTurno = result.Entity;
             return _mapper.Map<TurnoDto>(addedTurno);
@@ -42,9 +46,10 @@ namespace BackendMecanicaElEnano.Repositories
         public async Task<TurnoDto> UpdateAsync(TurnoDto TurnoDto)
         {
             var result = await this.mecanicaContext.FindAsync<Turno>(TurnoDto.TurnoId);
+            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
             if (result != null)
             {
-                result.FechayHora = TurnoDto.FechayHora;
+                result.FechayHora = TimeZoneInfo.ConvertTimeFromUtc(TurnoDto.FechayHora, timeZone);
                 result.Detalle = TurnoDto.Detalle;
             }
             await CommitAsync();

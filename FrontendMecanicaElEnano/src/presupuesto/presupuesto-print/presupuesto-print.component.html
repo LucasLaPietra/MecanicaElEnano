@@ -68,14 +68,23 @@
   </div>
 </div>
 <div class="detalle">
-  <mat-card>
-    <mat-card-content
-      ><b> Presupuesto valido a 7 dias de caducar</b></mat-card-content
-    >
-  </mat-card>
-  <mat-card>
-    <mat-card-content [innerHTML]="formatTrabajoARealizar(presupuesto.trabajoARealizar)"></mat-card-content>
-  </mat-card>
+  <mat-grid-list cols="3" rowHeight="1:2">
+    <mat-grid-tile colspan="2">
+      <div style="width: 100%; align-items: start;">
+        <mat-card>
+      <mat-card-content
+        ><b> Presupuesto valido a 7 dias de caducar</b></mat-card-content
+      >
+    </mat-card>
+    <mat-card>
+      <mat-card-content [innerHTML]="formatTrabajoARealizar(presupuesto.trabajoARealizar)"></mat-card-content>
+    </mat-card>
+    </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+      <app-cuotas class="cuotas-table" [costo]="total"></app-cuotas>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
   <footer style="background-color: lightgray">
     <b><i>Un nuevo concepto en tecnologia</i></b>
