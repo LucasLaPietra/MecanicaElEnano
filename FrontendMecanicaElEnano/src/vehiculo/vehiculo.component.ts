@@ -26,7 +26,7 @@ export class VehiculoComponent implements AfterViewInit {
     direccion: new FormControl('', Validators.required),
     telefono: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     mail: new FormControl('', Validators.email),
-    numeroChasis: new FormControl('', [Validators.maxLength(17), Validators.pattern("^[0-9]*$")]),
+    numeroChasis: new FormControl('', Validators.maxLength(17)),
     cuit: new FormControl('', [Validators.maxLength(11), Validators.pattern("^[0-9]*$")]),
   });
 
