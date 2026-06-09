@@ -1,0 +1,103 @@
+﻿using BackendMecanicaElEnano;
+using BackendMecanicaElEnano.Middleware;
+using BackendMecanicaElEnano.Repositories;
+using BackendMecanicaElEnano.Services;
+using BackendMecanicaElEnano.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Configure Kestrel to handle SSL/TLS handshake errors gracefully
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ConfigureHttpsDefaults(httpsOptions =>
+    {
+        // Configure SSL options for better error handling during handshake
+        httpsOptions.OnAuthenticate = (context, sslOptions) =>
+        {
+            // You can add custom SSL options here if needed in the future
+        };
+    });
+});
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+
+// Database Configuration
+builder.Services.AddDbContext<MecanicaContext>(options =>
+                options
+                .UseLazyLoadingProxies()
+                .UseSqlServer(builder.Configuration.GetConnectionString("WebApiDatabase")));
+
+// AutoMapper Configuration
+builder.Services.AddAutoMapper(typeof(Program));
+
+// Repository Layer - Data Access
+builder.Services.AddScoped<IVehiculoRepository, VehiculoRepository>();
+builder.Services.AddScoped<ITrabajoRepository, TrabajoRepository>();
+builder.Services.AddScoped<IPresupuestoRepository, PresupuestoRepository>();
+builder.Services.AddScoped<ITurnoRepository, TurnoRepository>();
+builder.Services.AddScoped<IOrdenTrabajoRepository, OrdenTrabajoRepository>();
+
+// Unit of Work Pattern - Transaction Management
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Service Layer - Business Logic
+builder.Services.AddScoped<IPresupuestoService, PresupuestoService>();
+builder.Services.AddScoped<IVehiculoService, VehiculoService>();
+// Add more services as you refactor other controllers:
+// builder.Services.AddScoped<ITrabajoService, TrabajoService>();
+// builder.Services.AddScoped<ITurnoService, TurnoService>();
+// builder.Services.AddScoped<IOrdenTrabajoService, OrdenTrabajoService>();
+
+// Swagger/OpenAPI Configuration
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Mecánica El Enano API",
+        Version = "v1",
+        Description = "Professional API for managing automotive repair shop operations",
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Name = "Lucas La Pietra",
+            Url = new Uri("https://github.com/LucasLaPietra/MecanicaElEnano")
+        }
+    });
+});
+
+// CORS Configuration
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("*")
+            .AllowAnyHeader()
+            .AllowAnyMethod(); 
+        });
+});
+
+var app = builder.Build();
+
+// Global Exception Handler Middleware - MUST be first in pipeline
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.UseCors();
+
+app.Run();

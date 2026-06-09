@@ -4,14 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { VehiculoModule } from 'src/vehiculo/vehiculo.module';
-import { HttpClientModule } from '@angular/common/http';
-import { PresupuestoModule } from 'src/presupuesto/presupuesto.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
-import { TurnosModule } from 'src/turnos/turnos.module';
-import { TrabajoModule } from 'src/trabajo/trabajo.module';
-import { OrdenTrabajoModule } from 'src/orden-trabajo/orden-trabajo.module';
 import { CancelModalModule } from 'src/cancel-modal/cancel-modal.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpNotificationInterceptor } from './http-notification.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,16 +19,13 @@ import { CancelModalModule } from 'src/cancel-modal/cancel-modal.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatNativeDateModule,
-    VehiculoModule,
-    PresupuestoModule,
-    TurnosModule,
     HttpClientModule,
-    TrabajoModule,
-    OrdenTrabajoModule,
+    MatSnackBarModule,
     CancelModalModule
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'}
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
+    {provide: HTTP_INTERCEPTORS, useClass: HttpNotificationInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

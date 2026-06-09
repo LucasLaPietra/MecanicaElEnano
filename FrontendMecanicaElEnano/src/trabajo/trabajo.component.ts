@@ -127,7 +127,6 @@ export class TrabajoComponent implements AfterViewInit {
                 this.repuestoForm.controls['repuestos'].value
               );
             });
-          console.log(this.presupuesto);
         });
     }
   }
@@ -212,8 +211,7 @@ export class TrabajoComponent implements AfterViewInit {
     this.trabajoService
       .CreateTrabajo(this.route.snapshot.paramMap.get('id')!)
       .subscribe((trabajo) => {
-        this.dataSource.data.push(trabajo);
-        this.dataSource._updateChangeSubscription();
+        this.dataSource.data = [...this.dataSource.data, trabajo];
       });
     this.state = state.viewing;
     this.trabajoForm.reset();
@@ -223,7 +221,6 @@ export class TrabajoComponent implements AfterViewInit {
   updateTrabajo() {
     if (this.selectedTrabajo) {
       const indexOfObject = this.dataSource.data.findIndex(item => item.trabajoId === this.selectedTrabajo?.trabajoId);
-      console.log(indexOfObject)
       let trabajoActualizado: Trabajo = this.selectedTrabajo;
       trabajoActualizado.fecha = this.trabajoForm.value.fecha as Date;
       trabajoActualizado.km = this.trabajoForm.value.km as string;
@@ -236,9 +233,10 @@ export class TrabajoComponent implements AfterViewInit {
       this.trabajoService
         .UpdateTrabajo(trabajoActualizado)
         .subscribe((trabajo) => {
-          this.dataSource.data[indexOfObject] = trabajo;
+          const data = [...this.dataSource.data];
+          data[indexOfObject] = trabajo;
+          this.dataSource.data = data;
           this.trabajoTable.renderRows();
-          this.dataSource._updateChangeSubscription();
           this.state = state.viewing;
           this.trabajoForm.disable();
           const repuestos = this.repuestoForm.get('repuestos') as FormArray;
@@ -267,7 +265,6 @@ export class TrabajoComponent implements AfterViewInit {
         (h) => h !== this.selectedTrabajo
       );
       this.trabajoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
       this.selectedTrabajo = null;
       this.trabajoForm.reset();
     }

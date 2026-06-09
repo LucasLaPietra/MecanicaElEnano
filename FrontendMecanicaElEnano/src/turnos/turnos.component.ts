@@ -60,8 +60,6 @@ export class TurnosComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.turnoService.GetTurnos().subscribe(turnos => {
-      console.log(new Date(turnos[1].fechayHora))
-      console.log(this.selectedDate)
       this.turnos=turnos
       this.dataSource.data = this.turnos.filter((t:Turno)=>this.formatDate(new Date(t.fechayHora)) == this.formatDate(this.selectedDate));
       this.dataSource.paginator = this.paginator;
@@ -70,9 +68,6 @@ export class TurnosComponent implements AfterViewInit {
   }
 
   selectDate(){
-    console.log(new Date(this.turnos[1].fechayHora))
-    console.log(this.selectedDate)
-    console.log(this.turnos)
     this.dataSource.data = this.turnos.filter((t:Turno)=>this.formatDate(new Date(t.fechayHora)) == this.formatDate(this.selectedDate));
   }
 
@@ -91,9 +86,10 @@ export class TurnosComponent implements AfterViewInit {
 
   getTurnos(): void {
     this.turnoService.GetTurnos()
-    .subscribe(turnos => turnos.filter((t:Turno)=>this.formatDate(t.fechayHora) == this.formatDate(this.selectedDate)));
+    .subscribe(turnos => {
+      this.dataSource.data = turnos.filter((t:Turno)=>this.formatDate(new Date(t.fechayHora)) == this.formatDate(this.selectedDate));
+    });
     this.turnoTable.renderRows();
-    this.dataSource._updateChangeSubscription();
   }
 
   applyFilter(event: Event) {
@@ -111,7 +107,6 @@ export class TurnosComponent implements AfterViewInit {
     if (this.selectedTurno!=row)
     {
       this.selectedTurno=row;
-      console.log(new Date(row.fechayHora).getHours());
       this.timeFormControl.patchValue(this.getTimeAsString(new Date(row.fechayHora)));
       this.detalleFormControl.patchValue(row.detalle)
     }
@@ -143,7 +138,6 @@ export class TurnosComponent implements AfterViewInit {
     completeDate.setHours(parseInt(parts[0], 10));
     completeDate.setMinutes(parseInt(parts[1], 10));
     completeDate.setSeconds(0)
-    console.log(completeDate);
     const turnoACrear: CreateTurno = {
       detalle : this.detalleFormControl.value!,
       fechayHora: completeDate,
@@ -161,9 +155,8 @@ export class TurnosComponent implements AfterViewInit {
       completeDate.setMinutes(parseInt(parts[1], 10));
       completeDate.setSeconds(0)
       turnoNuevo.fechayHora=completeDate
-      this.dataSource.data.push(turnoNuevo);
+      this.dataSource.data = [...this.dataSource.data, turnoNuevo];
       this.turnoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
     });
     this.state=state.viewing;
     this.detalleFormControl.disable();
@@ -194,10 +187,11 @@ export class TurnosComponent implements AfterViewInit {
         completeDate.setMinutes(parseInt(parts[1], 10));
         completeDate.setSeconds(0);
         turno.fechayHora=completeDate;
-        this.dataSource.data[indexOfObject] = turno;
+        const data = [...this.dataSource.data];
+        data[indexOfObject] = turno;
+        this.dataSource.data = data;
+        this.turnoTable.renderRows();
       });
-      this.turnoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
       this.state=state.viewing;
       this.detalleFormControl.disable();
       this.timeFormControl.disable();
@@ -209,7 +203,6 @@ export class TurnosComponent implements AfterViewInit {
       this.turnoService.DeleteTurno(this.selectedTurno.turnoId).subscribe();
       this.dataSource.data = this.dataSource.data.filter(h => h !== this.selectedTurno);
       this.turnoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
       this.selectedTurno = null;
       this.timeFormControl.patchValue("08:00");
       this.detalleFormControl.reset();

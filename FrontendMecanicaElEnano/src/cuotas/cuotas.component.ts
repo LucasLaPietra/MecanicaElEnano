@@ -38,7 +38,6 @@ export class CuotasComponent implements OnInit {
       });
       this.updateDataSource();
       this.dataSource = [...this.values];
-      console.log(this.values);
   })
   }
 

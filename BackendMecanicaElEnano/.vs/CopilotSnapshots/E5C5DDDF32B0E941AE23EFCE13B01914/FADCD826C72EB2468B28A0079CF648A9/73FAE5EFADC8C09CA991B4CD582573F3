@@ -1,0 +1,263 @@
+﻿using AutoMapper;
+using BackendMecanicaElEnano.Common;
+using BackendMecanicaElEnano.Dto;
+using BackendMecanicaElEnano.Models;
+using BackendMecanicaElEnano.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
+
+namespace BackendMecanicaElEnano.Services
+{
+    public class TrabajoService : ITrabajoService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ILogger<TrabajoService> _logger;
+        private readonly MecanicaContext _context;
+
+        public TrabajoService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<TrabajoService> logger, MecanicaContext context)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _logger = logger;
+            _context = context;
+        }
+
+        public async Task<Result<IList<TrabajoDto>>> GetAllAsync()
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving all trabajos");
+                var trabajos = await _unitOfWork.Trabajos.FindAll().ToListAsync();
+                var trabajosDto = _mapper.Map<IList<TrabajoDto>>(trabajos);
+
+                _logger.LogInformation("Successfully retrieved {Count} trabajos", trabajosDto.Count);
+                return Result.Success(trabajosDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving all trabajos");
+                return Result.Failure<IList<TrabajoDto>>("Error al obtener los trabajos");
+            }
+        }
+
+        public async Task<Result<TrabajoDto>> GetByIdAsync(Guid id)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving trabajo with ID: {Id}", id);
+
+                if (id == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid trabajo ID provided: {Id}", id);
+                    return Result.Failure<TrabajoDto>("El ID del trabajo no es válido");
+                }
+
+                var trabajo = await _unitOfWork.Trabajos
+                    .FindByCondition(t => t.TrabajoId == id)
+                    .Include(t => t.Repuestos)
+                    .FirstOrDefaultAsync();
+
+                if (trabajo == null)
+                {
+                    _logger.LogWarning("Trabajo with ID {Id} not found", id);
+                    return Result.Failure<TrabajoDto>($"No se encontró el trabajo con ID {id}");
+                }
+
+                var trabajoDto = _mapper.Map<TrabajoDto>(trabajo);
+                _logger.LogInformation("Successfully retrieved trabajo with ID: {Id}", id);
+
+                return Result.Success(trabajoDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving trabajo with ID: {Id}", id);
+                return Result.Failure<TrabajoDto>("Error al obtener el trabajo");
+            }
+        }
+
+        public async Task<Result<TrabajoDto>> CreateAsync(Guid vehiculoId)
+        {
+            try
+            {
+                _logger.LogInformation("Creating trabajo for vehicle ID: {VehiculoId}", vehiculoId);
+
+                if (vehiculoId == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid vehicle ID provided: {VehiculoId}", vehiculoId);
+                    return Result.Failure<TrabajoDto>("El ID del vehículo no es válido");
+                }
+
+                var vehiculoExists = await _unitOfWork.Vehiculos
+                    .FindByCondition(v => v.VehiculoId == vehiculoId)
+                    .AnyAsync();
+
+                if (!vehiculoExists)
+                {
+                    _logger.LogWarning("Vehicle with ID {VehiculoId} not found", vehiculoId);
+                    return Result.Failure<TrabajoDto>($"No se encontró el vehículo con ID {vehiculoId}");
+                }
+
+                var trabajo = new Trabajo
+                {
+                    TrabajoId = Guid.NewGuid(),
+                    VehiculoId = vehiculoId,
+                    Fecha = DateTime.Today,
+                    Km = 0,
+                    TrabajosPendientes = string.Empty,
+                    TrabajosRealizados = string.Empty
+                };
+
+                _unitOfWork.Trabajos.Create(trabajo);
+                await _unitOfWork.CommitAsync();
+
+                var trabajoDto = _mapper.Map<TrabajoDto>(trabajo);
+                _logger.LogInformation("Successfully created trabajo with ID: {Id}", trabajo.TrabajoId);
+
+                return Result.Success(trabajoDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating trabajo for vehicle ID: {VehiculoId}", vehiculoId);
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure<TrabajoDto>("Error al crear el trabajo");
+            }
+        }
+
+        public async Task<Result<TrabajoDto>> UpdateAsync(UpdateTrabajoDto dto)
+        {
+            try
+            {
+                _logger.LogInformation("Updating trabajo with ID: {Id}", dto.TrabajoId);
+
+                if (dto.TrabajoId == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid trabajo ID provided");
+                    return Result.Failure<TrabajoDto>("El ID del trabajo no es válido");
+                }
+
+                if (dto.Km < 0)
+                {
+                    _logger.LogWarning("Invalid kilometers value: {Km}", dto.Km);
+                    return Result.Failure<TrabajoDto>("El kilometraje no puede ser negativo");
+                }
+
+                if (string.IsNullOrWhiteSpace(dto.TrabajosRealizados))
+                {
+                    return Result.Failure<TrabajoDto>("Los trabajos realizados son requeridos");
+                }
+
+                var trabajo = await _unitOfWork.Trabajos
+                    .FindByCondition(t => t.TrabajoId == dto.TrabajoId)
+                    .Include(t => t.Repuestos)
+                    .FirstOrDefaultAsync();
+
+                if (trabajo == null)
+                {
+                    _logger.LogWarning("Trabajo with ID {Id} not found for update", dto.TrabajoId);
+                    return Result.Failure<TrabajoDto>($"No se encontró el trabajo con ID {dto.TrabajoId}");
+                }
+
+                trabajo.TrabajosPendientes = dto.TrabajosPendientes;
+                trabajo.TrabajosRealizados = dto.TrabajosRealizados;
+                trabajo.Fecha = dto.Fecha;
+                trabajo.Km = dto.Km;
+
+                await UpdateRepuestosAsync(trabajo, dto.Repuestos);
+
+                _unitOfWork.Trabajos.Update(trabajo);
+                await _unitOfWork.CommitAsync();
+
+                var updatedDto = _mapper.Map<TrabajoDto>(trabajo);
+                _logger.LogInformation("Successfully updated trabajo with ID: {Id}", trabajo.TrabajoId);
+
+                return Result.Success(updatedDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating trabajo with ID: {Id}", dto.TrabajoId);
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure<TrabajoDto>("Error al actualizar el trabajo");
+            }
+        }
+
+        public async Task<Result> DeleteAsync(Guid id)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting trabajo with ID: {Id}", id);
+
+                if (id == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid trabajo ID provided: {Id}", id);
+                    return Result.Failure("El ID del trabajo no es válido");
+                }
+
+                var trabajo = await _unitOfWork.Trabajos
+                    .FindByCondition(t => t.TrabajoId == id)
+                    .Include(t => t.Repuestos)
+                    .FirstOrDefaultAsync();
+
+                if (trabajo == null)
+                {
+                    _logger.LogWarning("Trabajo with ID {Id} not found for deletion", id);
+                    return Result.Failure($"No se encontró el trabajo con ID {id}");
+                }
+
+                _unitOfWork.Trabajos.Delete(trabajo);
+                await _unitOfWork.CommitAsync();
+
+                _logger.LogInformation("Successfully deleted trabajo with ID: {Id}", id);
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting trabajo with ID: {Id}", id);
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure("Error al eliminar el trabajo");
+            }
+        }
+
+        private async Task UpdateRepuestosAsync(Trabajo trabajo, ICollection<RepuestoTrabajoDto>? repuestosDto)
+        {
+            if (repuestosDto == null || !repuestosDto.Any())
+            {
+                if (trabajo.Repuestos != null && trabajo.Repuestos.Any())
+                {
+                    _context.RepuestoTrabajos.RemoveRange(trabajo.Repuestos);
+                    trabajo.Repuestos.Clear();
+                }
+                return;
+            }
+
+            var existingRepuestos = trabajo.Repuestos ?? new List<RepuestoTrabajo>();
+            var updatedRepuestos = _mapper.Map<List<RepuestoTrabajo>>(repuestosDto);
+
+            var repuestosToDelete = existingRepuestos
+                .Where(existing => !updatedRepuestos.Any(updated => updated.RepuestoTrabajoId == existing.RepuestoTrabajoId))
+                .ToList();
+
+            foreach (var repuesto in repuestosToDelete)
+            {
+                _context.RepuestoTrabajos.Remove(repuesto);
+                trabajo.Repuestos.Remove(repuesto);
+            }
+
+            foreach (var updatedRepuesto in updatedRepuestos)
+            {
+                var existingRepuesto = existingRepuestos
+                    .FirstOrDefault(r => r.RepuestoTrabajoId == updatedRepuesto.RepuestoTrabajoId && updatedRepuesto.RepuestoTrabajoId != Guid.Empty);
+
+                if (existingRepuesto != null)
+                {
+                    _context.Entry(existingRepuesto).CurrentValues.SetValues(updatedRepuesto);
+                }
+                else
+                {
+                    trabajo.Repuestos.Add(updatedRepuesto);
+                }
+            }
+
+            await Task.CompletedTask;
+        }
+    }
+}

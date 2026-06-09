@@ -61,11 +61,11 @@ export class VehiculoComponent implements AfterViewInit {
 
   getVehiculos(): void {
     this.vehiculoService.GetVehiculos()
-    .subscribe(vehiculos => this.vehiculos = vehiculos);
+    .subscribe(vehiculos => {
+      this.vehiculos = vehiculos;
+      this.dataSource.data = vehiculos;
+    });
     this.vehiculoTable.renderRows();
-    this.dataSource._updateChangeSubscription();
-    console.log(this.dataSource.data);
-    console.log(this.vehiculos);
   }
 
   applyFilter(event: Event) {
@@ -130,8 +130,7 @@ export class VehiculoComponent implements AfterViewInit {
     const vehiculoACrear: Vehiculo = this.vehiculoForm.value as Vehiculo;
     this.vehiculoService.CreateVehiculo(vehiculoACrear)
     .subscribe(vehiculo => {
-      this.dataSource.data.push(vehiculo);
-      this.dataSource._updateChangeSubscription();
+      this.dataSource.data = [...this.dataSource.data, vehiculo];
       this.vehiculoTable.renderRows();
       this.state=state.viewing;
       this.vehiculoForm.reset();
@@ -145,9 +144,10 @@ export class VehiculoComponent implements AfterViewInit {
       const vehiculoAModificar: Vehiculo = this.vehiculoForm.value as Vehiculo;
       vehiculoAModificar.vehiculoId = this.selectedVehicle.vehiculoId
       this.vehiculoService.UpdateVehiculo(vehiculoAModificar).subscribe(vehiculo => {
-        this.dataSource.data[indexOfObject] = vehiculo;
+        const data = [...this.dataSource.data];
+        data[indexOfObject] = vehiculo;
+        this.dataSource.data = data;
         this.vehiculoTable.renderRows();
-        this.dataSource._updateChangeSubscription();
         this.state=state.viewing;
         this.vehiculoForm.disable();
       });      
@@ -159,7 +159,6 @@ export class VehiculoComponent implements AfterViewInit {
       this.vehiculoService.DeleteVehiculo(this.selectedVehicle.vehiculoId).subscribe();
       this.dataSource.data = this.dataSource.data.filter(h => h !== this.selectedVehicle);
       this.vehiculoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
       this.selectedVehicle = null;
       this.vehiculoForm.reset();
     }

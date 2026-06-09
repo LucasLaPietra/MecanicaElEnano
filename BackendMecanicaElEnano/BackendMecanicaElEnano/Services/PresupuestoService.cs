@@ -1,0 +1,274 @@
+using AutoMapper;
+using BackendMecanicaElEnano.Common;
+using BackendMecanicaElEnano.Dto;
+using BackendMecanicaElEnano.Models;
+using BackendMecanicaElEnano.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
+
+namespace BackendMecanicaElEnano.Services
+{
+    /// <summary>
+    /// Service layer containing business logic for Presupuesto operations
+    /// </summary>
+    public class PresupuestoService : IPresupuestoService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ILogger<PresupuestoService> _logger;
+
+        public PresupuestoService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<PresupuestoService> logger)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        public async Task<Result<IList<PresupuestoDto>>> GetAllAsync()
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving all presupuestos");
+                var presupuestos = await _unitOfWork.Presupuestos.FindAll()
+                    .Include(p => p.Repuestos)
+                    .ToListAsync();
+                var presupuestosDto = _mapper.Map<IList<PresupuestoDto>>(presupuestos);
+
+                _logger.LogInformation("Successfully retrieved {Count} presupuestos", presupuestosDto.Count);
+                return Result.Success(presupuestosDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving all presupuestos");
+                return Result.Failure<IList<PresupuestoDto>>("Error al obtener los presupuestos");
+            }
+        }
+
+        public async Task<Result<PresupuestoDto>> GetByIdAsync(Guid id)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving presupuesto with ID: {Id}", id);
+
+                if (id == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid presupuesto ID provided: {Id}", id);
+                    return Result.Failure<PresupuestoDto>("El ID del presupuesto no es válido");
+                }
+
+                var presupuesto = await _unitOfWork.Presupuestos
+                    .FindByCondition(p => p.PresupuestoId == id)
+                    .Include(p => p.Repuestos)
+                    .FirstOrDefaultAsync();
+
+                if (presupuesto == null)
+                {
+                    _logger.LogWarning("Presupuesto with ID {Id} not found", id);
+                    return Result.Failure<PresupuestoDto>($"No se encontró el presupuesto con ID {id}");
+                }
+
+                var presupuestoDto = _mapper.Map<PresupuestoDto>(presupuesto);
+                _logger.LogInformation("Successfully retrieved presupuesto with ID: {Id}", id);
+
+                return Result.Success(presupuestoDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving presupuesto with ID: {Id}", id);
+                return Result.Failure<PresupuestoDto>("Error al obtener el presupuesto");
+            }
+        }
+
+        public async Task<Result<PresupuestoDto>> CreateAsync(Guid vehiculoId)
+        {
+            try
+            {
+                _logger.LogInformation("Creating presupuesto for vehicle ID: {VehiculoId}", vehiculoId);
+
+                // Validate vehiculo exists
+                if (vehiculoId == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid vehicle ID provided: {VehiculoId}", vehiculoId);
+                    return Result.Failure<PresupuestoDto>("El ID del vehículo no es válido");
+                }
+
+                var vehiculoExists = await _unitOfWork.Vehiculos
+                    .FindByCondition(v => v.VehiculoId == vehiculoId)
+                    .AnyAsync();
+
+                if (!vehiculoExists)
+                {
+                    _logger.LogWarning("Vehicle with ID {VehiculoId} not found", vehiculoId);
+                    return Result.Failure<PresupuestoDto>($"No se encontró el vehículo con ID {vehiculoId}");
+                }
+
+                var presupuesto = new Presupuesto
+                {
+                    PresupuestoId = Guid.NewGuid(),
+                    VehiculoId = vehiculoId,
+                    Fecha = DateTime.Today,
+                    ValidoHasta = DateTime.Today.AddDays(30), // Valid for 30 days by default
+                    Km = 0,
+                    TrabajoARealizar = string.Empty
+                };
+
+                _unitOfWork.Presupuestos.Create(presupuesto);
+                await _unitOfWork.CommitAsync();
+
+                var presupuestoDto = _mapper.Map<PresupuestoDto>(presupuesto);
+                _logger.LogInformation("Successfully created presupuesto with ID: {Id}", presupuesto.PresupuestoId);
+
+                return Result.Success(presupuestoDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating presupuesto for vehicle ID: {VehiculoId}", vehiculoId);
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure<PresupuestoDto>("Error al crear el presupuesto");
+            }
+        }
+
+        public async Task<Result<PresupuestoDto>> UpdateAsync(UpdatePresupuestoDto presupuestoDto)
+        {
+            try
+            {
+                _logger.LogInformation("Updating presupuesto with ID: {Id}", presupuestoDto.PresupuestoId);
+
+                // Validate input
+                if (presupuestoDto.PresupuestoId == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid presupuesto ID provided: {Id}", presupuestoDto.PresupuestoId);
+                    return Result.Failure<PresupuestoDto>("El ID del presupuesto no es válido");
+                }
+
+                if (presupuestoDto.Fecha > presupuestoDto.ValidoHasta)
+                {
+                    _logger.LogWarning("Invalid date range: Fecha {Fecha} is after ValidoHasta {ValidoHasta}", 
+                        presupuestoDto.Fecha, presupuestoDto.ValidoHasta);
+                    return Result.Failure<PresupuestoDto>("La fecha de inicio no puede ser posterior a la fecha de vencimiento");
+                }
+
+                if (presupuestoDto.Km < 0)
+                {
+                    _logger.LogWarning("Invalid kilometers value: {Km}", presupuestoDto.Km);
+                    return Result.Failure<PresupuestoDto>("El kilometraje no puede ser negativo");
+                }
+
+                var presupuesto = await _unitOfWork.Presupuestos
+                    .FindByCondition(p => p.PresupuestoId == presupuestoDto.PresupuestoId)
+                    .Include(p => p.Repuestos)
+                    .FirstOrDefaultAsync();
+
+                if (presupuesto == null)
+                {
+                    _logger.LogWarning("Presupuesto with ID {Id} not found for update", presupuestoDto.PresupuestoId);
+                    return Result.Failure<PresupuestoDto>($"No se encontró el presupuesto con ID {presupuestoDto.PresupuestoId}");
+                }
+
+                // Update main properties
+                presupuesto.TrabajoARealizar = presupuestoDto.TrabajoARealizar;
+                presupuesto.Fecha = presupuestoDto.Fecha;
+                presupuesto.Km = presupuestoDto.Km;
+                presupuesto.ValidoHasta = presupuestoDto.ValidoHasta;
+
+                // Handle Repuestos - this is complex business logic
+                await UpdateRepuestosAsync(presupuesto, presupuestoDto.Repuestos?.ToList() ?? new List<RepuestoDto>());
+
+                _unitOfWork.Presupuestos.Update(presupuesto);
+                await _unitOfWork.CommitAsync();
+
+                var updatedPresupuestoDto = _mapper.Map<PresupuestoDto>(presupuesto);
+                _logger.LogInformation("Successfully updated presupuesto with ID: {Id}", presupuesto.PresupuestoId);
+
+                return Result.Success(updatedPresupuestoDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating presupuesto with ID: {Id}", presupuestoDto.PresupuestoId);
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure<PresupuestoDto>("Error al actualizar el presupuesto");
+            }
+        }
+
+        public async Task<Result> DeleteAsync(Guid id)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting presupuesto with ID: {Id}", id);
+
+                if (id == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid presupuesto ID provided: {Id}", id);
+                    return Result.Failure("El ID del presupuesto no es válido");
+                }
+
+                var presupuesto = await _unitOfWork.Presupuestos
+                    .FindByCondition(p => p.PresupuestoId == id)
+                    .Include(p => p.Repuestos)
+                    .FirstOrDefaultAsync();
+
+                if (presupuesto == null)
+                {
+                    _logger.LogWarning("Presupuesto with ID {Id} not found for deletion", id);
+                    return Result.Failure($"No se encontró el presupuesto con ID {id}");
+                }
+
+                _unitOfWork.Presupuestos.Delete(presupuesto);
+                await _unitOfWork.CommitAsync();
+
+                _logger.LogInformation("Successfully deleted presupuesto with ID: {Id}", id);
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting presupuesto with ID: {Id}", id);
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure("Error al eliminar el presupuesto");
+            }
+        }
+
+        private async Task UpdateRepuestosAsync(Presupuesto presupuesto, List<RepuestoDto> repuestosDto)
+        {
+            if (presupuesto.Repuestos == null)
+            {
+                presupuesto.Repuestos = new List<Repuesto>();
+            }
+
+            var updatedRepuestos = _mapper.Map<List<Repuesto>>(repuestosDto);
+            var existingRepuestos = presupuesto.Repuestos.ToList();
+
+            // Determine Repuestos to delete
+            var repuestosToDelete = existingRepuestos
+                .Where(existing => !updatedRepuestos.Any(updated => updated.RepuestoId == existing.RepuestoId))
+                .ToList();
+
+            // Remove repuestos
+            foreach (var repuesto in repuestosToDelete)
+            {
+                presupuesto.Repuestos.Remove(repuesto);
+            }
+
+            // Add or update remaining Repuestos
+            foreach (var updatedRepuesto in updatedRepuestos)
+            {
+                var existingRepuesto = existingRepuestos
+                    .FirstOrDefault(r => r.RepuestoId == updatedRepuesto.RepuestoId && updatedRepuesto.RepuestoId != Guid.Empty);
+
+                if (existingRepuesto != null)
+                {
+                    // Update existing Repuesto
+                    existingRepuesto.Descripcion = updatedRepuesto.Descripcion;
+                    existingRepuesto.precio = updatedRepuesto.precio;
+                    existingRepuesto.Cantidad = updatedRepuesto.Cantidad;
+                    existingRepuesto.Tipo = updatedRepuesto.Tipo;
+                }
+                else
+                {
+                    // Add new Repuesto (already mapped with all properties)
+                    presupuesto.Repuestos.Add(updatedRepuesto);
+                }
+            }
+
+            await Task.CompletedTask;
+        }
+    }
+}

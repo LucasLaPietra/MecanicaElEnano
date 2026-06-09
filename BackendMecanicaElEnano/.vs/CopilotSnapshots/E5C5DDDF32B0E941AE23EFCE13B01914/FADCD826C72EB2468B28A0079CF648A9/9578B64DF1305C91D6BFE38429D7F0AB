@@ -1,0 +1,215 @@
+﻿using AutoMapper;
+using BackendMecanicaElEnano.Common;
+using BackendMecanicaElEnano.Dto;
+using BackendMecanicaElEnano.Models;
+using BackendMecanicaElEnano.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
+
+namespace BackendMecanicaElEnano.Services
+{
+    public class TurnoService : ITurnoService
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly ILogger<TurnoService> _logger;
+
+        public TurnoService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<TurnoService> logger)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
+        public async Task<Result<IList<TurnoDto>>> GetAllAsync()
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving all turnos");
+                var turnos = await _unitOfWork.Turnos.FindAll()
+                    .Include(t => t.Vehiculo)
+                    .ToListAsync();
+                var turnosDto = _mapper.Map<IList<TurnoDto>>(turnos);
+
+                _logger.LogInformation("Successfully retrieved {Count} turnos", turnosDto.Count);
+                return Result.Success(turnosDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving all turnos");
+                return Result.Failure<IList<TurnoDto>>("Error al obtener los turnos");
+            }
+        }
+
+        public async Task<Result<TurnoDto>> GetByIdAsync(Guid id)
+        {
+            try
+            {
+                _logger.LogInformation("Retrieving turno with ID: {Id}", id);
+
+                if (id == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid turno ID provided: {Id}", id);
+                    return Result.Failure<TurnoDto>("El ID del turno no es válido");
+                }
+
+                var turno = await _unitOfWork.Turnos
+                    .FindByCondition(t => t.TurnoId == id)
+                    .Include(t => t.Vehiculo)
+                    .FirstOrDefaultAsync();
+
+                if (turno == null)
+                {
+                    _logger.LogWarning("Turno with ID {Id} not found", id);
+                    return Result.Failure<TurnoDto>($"No se encontró el turno con ID {id}");
+                }
+
+                var turnoDto = _mapper.Map<TurnoDto>(turno);
+                _logger.LogInformation("Successfully retrieved turno with ID: {Id}", id);
+
+                return Result.Success(turnoDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while retrieving turno with ID: {Id}", id);
+                return Result.Failure<TurnoDto>("Error al obtener el turno");
+            }
+        }
+
+        public async Task<Result<TurnoDto>> CreateAsync(CreateTurnoDto dto)
+        {
+            try
+            {
+                _logger.LogInformation("Creating turno for date: {FechaHora}", dto.FechayHora);
+
+                if (dto.FechayHora == default)
+                {
+                    return Result.Failure<TurnoDto>("La fecha y hora son requeridas");
+                }
+
+                if (dto.FechayHora < DateTime.UtcNow.AddMinutes(-5))
+                {
+                    _logger.LogWarning("Cannot create turno in the past: {FechaHora}", dto.FechayHora);
+                    return Result.Failure<TurnoDto>("No se puede crear un turno en el pasado");
+                }
+
+                if (dto.VehiculoId != Guid.Empty)
+                {
+                    var vehiculoExists = await _unitOfWork.Vehiculos
+                        .FindByCondition(v => v.VehiculoId == dto.VehiculoId)
+                        .AnyAsync();
+
+                    if (!vehiculoExists)
+                    {
+                        _logger.LogWarning("Vehicle with ID {VehiculoId} not found", dto.VehiculoId);
+                        return Result.Failure<TurnoDto>($"No se encontró el vehículo con ID {dto.VehiculoId}");
+                    }
+                }
+
+                var turno = _mapper.Map<Turno>(dto);
+                turno.TurnoId = Guid.NewGuid();
+
+                TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+                turno.FechayHora = TimeZoneInfo.ConvertTimeFromUtc(turno.FechayHora, timeZone);
+
+                _unitOfWork.Turnos.Create(turno);
+                await _unitOfWork.CommitAsync();
+
+                var turnoDto = _mapper.Map<TurnoDto>(turno);
+                _logger.LogInformation("Successfully created turno with ID: {Id}", turno.TurnoId);
+
+                return Result.Success(turnoDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while creating turno");
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure<TurnoDto>("Error al crear el turno");
+            }
+        }
+
+        public async Task<Result<TurnoDto>> UpdateAsync(TurnoDto dto)
+        {
+            try
+            {
+                _logger.LogInformation("Updating turno with ID: {Id}", dto.TurnoId);
+
+                if (dto.TurnoId == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid turno ID provided");
+                    return Result.Failure<TurnoDto>("El ID del turno no es válido");
+                }
+
+                if (dto.FechayHora == default)
+                {
+                    return Result.Failure<TurnoDto>("La fecha y hora son requeridas");
+                }
+
+                var turno = await _unitOfWork.Turnos
+                    .FindByCondition(t => t.TurnoId == dto.TurnoId)
+                    .Include(t => t.Vehiculo)
+                    .FirstOrDefaultAsync();
+
+                if (turno == null)
+                {
+                    _logger.LogWarning("Turno with ID {Id} not found for update", dto.TurnoId);
+                    return Result.Failure<TurnoDto>($"No se encontró el turno con ID {dto.TurnoId}");
+                }
+
+                TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("Argentina Standard Time");
+                turno.FechayHora = TimeZoneInfo.ConvertTimeFromUtc(dto.FechayHora, timeZone);
+                turno.Detalle = dto.Detalle;
+
+                _unitOfWork.Turnos.Update(turno);
+                await _unitOfWork.CommitAsync();
+
+                var updatedDto = _mapper.Map<TurnoDto>(turno);
+                _logger.LogInformation("Successfully updated turno with ID: {Id}", turno.TurnoId);
+
+                return Result.Success(updatedDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while updating turno with ID: {Id}", dto.TurnoId);
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure<TurnoDto>("Error al actualizar el turno");
+            }
+        }
+
+        public async Task<Result> DeleteAsync(Guid id)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting turno with ID: {Id}", id);
+
+                if (id == Guid.Empty)
+                {
+                    _logger.LogWarning("Invalid turno ID provided: {Id}", id);
+                    return Result.Failure("El ID del turno no es válido");
+                }
+
+                var turno = await _unitOfWork.Turnos
+                    .FindByCondition(t => t.TurnoId == id)
+                    .Include(t => t.Vehiculo)
+                    .FirstOrDefaultAsync();
+
+                if (turno == null)
+                {
+                    _logger.LogWarning("Turno with ID {Id} not found for deletion", id);
+                    return Result.Failure($"No se encontró el turno con ID {id}");
+                }
+
+                _unitOfWork.Turnos.Delete(turno);
+                await _unitOfWork.CommitAsync();
+
+                _logger.LogInformation("Successfully deleted turno with ID: {Id}", id);
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while deleting turno with ID: {Id}", id);
+                await _unitOfWork.RollbackAsync();
+                return Result.Failure("Error al eliminar el turno");
+            }
+        }
+    }
+}

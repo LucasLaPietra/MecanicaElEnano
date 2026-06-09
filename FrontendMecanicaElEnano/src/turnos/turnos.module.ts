@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { TurnosRoutingModule } from './turnos-routing.module';
 
 
 
@@ -41,6 +42,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatOptionModule,
     MatSelectModule,
     MatCardModule,
+    TurnosRoutingModule,
     RouterModule,
     MatSidenavModule
   ],

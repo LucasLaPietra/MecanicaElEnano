@@ -20,6 +20,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { PresupuestoPrintComponent } from './presupuesto-print/presupuesto-print.component';
 import { MatCardModule } from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { PresupuestoRoutingModule } from './presupuesto-routing.module';
 
 
 
@@ -45,6 +46,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatOptionModule,
     MatSelectModule,
     CuotasModule,
+    PresupuestoRoutingModule,
     RouterModule,
     MatSidenavModule,
     MatCardModule,

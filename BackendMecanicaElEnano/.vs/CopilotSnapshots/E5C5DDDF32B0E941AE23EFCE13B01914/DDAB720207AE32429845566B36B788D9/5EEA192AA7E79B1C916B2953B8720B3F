@@ -1,0 +1,19 @@
+﻿{
+  "ConnectionStrings": {
+    "WebApiDatabase": "Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;"
+  },
+  "JwtSettings": {
+    "SecretKey": "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLongForSecurity!2025",
+    "Issuer": "MecanicaElEnano",
+    "Audience": "MecanicaElEnanoUsers",
+    "ExpirationHours": 24
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.AspNetCore.Server.Kestrel": "Error"
+    }
+  },
+  "AllowedHosts": "*"
+}

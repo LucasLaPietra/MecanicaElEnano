@@ -30,7 +30,6 @@ export class TrabajoPrintComponent implements OnInit {
       .subscribe((trabajo) => {
         (this.trabajo = trabajo); 
         this.getTotal();
-        console.log(trabajo.trabajosRealizados);
       });
   }
 

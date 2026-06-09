@@ -15,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { VehiculoRoutingModule } from './vehiculo-routing.module';
 
 
 
@@ -36,6 +37,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
+    VehiculoRoutingModule,
     RouterModule,
     MatSidenavModule,
     MatTooltipModule

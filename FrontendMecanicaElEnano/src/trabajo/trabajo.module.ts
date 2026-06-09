@@ -21,6 +21,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { TrabajoPrintComponent } from './trabajo-print/trabajo-print.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { TrabajoRoutingModule } from './trabajo-routing.module';
 
 
 
@@ -47,6 +48,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatOptionModule,
     MatSelectModule,
     CuotasModule,
+    TrabajoRoutingModule,
     RouterModule,
     MatSidenavModule,
     MatCardModule,

@@ -139,8 +139,7 @@ export class OrdenTrabajoComponent implements AfterViewInit {
     this.ordenTrabajoService
       .CreateOrdenTrabajo(this.route.snapshot.paramMap.get('id')!)
       .subscribe((ordenTrabajo) => {
-        this.dataSource.data.push(ordenTrabajo);
-        this.dataSource._updateChangeSubscription();
+        this.dataSource.data = [...this.dataSource.data, ordenTrabajo];
       });
     this.state = state.viewing;
     this.ordenTrabajoForm.reset();
@@ -151,8 +150,7 @@ export class OrdenTrabajoComponent implements AfterViewInit {
     this.ordenTrabajoService
       .CreateOrdenTrabajo(this.route.snapshot.paramMap.get('id')!)
       .subscribe((ordenTrabajo) => {
-        this.dataSource.data.push(ordenTrabajo);
-        this.dataSource._updateChangeSubscription();
+        this.dataSource.data = [...this.dataSource.data, ordenTrabajo];
         this.selectOrdenTrabajo(ordenTrabajo);
         this.updateOrdenTrabajoButton();
         this.presupuestoService
@@ -188,10 +186,11 @@ export class OrdenTrabajoComponent implements AfterViewInit {
       this.ordenTrabajoService
         .UpdateOrdenTrabajo(ordenTrabajoActualizado)
         .subscribe((ordenTrabajo) => {
-          this.dataSource.data[indexOfObject] = ordenTrabajo;
+          const data = [...this.dataSource.data];
+          data[indexOfObject] = ordenTrabajo;
+          this.dataSource.data = data;
+          this.ordenTrabajoTable.renderRows();
         });
-      this.ordenTrabajoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
       this.state = state.viewing;
       this.ordenTrabajoForm.disable();
     }
@@ -206,7 +205,6 @@ export class OrdenTrabajoComponent implements AfterViewInit {
         (h) => h !== this.selectedOrdenTrabajo
       );
       this.ordenTrabajoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
       this.selectedOrdenTrabajo = null;
       this.ordenTrabajoForm.reset();
     }

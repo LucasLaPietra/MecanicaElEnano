@@ -174,8 +174,7 @@ export class PresupuestoComponent implements AfterViewInit {
   createPresupuesto(){
     this.presupuestoService.CreatePresupuesto(this.route.snapshot.paramMap.get('id')!)
     .subscribe(presupuesto => {
-      this.dataSource.data.push(presupuesto);
-      this.dataSource._updateChangeSubscription();
+      this.dataSource.data = [...this.dataSource.data, presupuesto];
     });
     this.state=state.viewing;
     this.presupuestoForm.reset();
@@ -192,9 +191,10 @@ export class PresupuestoComponent implements AfterViewInit {
       presupuestoActualizado.trabajoARealizar = this.presupuestoForm.value.trabajoARealizar as string;
       presupuestoActualizado.repuestos= this.repuestoForm.controls['repuestos'].value
       this.presupuestoService.UpdatePresupuesto(presupuestoActualizado).subscribe(presupuesto => {
-        this.dataSource.data[indexOfObject] = presupuesto;
+        const data = [...this.dataSource.data];
+        data[indexOfObject] = presupuesto;
+        this.dataSource.data = data;
         this.presupuestoTable.renderRows();
-        this.dataSource._updateChangeSubscription();
         this.state=state.viewing;
         this.presupuestoForm.disable();
         const repuestos = this.repuestoForm.get('repuestos') as FormArray;
@@ -218,7 +218,6 @@ export class PresupuestoComponent implements AfterViewInit {
       this.presupuestoService.DeletePresupuesto(this.selectedPresupuesto.presupuestoId).subscribe();
       this.dataSource.data = this.dataSource.data.filter(h => h !== this.selectedPresupuesto);
       this.presupuestoTable.renderRows();
-      this.dataSource._updateChangeSubscription();
       this.selectedPresupuesto = null;
       this.presupuestoForm.reset();
     }

@@ -1,0 +1,165 @@
+﻿using BackendMecanicaElEnano;
+using BackendMecanicaElEnano.Middleware;
+using BackendMecanicaElEnano.Models;
+using BackendMecanicaElEnano.Repositories;
+using BackendMecanicaElEnano.Services;
+using BackendMecanicaElEnano.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Configure Kestrel to handle SSL/TLS handshake errors gracefully
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ConfigureHttpsDefaults(httpsOptions =>
+    {
+        // Configure SSL options for better error handling during handshake
+        httpsOptions.OnAuthenticate = (context, sslOptions) =>
+        {
+            // You can add custom SSL options here if needed in the future
+        };
+    });
+});
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+
+// Database Configuration
+builder.Services.AddDbContext<MecanicaContext>(options =>
+                options
+                .UseSqlServer(builder.Configuration.GetConnectionString("WebApiDatabase")));
+
+// AutoMapper Configuration
+builder.Services.AddAutoMapper(typeof(Program));
+
+// Password Hasher
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+// JWT Authentication Configuration
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey not configured");
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// Repository Layer - Data Access
+builder.Services.AddScoped<IVehiculoRepository, VehiculoRepository>();
+builder.Services.AddScoped<ITrabajoRepository, TrabajoRepository>();
+builder.Services.AddScoped<IPresupuestoRepository, PresupuestoRepository>();
+builder.Services.AddScoped<ITurnoRepository, TurnoRepository>();
+builder.Services.AddScoped<IOrdenTrabajoRepository, OrdenTrabajoRepository>();
+
+// Unit of Work Pattern - Transaction Management
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Service Layer - Business Logic
+builder.Services.AddScoped<IPresupuestoService, PresupuestoService>();
+builder.Services.AddScoped<IVehiculoService, VehiculoService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITurnoService, TurnoService>();
+builder.Services.AddScoped<IOrdenTrabajoService, OrdenTrabajoService>();
+builder.Services.AddScoped<ITrabajoService, TrabajoService>();
+
+// Swagger/OpenAPI Configuration with JWT Support
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Mecánica El Enano API",
+        Version = "v1",
+        Description = "Professional API for managing automotive repair shop operations with JWT Authentication",
+        Contact = new OpenApiContact
+        {
+            Name = "Lucas La Pietra",
+            Url = new Uri("https://github.com/LucasLaPietra/MecanicaElEnano")
+        }
+    });
+
+    // Add JWT Authentication to Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token."
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+// CORS Configuration
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("*")
+            .AllowAnyHeader()
+            .AllowAnyMethod(); 
+        });
+});
+
+var app = builder.Build();
+
+// Global Exception Handler Middleware - MUST be first in pipeline
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseCors();
+
+// Authentication & Authorization - Order matters!
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

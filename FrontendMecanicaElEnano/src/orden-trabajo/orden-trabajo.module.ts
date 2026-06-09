@@ -19,6 +19,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { OrdenTrabajoComponent } from './orden-trabajo.component';
 import { OrdenTrabajoPrintComponent } from './orden-trabajo-print/orden-trabajo-print.component';
 import { MatCardModule } from '@angular/material/card';
+import { OrdenTrabajoRoutingModule } from './orden-trabajo-routing.module';
 
 
 
@@ -45,6 +46,7 @@ import { MatCardModule } from '@angular/material/card';
     MatOptionModule,
     MatSelectModule,
     CuotasModule,
+    OrdenTrabajoRoutingModule,
     RouterModule,
     MatSidenavModule
   ],
