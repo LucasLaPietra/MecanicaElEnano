@@ -1,8 +1,0 @@
-﻿using BackendMecanicaElEnano.Models;
-
-namespace BackendMecanicaElEnano.Repositories
-{
-    public interface ITurnoRepository : IRepositoryBase<Turno>
-    {
-    }
-}
