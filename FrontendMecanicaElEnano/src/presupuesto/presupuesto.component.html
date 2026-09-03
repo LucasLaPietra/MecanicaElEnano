@@ -1,7 +1,7 @@
 <mat-drawer-container [hasBackdrop]="true" autosize>
   <mat-drawer #drawer class="sidenav mat-primary" mode="over">
     <div class="sidenav-button">
-      <button mat-button [routerLink]="['/vehiculos']">Vehiculos</button>
+      <button mat-button [routerLink]="['/vehiculos']">Vehículos</button>
     </div>
     <div class="sidenav-button">
       <button mat-button [routerLink]="['/turnos']">Turnos</button>
@@ -22,7 +22,7 @@
     <div fxLayout="row" class="presupuestos-container">
       <div class="mat-elevation-z8 presupuestos-table">
         <div style="text-align: center">
-          <h3 style="margin-bottom: 0px">Lista Presupuestos</h3>
+          <h3 style="margin-bottom: 0px">Historial de presupuestos</h3>
         </div>
         <div class="presupuestos-table-container">
           <table mat-table [dataSource]="dataSource" matSort>
@@ -35,7 +35,7 @@
 
             <ng-container matColumnDef="validoHasta">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Valido Hasta
+                Válido hasta
               </th>
               <td mat-cell *matCellDef="let row">
                 {{ row.validoHasta | date : "dd/MM/yyyy" }}
@@ -166,7 +166,7 @@
               <mat-datepicker #pickerDate></mat-datepicker>
             </mat-form-field>
             <mat-form-field appearance="fill">
-              <mat-label>Valido hasta</mat-label>
+              <mat-label>Válido hasta</mat-label>
               <input
                 matInput
                 formControlName="validoHasta"

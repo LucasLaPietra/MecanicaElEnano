@@ -1,7 +1,7 @@
 <mat-drawer-container [hasBackdrop]="true" autosize>
   <mat-drawer #drawer class="sidenav mat-primary" mode="over">
     <div class="sidenav-button">
-      <button mat-button [routerLink]="['/vehiculos']">Vehiculos</button>
+      <button mat-button [routerLink]="['/vehiculos']">Vehículos</button>
     </div>
     <div class="sidenav-button">
       <button mat-button [routerLink]="['/turnos']">Turnos</button>
@@ -21,7 +21,7 @@
     <div fxLayout="row" class="trabajos-container">
       <div class="mat-elevation-z8 trabajos-table">
         <div style="text-align: center">
-          <h3 style="margin-bottom: 0px">Lista Trabajos</h3>
+          <h3 style="margin-bottom: 0px">Historial de trabajos</h3>
         </div>
         <div class="trabajos-table-container">
           <table mat-table [dataSource]="dataSource" matSort>

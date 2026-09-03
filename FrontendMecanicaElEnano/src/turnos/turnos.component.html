@@ -1,7 +1,7 @@
 <mat-drawer-container [hasBackdrop]="true" autosize>
   <mat-drawer #drawer class="sidenav mat-primary" mode="over">
     <div class="sidenav-button">
-      <button mat-button [routerLink]="['/vehiculos']">Vehiculos</button>
+      <button mat-button [routerLink]="['/vehiculos']">Vehículos</button>
     </div>
   </mat-drawer>
   <p>
@@ -10,7 +10,7 @@
         <button mat-icon-button (click)="drawer.toggle()">
           <mat-icon>more_vert</mat-icon>
         </button>
-        Menu Turno
+        <b>Agenda de turnos</b>
       </span>
     </mat-toolbar>
   </p>
@@ -191,10 +191,10 @@
         </div>
         <div class="client-container-row">
           <h4 *ngIf="selectedTurno">
-            Direccion: {{ selectedTurno.vehiculo.direccion }}
+            Dirección: {{ selectedTurno.vehiculo.direccion }}
           </h4>
           <h4 *ngIf="selectedTurno">
-            Telefono: {{ selectedTurno.vehiculo.telefono }}
+            Teléfono: {{ selectedTurno.vehiculo.telefono }}
           </h4>
           <h4 *ngIf="selectedTurno">Mail: {{ selectedTurno.vehiculo.mail }}</h4>
         </div>
@@ -214,10 +214,10 @@
         </div>
         <div class="client-container-row">
           <h4 *ngIf="selectedVehiculo && state == 1">
-            <b>Direccion:</b> {{ selectedVehiculo.direccion }}
+            <b>Dirección:</b> {{ selectedVehiculo.direccion }}
           </h4>
           <h4 *ngIf="selectedVehiculo && state == 1">
-            <b>Telefono:</b> {{ selectedVehiculo.telefono }}
+            <b>Teléfono:</b> {{ selectedVehiculo.telefono }}
           </h4>
           <h4 *ngIf="selectedVehiculo && state == 1">
             <b>Mail:</b> {{ selectedVehiculo.mail }}
