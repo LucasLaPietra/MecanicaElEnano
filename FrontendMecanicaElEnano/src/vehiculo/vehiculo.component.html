@@ -10,7 +10,7 @@
         <button mat-icon-button (click)="drawer.toggle()">
           <mat-icon>more_vert</mat-icon>
         </button>
-        Menu Vehiculos
+        <b>Vehículos</b>
       </span>
     </mat-toolbar>
   </p>
@@ -46,7 +46,7 @@
 
             <ng-container matColumnDef="telefono">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Telefono
+                Teléfono
               </th>
               <td mat-cell *matCellDef="let row">
                 {{ row.telefono }}
@@ -219,14 +219,14 @@
                       class="example-full-width"
                       appearance="fill"
                     >
-                      <mat-label>Direccion</mat-label>
+                      <mat-label>Dirección</mat-label>
                       <input matInput formControlName="direccion" />
                     </mat-form-field>
                     <mat-form-field
                       class="example-full-width"
                       appearance="fill"
                     >
-                      <mat-label>Telefono</mat-label>
+                      <mat-label>Teléfono</mat-label>
                       <input matInput formControlName="telefono" />
                       <mat-error
                       *ngIf="

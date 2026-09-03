@@ -1,90 +1,25 @@
-.trabajos-page {
-  margin: 1%;
-}
-
-.trabajos-vehicle-data {
-  text-align: center;
-}
-
-.trabajos-container {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 2%;
-}
-
-.trabajos-table-container{
-  overflow: auto;
-}
-
-.trabajos-table{
-  width: max-content;
-  flex: 1;
-}
-
-.trabajos-fields-container{
-  display: flex;
-  gap: 10px;
-}
-
-.trabajos-button-container {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  text-align: center;
-  flex: .1;
-}
-
-.trabajos-properties-container {
-  display: inline-flex;
-  flex-flow: column wrap;
-  flex: 2;
-}
-
-.detalles-field{
-  width: 100%;
-}
-
-.cuotas-column{
-  display: flex;
-  flex: .5;
-}
-
-table{
-  width: 100%;
- }
-
-.repuestos-container {
-  display: flex;
-  flex-direction: column wrap;
-  gap: 10px;
-}
-
-.repuestos-table{
-  width: 60%;
-  flex: 4 2 0;
-}
-
-.repuestos-button-container {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  text-align: center;
-  flex: .1 1 0;
-}
-
-.repuestos-button {
-  margin-bottom: 5px;
-}
-
-.repuestos-precios-container {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  text-align: center;
-  flex: .5 1 0;
-}
-
-.row-is-clicked {
-  background-color: #c3cbf9;
-  font-weight: bold;
-}
+.trabajos-page { max-width: 1600px; margin: 0 auto; padding: 28px clamp(16px, 3vw, 40px) 40px; }
+.trabajos-container { display: grid; grid-template-columns: minmax(300px, .9fr) 54px minmax(420px, 1.45fr) minmax(180px, .55fr); gap: 16px; margin-bottom: 24px; align-items: start; }
+.trabajos-table { width: 100%; min-width: 0; overflow: hidden; }
+.trabajos-table > div:first-child { padding: 15px 16px 10px; text-align: left !important; border-bottom: 1px solid var(--workshop-border); }
+.trabajos-table > div:first-child h3 { margin: 0 !important; font-size: 15px; font-weight: 600; }
+.trabajos-table-container { overflow: auto; }
+.trabajos-fields-container { display: flex; gap: 12px; }
+.trabajos-fields-container .mat-form-field { min-width: 0; flex: 1; }
+.trabajos-properties-container { min-width: 0; padding: 20px 20px 4px; border: 1px solid var(--workshop-border); border-top: 4px solid var(--workshop-primary); border-radius: var(--workshop-radius); background: #fff; box-shadow: var(--workshop-shadow); }
+.detalles-field { width: 100%; }
+table { width: 100%; }
+.repuestos-container { display: grid; grid-template-columns: minmax(520px, 1fr) 54px minmax(190px, 250px); gap: 16px; align-items: start; }
+.repuestos-table { width: 100%; min-width: 0; overflow: auto; }
+.repuestos-table > div:first-child { padding: 15px 16px 10px; text-align: left !important; border-bottom: 1px solid var(--workshop-border); }
+.repuestos-table > div:first-child h3 { margin: 0 !important; font-size: 15px; font-weight: 600; }
+.repuestos-button-container { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.repuestos-button { margin: 0; }
+.repuestos-precios-container { display: grid; grid-template-columns: 1fr auto; gap: 10px 18px; padding: 20px; border: 1px solid var(--workshop-border); border-radius: var(--workshop-radius); background: #fff; box-shadow: var(--workshop-shadow); text-align: left; }
+.repuestos-precios-container h2, .repuestos-precios-container h3 { margin: 0; font-size: 14px; }
+.repuestos-precios-container h3 { text-align: right; font-weight: 600; }
+.repuestos-precios-container h2:last-of-type, .repuestos-precios-container h3:last-child { padding-top: 12px; border-top: 1px solid var(--workshop-border); color: var(--workshop-primary); font-size: 18px; }
+.cuotas-column { min-width: 0; overflow: auto; }
+@media (max-width: 1180px) { .trabajos-container { grid-template-columns: minmax(280px, .8fr) 54px minmax(400px, 1.2fr); } .cuotas-column { grid-column: 1 / -1; } }
+@media (max-width: 850px) { .trabajos-container { grid-template-columns: 1fr; } .repuestos-button-container { flex-direction: row; flex-wrap: wrap; } .trabajos-properties-container { order: 3; } .cuotas-column { order: 4; } .repuestos-container { grid-template-columns: 1fr; } .repuestos-precios-container { max-width: 100%; } }
+@media (max-width: 560px) { .trabajos-page { padding: 16px; } .trabajos-fields-container { display: block; } .trabajos-fields-container .mat-form-field { width: 100%; } .repuestos-table table { min-width: 650px; } }

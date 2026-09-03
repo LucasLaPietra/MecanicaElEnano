@@ -1,82 +1,21 @@
-.turnos-page {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.column {
-  flex: 1;
-  padding: 20px;
-  margin: 10px;
-}
-
-.column-left {
-  flex: 1;
-  padding: 20px;
-  margin: 10px;
-}
-
-.column-right {
-  flex: 2;
-  padding: 20px;
-  margin: 10px;
-}
-
-.column-no-border {
-  flex-direction: column;
-  flex: 1 1 1;
-}
-
-.turnos-button-column {
-  padding-left: 10px;
-  flex-direction: column;
-  align-content: center;
-  text-align: center;
-  padding-top: 16px;
-  flex: .1 1 0;
-}
-
-.turnos-button {
-  margin-bottom: 10px;
-}
-
-.row {
-  margin-bottom: 20px;
-  display: flex;
-}
-
-.client-container-row {
-  flex-direction: column;
-  display: flex;
-  padding-right: 20px;
-}
-
-table {
-  width: 100%;
-}
-
-.row-is-clicked {
-  background-color: #c3cbf9;
-  font-weight: bold;
-}
-
-.calendario {
-  width: 300px;
-}
-
-.input-detalle{
-  width: 100%;
-  margin-top: 3vh;
-}
-
-
-@media (max-width: 768px) {
-  .turnos-page {
-      flex-direction: column;
-      align-items: center;
-  }
-
-  .column {
-      width: 100%;
-  }
-}
+.turnos-page { display: grid; grid-template-columns: minmax(320px, 380px) minmax(520px, 1fr); gap: 24px; max-width: 1500px; margin: 0 auto; padding: 28px clamp(16px, 3vw, 40px) 40px; }
+.column-left, .column-right { min-width: 0; margin: 0; padding: 0; }
+.column-left { padding: 20px; border: 1px solid var(--workshop-border); border-radius: var(--workshop-radius); background: #fff; box-shadow: var(--workshop-shadow); align-self: start; }
+.column-no-border { flex: 1; }
+.row { display: flex; gap: 16px; margin-bottom: 20px; }
+.calendario { width: 100%; padding: 8px !important; border: 0; box-shadow: none !important; }
+.turnos-button-column { display: flex; flex-direction: column; gap: 8px; padding-top: 12px; }
+.turnos-button { margin: 0; }
+.column-left > .row:last-child { margin: 4px 0 0; padding-top: 16px; border-top: 1px solid var(--workshop-border); }
+.column-left h3 { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 14px; }
+.column-left h3 .mat-form-field { width: 145px; }
+.turnos-table { width: 100%; overflow: auto; }
+table { width: 100%; min-width: 600px; }
+.input-detalle { width: 100%; margin-top: 8px; }
+.client-container-row { display: flex; flex: 1 1 220px; flex-direction: column; padding: 0 20px 0 0; }
+.client-container-row h3, .client-container-row h4 { margin: 3px 0; font-weight: 400; }
+.client-container-row h3 { font-size: 16px; font-weight: 600; }
+.column-right > .mat-card.row { flex-wrap: wrap; margin-bottom: 0; border-left: 4px solid var(--workshop-primary); }
+@media (max-width: 1050px) { .turnos-page { grid-template-columns: 340px minmax(0, 1fr); gap: 16px; } }
+@media (max-width: 820px) { .turnos-page { grid-template-columns: 1fr; padding: 16px; } .column-left { width: 100%; } .column-left > .row:first-child { justify-content: center; } .turnos-button-column { flex-direction: row; flex-wrap: wrap; } }
+@media (max-width: 520px) { .column-left { padding: 12px; } .column-left > .row:first-child { display: block; } .turnos-button-column { justify-content: center; padding-top: 12px; } .row { gap: 8px; } }

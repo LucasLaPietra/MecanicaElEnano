@@ -1,93 +1,19 @@
-table {
-    width: 100%;
-  }
-
-  .vehiculos-page {
-    margin: 1%;
-    display: flex;
-  }
-
-  .column {
-    flex: 1;
-    padding: 20px;
-    margin: 10px;
-  }
-
-  .column-left {
-    flex: 1;
-    padding: 20px;
-    margin: 10px;
-  }
-
-  .column-right {
-    flex: 2;
-    padding: 20px;
-    margin: 10px;
-  }
-
-  .column-no-border {
-    flex-direction: column;
-    flex: 1 1 1;
-  }
-
-  .vehiculo-button-column {
-    padding-top: 100px;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    text-align: center;
-    flex: .1 1 0;
-  }
-
-  .vehiculo-button {
-    margin-bottom: 5px;
-  }
-
-  .last-vehiculo-button {
-    margin-bottom: 15px;
-  }
-
-  .vehiculos-table {
-    margin-bottom: 1%;
-  }
-
-  .button-message {
-    margin-left: 5px;
-  }
-
-  .row-is-clicked {
-    background-color: #c3cbf9;
-    font-weight: bold;
-  }
-
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-
-  .form-column {
-    vertical-align: top;
-  }
-
-  td, th {
-    width: 25%;
-  }
-
-  .example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-
-  .example-full-width {
-    width: 100%;
-  }
-
-  td {
-    padding-right: 8px;
-  }
-
-  mat-card-actions {
-    margin : 0px;
-    padding-bottom: 0px;
-  }
+table { width: 100%; min-width: 600px; }
+.vehiculos-page { display: grid; grid-template-columns: minmax(520px, 1.2fr) 54px minmax(380px, .8fr); gap: 16px; max-width: 1600px; margin: 0 auto; padding: 28px clamp(16px, 3vw, 40px) 40px; }
+.column, .column-left { min-width: 0; margin: 0; padding: 0; }
+.vehiculos-table { width: 100%; margin-bottom: 0; overflow: auto; }
+.vehiculo-button-column { display: flex; flex-direction: column; gap: 8px; padding-top: 72px; text-align: center; }
+.vehiculo-button, .last-vehiculo-button { margin: 0; }
+.last-vehiculo-button { margin-bottom: 10px; }
+.column .row, .column-left .row { width: 100%; }
+.column mat-card { min-height: 100%; border-top: 4px solid var(--workshop-primary); }
+.column mat-card h3 { margin: 0 0 18px; font-size: 16px; font-weight: 600; }
+.mat-form-field { width: 100%; font-size: 14px; }
+.form-column { width: 50%; padding: 0 8px; vertical-align: top; }
+.form-column:first-child { padding-left: 0; }
+.form-column:last-child { padding-right: 0; }
+.button-message { margin-left: 5px; color: var(--workshop-primary); }
+td { padding-right: 8px; }
+@media (max-width: 1100px) { .vehiculos-page { grid-template-columns: minmax(0, 1fr) 54px minmax(340px, .75fr); } }
+@media (max-width: 880px) { .vehiculos-page { grid-template-columns: 1fr; } .vehiculo-button-column { order: 2; flex-direction: row; flex-wrap: wrap; padding: 0; } .column { order: 3; } .last-vehiculo-button { margin: 0 10px 0 0; } }
+@media (max-width: 560px) { .vehiculos-page { padding: 16px; } .form-column { display: block; width: 100%; padding: 0; } .form-column + .form-column { padding-top: 16px; } }
