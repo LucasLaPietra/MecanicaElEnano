@@ -3,3 +3,11 @@
 ################################################################################
 
 /BackendMecanicaElEnano/.vs/BackendMecanicaElEnano/FileContentIndex
+
+# Generated build and publication output
+**/bin/
+**/obj/
+/FrontendMecanicaElEnano/dist/
+/BackendMecanicaElEnano/BackendMecanicaElEnano/wwwroot/
+/publicacion/
+/.single-file-test/

@@ -7,11 +7,29 @@ using BackendMecanicaElEnano.UnitOfWork;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var assembly = Assembly.GetExecutingAssembly();
+using (var settings = assembly.GetManifestResourceStream("BackendMecanicaElEnano.appsettings.json"))
+{
+    if (settings is not null)
+    {
+        builder.Configuration.AddJsonStream(settings);
+        builder.Configuration.AddEnvironmentVariables();
+    }
+}
+
+builder.Environment.WebRootFileProvider = new ManifestEmbeddedFileProvider(assembly, "wwwroot");
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSimpleConsole(options => options.TimestampFormat = "HH:mm:ss ");
 
 // Configure Kestrel to handle SSL/TLS handshake errors gracefully
 builder.WebHost.ConfigureKestrel(serverOptions =>
@@ -150,9 +168,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHttpsRedirection();
 }
 
-app.UseHttpsRedirection();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseCors();
 
@@ -161,5 +181,24 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToFile("index.html");
+
+if (!app.Environment.IsDevelopment() &&
+    app.Configuration.GetValue("OpenBrowser", true))
+{
+    app.Lifetime.ApplicationStarted.Register(() =>
+    {
+        var address = app.Urls.FirstOrDefault() ?? "http://localhost:5009";
+
+        try
+        {
+            Process.Start(new ProcessStartInfo(address) { UseShellExecute = true });
+        }
+        catch (Exception exception)
+        {
+            app.Logger.LogWarning(exception, "Could not open the application in the default browser.");
+        }
+    });
+}
 
 app.Run();
