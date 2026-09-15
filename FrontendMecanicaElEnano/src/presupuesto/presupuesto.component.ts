@@ -168,6 +168,12 @@ export class PresupuestoComponent implements AfterViewInit {
     this.state=state.viewing;
     this.presupuestoForm.patchValue(this.selectedPresupuesto as Presupuesto);
     this.presupuestoForm.disable();
+    this.createRepuestosForm();
+    const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+    (this.selectedPresupuesto?.repuestos ?? []).forEach(repuesto => repuestos.push(this.addRow(repuesto)));
+    repuestos.valueChanges.subscribe(() => this.calculateCosts());
+    this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(repuestos.value);
+    this.calculateCosts();
     this.repuestoForm.disable()
   }
 
@@ -184,7 +190,7 @@ export class PresupuestoComponent implements AfterViewInit {
   updatePresupuesto(){
     if(this.selectedPresupuesto){
       const indexOfObject = this.dataSource.data.findIndex(item => item.presupuestoId === this.selectedPresupuesto?.presupuestoId);
-      let presupuestoActualizado: Presupuesto = this.selectedPresupuesto;
+      let presupuestoActualizado: Presupuesto = { ...this.selectedPresupuesto };
       presupuestoActualizado.fecha = this.presupuestoForm.value.fecha as Date;
       presupuestoActualizado.validoHasta = this.presupuestoForm.value.validoHasta as Date;
       presupuestoActualizado.km = this.presupuestoForm.value.km as string;
@@ -197,17 +203,6 @@ export class PresupuestoComponent implements AfterViewInit {
         this.presupuestoTable.renderRows();
         this.state=state.viewing;
         this.presupuestoForm.disable();
-        const repuestos = this.repuestoForm.get('repuestos') as FormArray;
-        repuestos.valueChanges.subscribe((value) => {
-          this.calculateCosts();
-        });
-        presupuesto.repuestos.forEach(repuesto => {
-          repuestos.push(
-            this.addRow(repuesto)
-          );
-        });
-        this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
-        this.repuestoForm.disable()
         this.selectPresupuesto(presupuesto);
       });
     }
@@ -231,6 +226,7 @@ export class PresupuestoComponent implements AfterViewInit {
   }
 
   createRepuestosForm() {
+    this.selectedRepuesto = null;
     this.repuestoForm = this.formBuilder.group({
       repuestos: this.formBuilder.array([]),
     });
@@ -247,6 +243,7 @@ export class PresupuestoComponent implements AfterViewInit {
   }
 
   createRepuesto(){
+    this.selectedRepuesto = null;
     const repuestos = this.repuestoForm.get('repuestos') as FormArray;
     repuestos.push(
       this.formBuilder.group({
@@ -263,7 +260,9 @@ export class PresupuestoComponent implements AfterViewInit {
   deleteRepuesto() {
     const index = this.dataSourceRepuestos.data.indexOf(this.selectedRepuesto);
     const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+    if (index < 0) return;
     repuestos.removeAt(index);
+    this.selectedRepuesto = null;
     this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(this.repuestoForm.controls['repuestos'].value);
   }
 

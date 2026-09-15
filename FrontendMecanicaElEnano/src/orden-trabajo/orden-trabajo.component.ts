@@ -173,10 +173,10 @@ export class OrdenTrabajoComponent implements AfterViewInit {
     });
   }
 
-  updateOrdenTrabajo() {
+  updateOrdenTrabajo(abrirPresupuestos = false) {
     if (this.selectedOrdenTrabajo) {
       const indexOfObject = this.dataSource.data.findIndex(item => item.ordenTrabajoId === this.selectedOrdenTrabajo?.ordenTrabajoId);
-      let ordenTrabajoActualizado: OrdenTrabajo = this.selectedOrdenTrabajo;
+      let ordenTrabajoActualizado: OrdenTrabajo = { ...this.selectedOrdenTrabajo };
       ordenTrabajoActualizado.fecha = this.ordenTrabajoForm.value.fecha as Date;
       ordenTrabajoActualizado.km = this.ordenTrabajoForm.value.km as string;
       ordenTrabajoActualizado.manifiesto = this.ordenTrabajoForm.value
@@ -190,9 +190,14 @@ export class OrdenTrabajoComponent implements AfterViewInit {
           data[indexOfObject] = ordenTrabajo;
           this.dataSource.data = data;
           this.ordenTrabajoTable.renderRows();
+          this.selectedOrdenTrabajo = ordenTrabajo;
+          this.state = state.viewing;
+          this.ordenTrabajoForm.disable();
+          if (abrirPresupuestos) {
+            this.router.navigate(['/presupuestos/ordenTrabajo', this.vehiculo.vehiculoId, ordenTrabajo.ordenTrabajoId]);
+          }
         });
-      this.state = state.viewing;
-      this.ordenTrabajoForm.disable();
+
     }
   }
 

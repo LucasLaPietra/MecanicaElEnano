@@ -31,7 +31,7 @@ export class CuotasComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get("assets/cuotas.txt", { responseType: 'text'}).subscribe((data) => {
-      let dataArr: CuotaResponse[]= JSON.parse(data);
+      const dataArr = (JSON.parse(data) as CuotaResponse[]).filter(cuota => cuota.numero <= 6);
       this.multipliers = dataArr.map(d => d.multiplicador);
       dataArr.forEach(cuotaResponse => {
         this.values.push({numero:cuotaResponse.numero, precio:0, total:0});

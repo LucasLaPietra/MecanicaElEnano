@@ -150,6 +150,7 @@ namespace BackendMecanicaElEnano.Services
 
                 var trabajo = await _unitOfWork.Trabajos
                     .FindByCondition(t => t.TrabajoId == dto.TrabajoId)
+                    .AsTracking()
                     .Include(t => t.Repuestos)
                     .FirstOrDefaultAsync();
 
@@ -166,7 +167,6 @@ namespace BackendMecanicaElEnano.Services
 
                 await UpdateRepuestosAsync(trabajo, dto.Repuestos);
 
-                _unitOfWork.Trabajos.Update(trabajo);
                 await _unitOfWork.CommitAsync();
 
                 var updatedDto = _mapper.Map<TrabajoDto>(trabajo);

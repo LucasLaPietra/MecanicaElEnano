@@ -155,6 +155,7 @@ namespace BackendMecanicaElEnano.Services
 
                 var presupuesto = await _unitOfWork.Presupuestos
                     .FindByCondition(p => p.PresupuestoId == presupuestoDto.PresupuestoId)
+                    .AsTracking()
                     .Include(p => p.Repuestos)
                     .FirstOrDefaultAsync();
 
@@ -173,7 +174,6 @@ namespace BackendMecanicaElEnano.Services
                 // Handle Repuestos - this is complex business logic
                 await UpdateRepuestosAsync(presupuesto, presupuestoDto.Repuestos?.ToList() ?? new List<RepuestoDto>());
 
-                _unitOfWork.Presupuestos.Update(presupuesto);
                 await _unitOfWork.CommitAsync();
 
                 var updatedPresupuestoDto = _mapper.Map<PresupuestoDto>(presupuesto);

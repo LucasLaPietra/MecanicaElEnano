@@ -204,6 +204,12 @@ export class TrabajoComponent implements AfterViewInit {
     this.state = state.viewing;
     this.trabajoForm.patchValue(this.selectedTrabajo as Trabajo);
     this.trabajoForm.disable();
+    this.createRepuestosForm();
+    const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+    (this.selectedTrabajo?.repuestos ?? []).forEach(repuesto => repuestos.push(this.addRow(repuesto)));
+    repuestos.valueChanges.subscribe(() => this.calculateCosts());
+    this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(repuestos.value);
+    this.calculateCosts();
     this.repuestoForm.disable();
   }
 
@@ -221,7 +227,7 @@ export class TrabajoComponent implements AfterViewInit {
   updateTrabajo() {
     if (this.selectedTrabajo) {
       const indexOfObject = this.dataSource.data.findIndex(item => item.trabajoId === this.selectedTrabajo?.trabajoId);
-      let trabajoActualizado: Trabajo = this.selectedTrabajo;
+      let trabajoActualizado: Trabajo = { ...this.selectedTrabajo };
       trabajoActualizado.fecha = this.trabajoForm.value.fecha as Date;
       trabajoActualizado.km = this.trabajoForm.value.km as string;
       trabajoActualizado.trabajosPendientes = this.trabajoForm.value
@@ -239,17 +245,6 @@ export class TrabajoComponent implements AfterViewInit {
           this.trabajoTable.renderRows();
           this.state = state.viewing;
           this.trabajoForm.disable();
-          const repuestos = this.repuestoForm.get('repuestos') as FormArray;
-          repuestos.valueChanges.subscribe((value) => {
-            this.calculateCosts();
-          });
-          trabajo.repuestos.forEach((repuesto) => {
-            repuestos.push(this.addRow(repuesto));
-          });
-          this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(
-            this.repuestoForm.controls['repuestos'].value
-          );
-          this.repuestoForm.disable()
           this.selectTrabajo(trabajo);
         });
       ;
@@ -278,6 +273,7 @@ export class TrabajoComponent implements AfterViewInit {
   }
 
   createRepuestosForm() {
+    this.selectedRepuesto = null;
     this.repuestoForm = this.formBuilder.group({
       repuestos: this.formBuilder.array([]),
     });
@@ -294,6 +290,7 @@ export class TrabajoComponent implements AfterViewInit {
   }
 
   createRepuesto() {
+    this.selectedRepuesto = null;
     const repuestos = this.repuestoForm.get('repuestos') as FormArray;
     repuestos.push(
       this.formBuilder.group({
@@ -312,7 +309,9 @@ export class TrabajoComponent implements AfterViewInit {
   deleteRepuesto() {
     const index = this.dataSourceRepuestos.data.indexOf(this.selectedRepuesto);
     const repuestos = this.repuestoForm.get('repuestos') as FormArray;
+    if (index < 0) return;
     repuestos.removeAt(index);
+    this.selectedRepuesto = null;
     this.dataSourceRepuestos = new MatTableDataSource<Repuesto>(
       this.repuestoForm.controls['repuestos'].value
     );

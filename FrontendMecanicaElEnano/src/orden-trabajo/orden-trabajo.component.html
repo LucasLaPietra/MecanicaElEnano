@@ -107,12 +107,8 @@
           class="repuestos-button"
           mat-fab
           color="accent"
-          (click)="updateOrdenTrabajo()"
-          [routerLink]="[
-            '/presupuestos/ordenTrabajo/',
-            vehiculo.vehiculoId,
-            selectedOrdenTrabajo.ordenTrabajoId
-          ]"
+          (click)="updateOrdenTrabajo(true)"
+          aria-label="Editar repuestos desde presupuestos"
         >
           <mat-icon> import_export</mat-icon>
         </button>
